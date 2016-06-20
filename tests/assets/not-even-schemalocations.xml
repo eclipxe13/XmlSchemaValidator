@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<r:root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:r="http://example.com/x1"
+        xmlns:ch="http://example.com/x2"
+        xsi:schemaLocation="http://example.com/x1 http://example.com/x1 http://example.com/x2">
+    <ch:child></ch:child>
+</r:root>
