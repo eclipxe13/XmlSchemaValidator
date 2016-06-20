@@ -44,7 +44,6 @@ All your help is very appreciated, please contribute with testing, ideas, code, 
 
 - [ ] Full coverage
 - [ ] Document usage examples
-- [ ] Include sensiolabs checks
 - [ ] Move from standard exceptions to library exceptions
 - [ ] Include contribute and CoC
 - [ ] Use better XSD samples, currently is too related to Mexico SAT CFDI v 3.2
@@ -61,7 +60,7 @@ License MIT - Copyright (c) 2014 - 2016 Carlos Cortés Soto
 [license]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/LICENSE
 [build]: https://travis-ci.org/eclipxe13/XmlSchemaValidator
 [quality]: https://scrutinizer-ci.com/g/eclipxe13/XmlSchemaValidator/
-[sensiolabs]: https://insight.sensiolabs.com/projects/<<SENSIOLABS>>
+[sensiolabs]: https://insight.sensiolabs.com/projects/597c21ca-414b-446d-809d-7f940c3ca0a2
 [coverage]: https://coveralls.io/github/eclipxe13/XmlSchemaValidator?branch=master
 [downloads]: https://packagist.org/packages/eclipxe/xmlschemavalidator
 
@@ -70,6 +69,6 @@ License MIT - Copyright (c) 2014 - 2016 Carlos Cortés Soto
 [badge-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [badge-build]: https://img.shields.io/travis/eclipxe13/XmlSchemaValidator.svg?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/eclipxe13/XmlSchemaValidator/master.svg?style=flat-square
-[badge-sensiolabs]: https://img.shields.io/sensiolabs/i/<<SENSIOLABS>>.svg?style=flat-square
+[badge-sensiolabs]: https://img.shields.io/sensiolabs/i/597c21ca-414b-446d-809d-7f940c3ca0a2.svg?style=flat-square
 [badge-coverage]: https://coveralls.io/repos/github/eclipxe13/XmlSchemaValidator/badge.svg?branch=master
 [badge-downloads]: https://img.shields.io/packagist/dt/eclipxe/xmlschemavalidator.svg?style=flat-square
