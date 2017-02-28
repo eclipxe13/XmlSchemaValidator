@@ -1,4 +1,4 @@
-# eclipxe13/xmlschemavalidator
+# eclipxe13/XmlSchemaValidator
 
 [![Source Code][badge-source]][source]
 [![Latest Version][badge-release]][release]
