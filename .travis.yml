@@ -4,28 +4,25 @@ language: php
 php:
   - 5.6
   - 7.0
-  - hhvm
-
-matrix:
-  allow_failures:
-    - php: hhvm
+  - 7.1
 
 # This triggers builds to run on the new TravisCI infrastructure.
 # See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
-
+S
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-dist
 
 script:
   - mkdir -p build/tests/
-  - vendor/bin/phpcs --standard=psr2 sources/ tests/
+  - vendor/bin/parallel-lint sources/ tests/
+  - vendor/bin/phpcs -sp sources/ tests/
+  - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
   - vendor/bin/phpunit --coverage-text --coverage-clover=build/tests/coverage.xml
 
 after_script:
   - if [[ $TRAVIS_PHP_VERSION == '5.6' ]]; then php vendor/bin/ocular code-coverage:upload --format=php-clover build/tests/coverage.xml; fi
-  - if [[ $TRAVIS_PHP_VERSION == '5.6' ]]; then php vendor/bin/coveralls -n -v -x build/tests/coverage.xml ; fi
 
 notifications:
   email: false
