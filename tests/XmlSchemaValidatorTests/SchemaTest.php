@@ -5,7 +5,6 @@ use XmlSchemaValidator\Schema;
 
 class SchemaTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testCreateObjectAndReadProperties()
     {
         $schema = new Schema('a', 'b');

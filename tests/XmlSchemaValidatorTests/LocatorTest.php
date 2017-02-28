@@ -1,5 +1,4 @@
 <?php
-
 namespace XmlSchemaValidatorTests;
 
 use \XmlSchemaValidator\Locator;
@@ -111,11 +110,11 @@ class LocatorTest extends TestCase
         $locator->get($this->urlCfdiXsd);
         $this->assertFileEquals($fcfdv32, $cfdicache, 'Check if the file was since it was deleted');
 
-        file_put_contents($cfdicache, "--override--");
+        file_put_contents($cfdicache, '--override--');
         touch($cfdicache, time() - 10); // set the mtime to 10 seconds ago
         $locator->get($this->urlCfdiXsd);
         $this->assertEquals(
-            "--override--",
+            '--override--',
             file_get_contents($cfdicache),
             'The file did not expires, the content is not the same that we alter'
         );
@@ -135,10 +134,10 @@ class LocatorTest extends TestCase
     public function testDownloadAndMoveException()
     {
         $protected = '/sbin';
-        if (!is_dir($protected) or is_writable($protected)) {
+        if (! is_dir($protected) or is_writable($protected)) {
             $this->markTestIncomplete(
                 "This test expect to find a folder $protected without write permissions,"
-                ." ¿are you running this on windows or as root?"
+                . ' ¿are you running this on windows or as root?'
             );
         }
         $locator = new Locator($protected);
@@ -169,7 +168,7 @@ class LocatorTest extends TestCase
     {
         $url = '';
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage("Url (empty) is not valid");
+        $this->expectExceptionMessage('Url (empty) is not valid');
         $this->locator->register($url, 'sample.xml');
     }
 

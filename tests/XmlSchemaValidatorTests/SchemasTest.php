@@ -1,18 +1,17 @@
 <?php
-
 namespace XmlSchemaValidatorTests;
 
-use XmlSchemaValidator\Schemas;
-use XmlSchemaValidator\Schema;
 use XmlSchemaValidator\Locator;
+use XmlSchemaValidator\Schema;
+use XmlSchemaValidator\Schemas;
 
 class SchemasTest extends TestCase
 {
     public function testEmptyObject()
     {
         $schemas = new Schemas();
-        $this->assertInstanceOf(\Countable::class, $schemas, "The class must implements Countable");
-        $this->assertInstanceOf(\IteratorAggregate::class, $schemas, "The class must implements IteratorAggregate");
+        $this->assertInstanceOf(\Countable::class, $schemas, 'The class must implements Countable');
+        $this->assertInstanceOf(\IteratorAggregate::class, $schemas, 'The class must implements IteratorAggregate');
         $this->assertCount(0, $schemas, 'Assert that the count is zero');
         $this->assertSame([], $schemas->all(), 'Assert that the returned array is empty');
     }
@@ -24,7 +23,7 @@ class SchemasTest extends TestCase
         $schemas = new Schemas();
         $schema = $schemas->create($ns, $location);
         $this->assertCount(1, $schemas);
-        $this->assertInstanceOf(Schema::class, $schema, "The create method must return a Schema object");
+        $this->assertInstanceOf(Schema::class, $schema, 'The create method must return a Schema object');
         $this->assertSame($ns, $schema->getNamespace(), 'The object contains the right namespace');
         $this->assertSame($location, $schema->getLocation(), 'The object contains the right location');
         $this->assertSame($schema, $schemas->item($ns), 'The object created is the SAME as the object retrieved');
@@ -45,7 +44,7 @@ class SchemasTest extends TestCase
         $location = 'http://example.com/xsd';
         $schemas = new Schemas();
         $schema = $schemas->insert(new Schema($ns, $location));
-        $this->assertInstanceOf('\XmlSchemaValidator\Schema', $schema, "The insert method must return a Schema object");
+        $this->assertInstanceOf('\XmlSchemaValidator\Schema', $schema, 'The insert method must return a Schema object');
         $this->assertCount(1, $schemas);
     }
 
@@ -59,7 +58,7 @@ class SchemasTest extends TestCase
     {
         $schemas = new Schemas();
         for ($i = 0; $i < $count; $i++) {
-            $schemas->create($ns.$i, $location.$i);
+            $schemas->create($ns . $i, $location . $i);
         }
         return $schemas;
     }
@@ -91,18 +90,18 @@ class SchemasTest extends TestCase
 
     public function testGetXsdEmpty()
     {
-        $basefile = $this->utilAssetLocation("include-template.xsd");
+        $basefile = $this->utilAssetLocation('include-template.xsd');
         $this->assertFileExists($basefile, "File $basefile must exists");
         $schemas = new Schemas();
         $filename = tempnam(null, null);
-        file_put_contents($filename, $schemas->getXsd(new Locator));
+        file_put_contents($filename, $schemas->getXsd(new Locator()));
         $this->assertXmlFileEqualsXmlFile($basefile, $filename, 'Empty Xsd must match files/include-template.xsd');
         unlink($filename);
     }
 
     public function testGetXsdWithContents()
     {
-        $basefile = $this->utilAssetLocation("include-commonxsd.xsd");
+        $basefile = $this->utilAssetLocation('include-commonxsd.xsd');
         $this->assertFileExists($basefile, "File $basefile must exists");
 
         $commonxsdfolder = $this->utilAssetLocation('');
@@ -147,7 +146,8 @@ class SchemasTest extends TestCase
             new Schema('c', 'ccc'),
         ];
         $schemas = new Schemas();
-        for ($i = 0; $i < count($data); $i++) {
+        $countSchemas = count($data);
+        for ($i = 0; $i < $countSchemas; $i++) {
             $schemas->insert($data[$i]);
         }
         $i = 0;
