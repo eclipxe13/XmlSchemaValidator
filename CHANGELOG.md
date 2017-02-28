@@ -1,3 +1,6 @@
+# Version 1.1.1
+- Remove typo on .travis.yml
+
 # Version 1.1.0
 - This change does not introduce any break with previous versions but add a new interface and objects
   to perform the download
