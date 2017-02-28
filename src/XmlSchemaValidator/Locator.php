@@ -1,11 +1,14 @@
 <?php
-
 namespace XmlSchemaValidator;
+
+use XmlSchemaValidator\Downloader\DownloaderInterface;
+use XmlSchemaValidator\Downloader\PhpDownloader;
 
 /**
  * File locator and cache.
  * It provides a file locator and cache of urls.
- * This may be improved by creating a a separate utility, that uses flysystem to storage cache files and more
+ * Use the Downloader interface to provide different methods to download
+ *
  * @package XmlSchemaValidator
  */
 class Locator
@@ -39,12 +42,16 @@ class Locator
      */
     protected $mimeChecker;
 
+    /** @var DownloaderInterface */
+    protected $downloader;
+
     /**
      * @param string $repository Location for place to store the cached files
      * @param int $timeout Seconds to timeout when get a file when download is needed
      * @param int $expire Seconds to wait to expire cache, a value of 0 means never expires
+     * @param DownloaderInterface $downloader Downloader object, if null a Downloader\PhpDownloader will be used.
      */
-    public function __construct($repository = '', $timeout = 20, $expire = 0)
+    public function __construct($repository = '', $timeout = 20, $expire = 0, DownloaderInterface $downloader = null)
     {
         if ('' === $repository) {
             $repository = sys_get_temp_dir();
@@ -53,6 +60,7 @@ class Locator
         $this->timeout = max(1, (integer) $timeout);
         $this->expire = max(0, (integer) $expire);
         $this->mimeChecker = new FileMimeChecker();
+        $this->downloader = $downloader ? : new PhpDownloader();
     }
 
     /**
@@ -80,6 +88,14 @@ class Locator
     public function getExpire()
     {
         return $this->expire;
+    }
+
+    /**
+     * @return DownloaderInterface
+     */
+    public function getDownloader()
+    {
+        return $this->downloader;
     }
 
     /**
@@ -173,7 +189,7 @@ class Locator
             return $filename;
         }
         // download the file and set into a temporary file
-        $temporal = $this->download($url);
+        $temporal = $this->downloader->download($url, $this->getTimeout());
         if (! $this->mimeIsAllowed($temporal)) {
             unlink($temporal);
             throw new \RuntimeException("Downloaded file from $url is not a valid mime");
@@ -267,28 +283,5 @@ class Locator
         }
         // no need to expire
         return false;
-    }
-
-    /**
-     * Do the actual process of download
-     * @param string $url
-     * @param int $timeout
-     * @return string temporary filename where the file was downloaded
-     */
-    protected function download($url, $timeout = 0)
-    {
-        $tempname = tempnam(null, null);
-        $ctx = stream_context_create([
-            'http' => [
-                'timeout' => $timeout ?: $this->timeout,
-                'ignore_errors' => false,
-            ],
-        ]);
-        // if Error Control '@' is omitted then when the download fail an error occurs and cannot return the exception
-        if (! @copy($url, $tempname, $ctx)) {
-            unlink($tempname);
-            throw new \RuntimeException("Download fail for url $url");
-        }
-        return $tempname;
     }
 }

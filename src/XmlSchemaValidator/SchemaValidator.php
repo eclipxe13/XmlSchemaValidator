@@ -1,5 +1,4 @@
 <?php
-
 namespace XmlSchemaValidator;
 
 use DOMDocument;
@@ -53,7 +52,7 @@ class SchemaValidator
         }
 
         // input validation
-        if (! is_string($content) or $content === '') {
+        if (! is_string($content) || $content === '') {
             throw new \InvalidArgumentException('The content to validate must be a non-empty string');
         }
 
@@ -134,7 +133,8 @@ class SchemaValidator
                 );
             }
             // insert the uris pairs into the schemas
-            for ($k = 0; $k < count($parts); $k = $k + 2) {
+            $partsCount = count($parts);
+            for ($k = 0; $k < $partsCount; $k = $k + 2) {
                 $schemas->create($parts[$k], $parts[$k + 1]);
             }
         }

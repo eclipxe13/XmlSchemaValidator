@@ -1,13 +1,11 @@
 <?php
-
 namespace XmlSchemaValidatorTests;
 
-use XmlSchemaValidator\SchemaValidator;
 use XmlSchemaValidator\Locator;
+use XmlSchemaValidator\SchemaValidator;
 
 class SchemaValidatorTest extends TestCase
 {
-
     public function testCreateWithDefaultOptions()
     {
         $validator = new SchemaValidator();
@@ -55,7 +53,7 @@ class SchemaValidatorTest extends TestCase
         $validator = new SchemaValidator();
         $this->assertTrue(
             $validator->validate(file_get_contents($sample)),
-            "Validation without schemas and well formed document return true"
+            'Validation without schemas and well formed document return true'
         );
     }
 
@@ -124,7 +122,7 @@ class SchemaValidatorTest extends TestCase
         $this->assertFalse($validator->validate(file_get_contents($cfdifile)), 'CFDI File must not be valid');
         $error = $validator->getError();
         $this->assertContains('Invalid XML Document', $error, 'Report Invalid XML Document');
-        $this->assertContains("This element is not expected", $error, 'This element is not expected');
+        $this->assertContains('This element is not expected', $error, 'This element is not expected');
         $this->assertContains('{http://www.sat.gob.mx/cfd/3}emisor', $error, 'Mention emisor');
         $this->assertContains('{http://www.sat.gob.mx/cfd/3}Emisor', $error, 'Mention Emisor');
     }

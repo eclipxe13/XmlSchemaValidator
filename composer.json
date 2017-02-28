@@ -11,19 +11,18 @@
         }
     ],
     "require": {
-        "php": ">=5.6",
-        "ext-zip": "*"
+        "php": ">=5.6"
     },
     "require-dev": {
         "phpunit/phpunit": "@stable",
-        "squizlabs/php_codesniffer": "@stable",
         "jakub-onderka/php-parallel-lint": "@stable",
-        "satooshi/php-coveralls": "@stable",
+        "squizlabs/php_codesniffer": "@stable",
+        "friendsofphp/php-cs-fixer": "@stable",
         "scrutinizer/ocular": "@stable"
     },
     "autoload": {
         "psr-4": {
-            "XmlSchemaValidator\\": "sources/XmlSchemaValidator/"
+            "XmlSchemaValidator\\": "src/XmlSchemaValidator/"
         }
     },
     "autoload-dev": {
