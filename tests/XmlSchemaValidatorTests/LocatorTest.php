@@ -1,7 +1,9 @@
 <?php
 namespace XmlSchemaValidatorTests;
 
-use \XmlSchemaValidator\Locator;
+use XmlSchemaValidator\Downloader\DownloaderInterface;
+use XmlSchemaValidator\Downloader\NullDownloader;
+use XmlSchemaValidator\Locator;
 
 class LocatorTest extends TestCase
 {
@@ -13,18 +15,25 @@ class LocatorTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->locator = new Locator();
+        $this->locator = new Locator('', 20, 0, new Downloader\FakeDownloader([
+            'http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd'
+                => $this->utilAssetLocation('cfdv32.xsd'),
+            'http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigital.xsd'
+                => $this->utilAssetLocation('TimbreFiscalDigital.xsd'),
+        ]));
     }
 
     public function testBuildLocatorDefaultOptions()
     {
+        $locator = new Locator();
         $this->assertSame(
             sys_get_temp_dir(),
             $this->locator->getRepository(),
             'Default repository expected to be the system temp dir'
         );
-        $this->assertSame(20, $this->locator->getTimeout(), 'Default timeout expected to be 20');
-        $this->assertSame(0, $this->locator->getExpire(), 'Default timeout expected to be 0');
+        $this->assertSame(20, $locator->getTimeout(), 'Default timeout expected to be 20');
+        $this->assertSame(0, $locator->getExpire(), 'Default timeout expected to be 0');
+        $this->assertInstanceOf(DownloaderInterface::class, $locator->getDownloader());
     }
 
     public function testBuildLocatorOptionRepository()
@@ -43,6 +52,13 @@ class LocatorTest extends TestCase
     {
         $loc = new Locator('', 20, 5);
         $this->assertSame(5, $loc->getExpire(), 'Expire value expected to be the same as provided');
+    }
+
+    public function testBuildLocatorOptionDownloader()
+    {
+        $nullDownloader = new NullDownloader();
+        $loc = new Locator('', 20, 5, $nullDownloader);
+        $this->assertSame($nullDownloader, $loc->getDownloader(), 'Downloader object was not the same as provided');
     }
 
     public function testMimes()
@@ -97,7 +113,13 @@ class LocatorTest extends TestCase
     public function testDownloadWithExpiration()
     {
         // locator with expire settings
-        $locator = new Locator('', 20, 1800);
+        $locator = new Locator(
+            $this->locator->getRepository(),
+            $this->locator->getTimeout(),
+            1800,
+            $this->locator->getDownloader()
+        );
+
         // files to compare
         $fcfdv32 = $this->utilAssetLocation('cfdv32.xsd');
         $cfdicache = $locator->cacheFileName($this->urlCfdiXsd);
@@ -140,7 +162,12 @@ class LocatorTest extends TestCase
                 . ' ¿are you running this on windows or as root?'
             );
         }
-        $locator = new Locator($protected);
+        $locator = new Locator(
+            $protected,
+            $this->locator->getTimeout(),
+            $this->locator->getExpire(),
+            $this->locator->getDownloader()
+        );
         $filename = $locator->cacheFileName($this->urlCfdiXsd);
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage("Cannot move the temporary file to $filename");
