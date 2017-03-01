@@ -1,3 +1,8 @@
+# Version 1.1.3
+- Fix test were fialing on php 7.0 and 7.1
+    - class PHPUnit_Framework_TestCase is deprecated
+    - wait for 0.5 seconds after run the php server
+
 # Version 1.1.2
 - Fix project name in README.md
 - Add composer.json tag xmlschema
