@@ -28,5 +28,6 @@ call_user_func(function () {
     register_shutdown_function(function () use ($pid) {
         exec('kill ' . $pid);
     });
-    usleep(500);
+    // wait 0.5 seconds to server start before continue
+    usleep(50000);
 });
