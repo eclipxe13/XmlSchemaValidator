@@ -3,7 +3,7 @@ namespace XmlSchemaValidatorTests;
 
 use XmlSchemaValidator\Schema;
 
-class SchemaTest extends \PHPUnit_Framework_TestCase
+class SchemaTest extends TestCase
 {
     public function testCreateObjectAndReadProperties()
     {
