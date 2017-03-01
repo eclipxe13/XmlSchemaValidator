@@ -1,3 +1,7 @@
+# Version 1.1.2
+- Fix project name in README.md
+- Add composer.json tag xmlschema
+
 # Version 1.1.1
 - Remove typo on .travis.yml
 
