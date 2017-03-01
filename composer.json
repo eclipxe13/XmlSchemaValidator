@@ -1,7 +1,7 @@
 {
     "name": "eclipxe/xmlschemavalidator",
     "description": "PHP Library for XML Schema Validations",
-    "keywords": ["xml", "xsd", "validation"],
+    "keywords": ["xml", "xsd", "validation", "xmlschema"],
     "homepage": "https://github.com/eclipxe13/XmlSchemaValidator",
     "license": "MIT",
     "authors": [
