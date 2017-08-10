@@ -52,7 +52,7 @@ class SchemaValidator
         }
 
         // input validation
-        if (! is_string($content) || $content === '') {
+        if (! is_string($content) || '' === $content) {
             throw new \InvalidArgumentException('The content to validate must be a non-empty string');
         }
 
@@ -83,8 +83,8 @@ class SchemaValidator
             }
         }
 
-        // return true
-        return ! $this->registerError('');
+        $this->registerError('');
+        return true;
     }
 
     /**
