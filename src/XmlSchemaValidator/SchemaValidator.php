@@ -46,13 +46,15 @@ class SchemaValidator
     {
         // encapsulate the function inside libxml_use_internal_errors(true)
         if (true !== libxml_use_internal_errors(true)) {
-            $return = $this->validate($content);
-            libxml_use_internal_errors(false);
-            return $return;
+            try {
+                return $this->validate($content);
+            } finally {
+                libxml_use_internal_errors(false);
+            }
         }
 
         // input validation
-        if (! is_string($content) || $content === '') {
+        if (! is_string($content) || '' === $content) {
             throw new \InvalidArgumentException('The content to validate must be a non-empty string');
         }
 
@@ -61,7 +63,7 @@ class SchemaValidator
 
         // create the DOMDocument object
         $dom = new DOMDocument();
-        $dom->loadXML($content, LIBXML_ERR_ERROR);
+        $dom->loadXML($content, LIBXML_NOWARNING);
 
         // check for errors on load XML
         if (false !== $xmlerror = libxml_get_last_error()) {
@@ -83,8 +85,8 @@ class SchemaValidator
             }
         }
 
-        // return true
-        return ! $this->registerError('');
+        $this->registerError('');
+        return true;
     }
 
     /**

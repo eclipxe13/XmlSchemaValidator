@@ -1,3 +1,9 @@
+# Version 1.1.4
+- Fix implementation of libxml use internal errors on `SchemaValidator::validate`
+- When creating the dom document avoid warnings (fix using the correct constant)
+- Avoid using versions `@stable` in `composer.json`
+- Install scrutinizer/ocular only on travis and PHP 7.1
+
 # Version 1.1.3
 - Fix test were fialing on php 7.0 and 7.1
     - class PHPUnit_Framework_TestCase is deprecated
