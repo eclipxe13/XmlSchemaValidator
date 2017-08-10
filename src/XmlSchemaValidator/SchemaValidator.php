@@ -61,7 +61,7 @@ class SchemaValidator
 
         // create the DOMDocument object
         $dom = new DOMDocument();
-        $dom->loadXML($content, LIBXML_ERR_ERROR);
+        $dom->loadXML($content, LIBXML_NOWARNING);
 
         // check for errors on load XML
         if (false !== $xmlerror = libxml_get_last_error()) {
