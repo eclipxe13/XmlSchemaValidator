@@ -13,7 +13,7 @@ sudo: false
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-dist
-  - travis_retry test $TRAVIS_PHP_VERSION == '7.1' && composer install --no-interaction --prefer-dist --dev scrutinizer/ocular
+  - test $TRAVIS_PHP_VERSION == '7.1' && travis_retry composer install --no-interaction --prefer-dist --dev scrutinizer/ocular
 
 script:
   - mkdir -p build/tests/
