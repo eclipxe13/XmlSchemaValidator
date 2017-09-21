@@ -50,27 +50,41 @@ We don't enjoy rejecting your hard work, but some features just don't fit with t
 When you do begin working on your feature, here are some guidelines to consider:
 
 * Your pull request description should clearly detail the changes you have made.
-* We following by minimum the **[PSR-2 coding standard](http://www.php-fig.org/psr/psr-2/)**. Please ensure your code does, too.
+* Follow our code style using `squizlabs/php_codesniffer` and `friendsofphp/php-cs-fixer`.
 * Please **write tests** for any new features you add.
 * Please **ensure that tests pass** before submitting your pull request. We have Travis CI automatically running tests for pull requests. However, running the tests locally will help save time.
 * **Use topic/feature branches.** Please do not ask us to pull from your master branch.
 * **Submit one feature per pull request.** If you have multiple features you wish to submit, please break them up into separate pull requests.
 * **Send coherent history**. Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before submitting.
 
+## Check the code style
+
 If you are having issues with coding standars use `php-cs-fixer` and `phpcbf`
 
-```bash
+```shell
 vendor/bin/php-cs-fixer fix -v
 vendor/bin/phpcbf src/ tests/
 ```
 
 ## Running Tests
 
-The following tests must pass before we will accept a pull request. If any of these do not pass,
-it will result in a complete build failure. Before you can run these, be sure to `composer install`.
+The following tests must pass before we will accept a pull request.
+If any of these do not pass, it will result in a complete build failure.
+Before you can run these, be sure to `composer install` or `composer update`.
 
-```
+```shell
 vendor/bin/parallel-lint src/ tests/
 vendor/bin/phpcs -sp src/ tests/
+vendor/bin/php-cs-fixer fix -v --dry-run
 vendor/bin/phpunit --coverage-text
 ```
+
+## web server instance while running tests
+
+The phpunit process in the bootstrap step uses the PHP built-in web server in port 8999 to serve the contents
+of `tests/public` in order to test the validation process on remote resources.
+
+When the phpunit process ends, the web server instance is killed.
+
+Take a look in `tests/boostrap.php` to see how this is working.
+

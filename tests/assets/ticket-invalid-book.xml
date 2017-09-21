@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:ticket xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:t="http://test.org/schemas/ticket"
+          xsi:schemaLocation="http://test.org/schemas/ticket http://localhost:8999/xsd/ticket.xsd">
+    <t:info total="1234.56" notes="this is a valid file with two namespaces"/>
+    <t:articles>
+        <b:books xmlns:b="http://test.org/schemas/books"
+                 xsi:schemaLocation="http://test.org/schemas/books http://localhost:8999/xsd/books.xsd">
+            <b:book>
+                <b:title>My first Example</b:title>
+                <b:author>John Doe</b:author>
+                <b:author>Foo Bar</b:author>
+            </b:book>
+        </b:books>
+    </t:articles>
+</t:ticket>

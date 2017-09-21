@@ -1,7 +1,6 @@
 <?php
 namespace XmlSchemaValidatorTests;
 
-use XmlSchemaValidator\Locator;
 use XmlSchemaValidator\Schema;
 use XmlSchemaValidator\Schemas;
 
@@ -44,7 +43,7 @@ class SchemasTest extends TestCase
         $location = 'http://example.com/xsd';
         $schemas = new Schemas();
         $schema = $schemas->insert(new Schema($ns, $location));
-        $this->assertInstanceOf('\XmlSchemaValidator\Schema', $schema, 'The insert method must return a Schema object');
+        $this->assertInstanceOf(Schema::class, $schema, 'The insert method must return a Schema object');
         $this->assertCount(1, $schemas);
     }
 
@@ -88,30 +87,19 @@ class SchemasTest extends TestCase
         $this->assertCount(5, $schemas, 'Remove a non existent schema do nothing');
     }
 
-    public function testGetXsdEmpty()
+    public function testGetImporterXsdEmpty()
     {
         $basefile = $this->utilAssetLocation('include-template.xsd');
         $this->assertFileExists($basefile, "File $basefile must exists");
         $schemas = new Schemas();
-        $filename = tempnam(null, null);
-        file_put_contents($filename, $schemas->getXsd(new Locator()));
-        $this->assertXmlFileEqualsXmlFile($basefile, $filename, 'Empty Xsd must match files/include-template.xsd');
-        unlink($filename);
+        $this->assertXmlStringEqualsXmlFile($basefile, $schemas->getImporterXsd());
     }
 
-    public function testGetXsdWithContents()
+    public function testGetImporterXsdWithContents()
     {
-        $basefile = $this->utilAssetLocation('include-commonxsd.xsd');
+        $basefile = $this->utilAssetLocation('include-realurls.xsd');
         $this->assertFileExists($basefile, "File $basefile must exists");
 
-        $commonxsdfolder = $this->utilAssetLocation('');
-        $fcfdv32 = $this->utilAssetLocation('cfdv32.xsd');
-        $this->assertFileExists($fcfdv32, "The file $fcfdv32 for testing must exists");
-        $ftimbre = $this->utilAssetLocation('TimbreFiscalDigital.xsd');
-        $this->assertFileExists($fcfdv32, "The file $ftimbre for testing must exists");
-        $locator = new Locator();
-        $locator->register('http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd', $fcfdv32);
-        $locator->register('http://www.sat.gob.mx/TimbreFiscalDigital/TimbreFiscalDigital.xsd', $ftimbre);
         $schemas = new Schemas();
         $schemas->create(
             'http://www.sat.gob.mx/cfd/3',
@@ -121,21 +109,8 @@ class SchemasTest extends TestCase
             'http://www.sat.gob.mx/TimbreFiscalDigital',
             'http://www.sat.gob.mx/TimbreFiscalDigital/TimbreFiscalDigital.xsd'
         );
-        $filename = tempnam(null, null);
-        // verify that the Xsd contains the location of the commonXsd folder
-        $xsdcontents = $schemas->getXsd($locator);
-        $this->assertContains(
-            ' schemaLocation="' . $commonxsdfolder,
-            $xsdcontents,
-            "The returned Xsd must contain the absolute path to $commonxsdfolder"
-        );
-        // change the default XSD contents because it contains absolute paths, replace with a constant before compare
-        file_put_contents($filename, str_replace($commonxsdfolder, '__COMMONXSDPATH__/', $schemas->getXsd($locator)));
-        $this->assertXmlFileEqualsXmlFile(
-            $basefile,
-            $filename,
-            'SAT simple include schema must match include-template.xsd'
-        );
+
+        $this->assertXmlStringEqualsXmlFile($basefile, $schemas->getImporterXsd());
     }
 
     public function testIteratorAggregate()

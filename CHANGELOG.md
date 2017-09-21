@@ -1,3 +1,23 @@
+# Version 2.0.0
+- This version does not include `Locator` nor `DownloaderInterface` implementations.
+  That functionality is actually outside the scope of this library and that is the reason
+  why it was removed. A new library was created to implement this, take a look in
+  `eclipxe/xmlresourceretriever` https://github.com/eclipxe13/XmlResourceRetriever/
+- Constructor of `SchemaValidator` and `Schemas` changed.
+- Add new method `SchemaValidator::validateWithSchemas` that do the same
+  thing than `SchemaValidator::validate` but you must provide the `Schemas` collection
+- Change from `protected` to `public` the method `SchemaValidator::buildSchemas`,
+  it's usefull when used with `SchemaValidator::validateWithSchemas` to change
+  XSD remote locations to local or other places.
+- Add `XmlSchemaValidator::LibXmlException`. It contains a method to exec a callable
+  isolating the use internal errors setting and other to collect libxml errors
+  and throw it like an exception.
+- Rename `Schemas::getXsd` to `Schemas::getImporterXsd`
+- Remove compatibility with PHP 5.6, minimum version is now PHP 7.0
+- Add scalar type declarations
+- Remove test assets from Mexican SAT
+- Tests: Move files served by php built-in web server to from assets to public
+
 # Version 1.1.4
 - Fix implementation of libxml use internal errors on `SchemaValidator::validate`
 - When creating the dom document avoid warnings (fix using the correct constant)

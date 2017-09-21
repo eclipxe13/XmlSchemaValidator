@@ -11,6 +11,6 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function utilAssetLocation($filename)
     {
-        return __DIR__ . '/../assets/' . $filename;
+        return dirname(__DIR__) . '/assets/' . $filename;
     }
 }

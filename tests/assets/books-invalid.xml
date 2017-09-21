@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:b="http://test.org/schemas/books"
+         xsi:schemaLocation="http://test.org/schemas/books http://localhost:8999/xsd/books.xsd">
+    <b:book>
+        <b:title>My first Example</b:title>
+        <b:author>John Doe</b:author>
+        <b:author>Foo Bar</b:author>
+    </b:book>
+    <b:book serie="AA0002" starts="4">
+        <b:title>My secondExample</b:title>
+        <b:author>John Doe</b:author>
+        <b:author>Foo Bar</b:author>
+    </b:book>
+</b:books>
