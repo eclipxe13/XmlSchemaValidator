@@ -2,9 +2,7 @@
 namespace XmlSchemaValidator;
 
 /**
- * Schema object, used by SchemaValidator and Schemas
- *
- * @access private
+ * Schema immutable object, used by SchemaValidator and Schemas
  */
 class Schema
 {
