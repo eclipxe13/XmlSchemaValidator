@@ -5,7 +5,7 @@ use DOMDocument;
 use DOMXPath;
 
 /**
- * This class is a SchemaValidator
+ * This class is an XML schema validator
  * It is needed because some XML can contain more than one external schema
  * and DOM library fails to load it.
  */
