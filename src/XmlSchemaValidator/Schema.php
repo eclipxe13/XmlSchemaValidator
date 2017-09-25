@@ -2,10 +2,7 @@
 namespace XmlSchemaValidator;
 
 /**
- * Schema item, used by SchemaValidator and Schemas
- *
- * @access private
- * @package XmlSchemaValidator
+ * Schema immutable object, used by SchemaValidator and Schemas
  */
 class Schema
 {
@@ -19,16 +16,16 @@ class Schema
      * @param string $namespace
      * @param string $location
      */
-    public function __construct($namespace, $location)
+    public function __construct(string $namespace, string $location)
     {
-        $this->namespace = (string) $namespace;
-        $this->location = (string) $location;
+        $this->namespace = $namespace;
+        $this->location = $location;
     }
 
     /**
      * @return string
      */
-    public function getNamespace()
+    public function getNamespace(): string
     {
         return $this->namespace;
     }
@@ -36,7 +33,7 @@ class Schema
     /**
      * @return string
      */
-    public function getLocation()
+    public function getLocation(): string
     {
         return $this->location;
     }

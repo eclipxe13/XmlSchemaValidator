@@ -2,58 +2,30 @@
 namespace XmlSchemaValidator;
 
 /**
- * Collection of schemas, used by SchemaValidator
- *
- * @access private
- * @package XmlSchemaValidator
+ * Collection of Schema objects, used by SchemaValidator
  */
 class Schemas implements \IteratorAggregate, \Countable
 {
     /** @var Schema[] */
     private $schemas = [];
 
-    /** @var FileMimeChecker **/
-    private $mimeChecker;
-
     /**
-     * Schemas constructor.
-     */
-    public function __construct()
-    {
-        $this->mimeChecker = new FileMimeChecker([
-            'text/xml' => null,
-            'text/plain' => null,
-            'application/xml' => null,
-        ]);
-    }
-
-    /**
-     * Return a the XML of a Xsd that includes all the namespaces
-     * @param Locator $locator
+     * Return the XML of a Xsd that includes all the namespaces
+     * with the local location
+     *
      * @return string
      */
-    public function getXsd(Locator $locator)
+    public function getImporterXsd(): string
     {
-        $lines = [];
+        $xsd = new \DOMDocument('1.0', 'utf-8');
+        $xsd->loadXML('<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"/>');
         foreach ($this->schemas as $schema) {
-            $file = $locator->get($schema->getLocation());
-            if ($this->fileIsXsd($file)) {
-                $lines[] = '<xs:import namespace="' . $schema->getNamespace() . '" schemaLocation="' . $file . '" />';
-            }
+            $node = $xsd->createElementNS('http://www.w3.org/2001/XMLSchema', 'import');
+            $node->setAttribute('namespace', $schema->getNamespace());
+            $node->setAttribute('schemaLocation', $schema->getLocation());
+            $xsd->documentElement->appendChild($node);
         }
-        return '<?xml version="1.0" encoding="utf-8"?>' . "\n"
-            . '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">'
-            . implode('', $lines)
-            . '</xs:schema>';
-    }
-
-    /**
-     * @param $filename
-     * @return bool
-     */
-    protected function fileIsXsd($filename)
-    {
-        return $this->mimeChecker->check($filename);
+        return $xsd->saveXML();
     }
 
     /**
@@ -63,7 +35,7 @@ class Schemas implements \IteratorAggregate, \Countable
      * @param string $location
      * @return Schema
      */
-    public function create($namespace, $location)
+    public function create(string $namespace, string $location): Schema
     {
         return $this->insert(new Schema($namespace, $location));
     }
@@ -74,7 +46,7 @@ class Schemas implements \IteratorAggregate, \Countable
      * @param Schema $schema
      * @return Schema
      */
-    public function insert(Schema $schema)
+    public function insert(Schema $schema): Schema
     {
         $this->schemas[$schema->getNamespace()] = $schema;
         return $schema;
@@ -84,7 +56,7 @@ class Schemas implements \IteratorAggregate, \Countable
      * Remove a schema
      * @param string $namespace
      */
-    public function remove($namespace)
+    public function remove(string $namespace)
     {
         unset($this->schemas[$namespace]);
     }
@@ -93,7 +65,7 @@ class Schemas implements \IteratorAggregate, \Countable
      * Return the complete collection of schemas as an associative array
      * @return Schema[]
      */
-    public function all()
+    public function all(): array
     {
         return $this->schemas;
     }
@@ -102,7 +74,7 @@ class Schemas implements \IteratorAggregate, \Countable
      * @param string $namespace
      * @return bool
      */
-    public function exists($namespace)
+    public function exists(string $namespace): bool
     {
         return array_key_exists($namespace, $this->schemas);
     }
@@ -112,7 +84,7 @@ class Schemas implements \IteratorAggregate, \Countable
      * @param string $namespace
      * @return Schema
      */
-    public function item($namespace)
+    public function item(string $namespace): Schema
     {
         if (! $this->exists($namespace)) {
             throw new \InvalidArgumentException("Namespace $namespace does not exists in the schemas");

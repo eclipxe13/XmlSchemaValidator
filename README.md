@@ -11,46 +11,64 @@
 
 This is a library to validate XML files against multiple XSD Schemas according to its own definitions.
 
-I create this project because I need to validate XML documents against not-always-known schemas
-that have to be downloaded from Internet.
-
 The way this works is:
 
-1. Receive a valid xml file
+1. Receive a valid xml string as the content to be evaluated
 2. Scan the file for every schemaLocation
-3. Compose a file that include all the schemas
+3. Compose a schema that include all the schemas
 4. Validate the XML against the composed file
-
-Features:
-- It can have a repository for external schemas
-- Retrieve schemas from Internet
-- Storage the schemas until they expire
 
 ## Installation
 
-Use composer, so please run `composer require eclipxe/xmlschemavalidator` or include this on your `composer.json` file:
-
-```json
-{
-    "require": {
-        "eclipxe/xmlschemavalidator": "@stable"
-    }
-}
+Use [composer](https://getcomposer.org/), so please run
+```shell
+composer require eclipxe/xmlschemavalidator
 ```
 
 ## Basic usage
+
 ```php
 <?php
-use XmlSchemaValidator\SchemaValidator;
-$validator = new SchemaValidator();
-$valid = $validator->validate(file_get_contents('example.xml'));
-if (! $valid) {
-    echo $validator->getError(), "\n";
-} else {
-    echo "OK\n";
+$contents = file_get_contents('example.xml');
+$validator = new \XmlSchemaValidator\SchemaValidator($contents);
+if (! $validator->validate()) {
+    echo 'Found error: ' . $validator->getLastError();
 }
-
 ```
+
+## Advanced usage
+
+```php
+<?php
+$contents = file_get_contents('example.xml');
+$validator = new \XmlSchemaValidator\SchemaValidator($contents);
+// change schemas collection to override the schema location of an specific namespace
+$schemas = $validator->buildSchemas();
+$schemas->create('http://example.org/schemas/x1', './local-schemas/x1.xsd');
+
+// validateWithSchemas does not return boolean, it throws an exception
+try {
+    $validator->validateWithSchemas($schemas));
+} catch (\XmlSchemaValidator\SchemaValidatorException $ex) {
+    echo 'Found error: ' . $ex->getMessage();
+}
+```
+
+## About libxml errors
+
+This library depends on PHP libxml and uses internal errors `libxml_use_internal_errors` to retrieve
+the errors when creates the `DOMDocument` or validate against the schema files.
+Instead of raise an error it creates a `LibXmlException` with the errors chained.
+It also restore the value of `libxml_use_internal_errors` after execution.
+
+## Version 1.x is deprecated
+
+Version 1.x is no longer on development. It has a problem of concerns, the same library try to solve two different
+issues: Validate an XML file and store locally a copy of the XSD files.
+Version 2.x breaks this problem and give this library only one propose:
+Validate an XML file against its multiple XSD files, it does not matter where are located.
+
+Also, version 2.x uses PHP 7 with scalar type declarations, so it no longer compatible with PHP 5.6. 
 
 ## Contributing
 

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-<xs:import namespace="http://www.sat.gob.mx/cfd/3" schemaLocation="__COMMONXSDPATH__/cfdv32.xsd"/>
-<xs:import namespace="http://www.sat.gob.mx/TimbreFiscalDigital" schemaLocation="__COMMONXSDPATH__/TimbreFiscalDigital.xsd"/>
-</xs:schema>

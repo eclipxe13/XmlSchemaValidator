@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" targetNamespace="http://test.org/schemas/ticket" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="ticket">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="info" minOccurs="1" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:attribute name="total" type="xs:decimal" use="required"/>
+                        <xs:attribute name="notes" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="articles">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:any minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
