@@ -22,7 +22,7 @@ class Schemas implements \IteratorAggregate, \Countable
         foreach ($this->schemas as $schema) {
             $node = $xsd->createElementNS('http://www.w3.org/2001/XMLSchema', 'import');
             $node->setAttribute('namespace', $schema->getNamespace());
-            $node->setAttribute('schemaLocation', $schema->getLocation());
+            $node->setAttribute('schemaLocation', str_replace('\\', '/', $schema->getLocation()));
             $xsd->documentElement->appendChild($node);
         }
         return $xsd->saveXML();
