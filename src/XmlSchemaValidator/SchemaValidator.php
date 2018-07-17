@@ -93,7 +93,7 @@ class SchemaValidator
      * Retrieve a list of namespaces based on the schemaLocation attributes
      *
      * @throws SchemaValidatorException if the content of schemaLocation is not an even number of uris
-     * @return Schemas
+     * @return Schemas|Schema[]
      */
     public function buildSchemas(): Schemas
     {
