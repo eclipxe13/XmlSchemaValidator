@@ -1,6 +1,7 @@
 <?php
 namespace XmlSchemaValidatorTests;
 
+use XmlSchemaValidator\Schemas;
 use XmlSchemaValidator\SchemaValidator;
 use XmlSchemaValidator\SchemaValidatorException;
 
@@ -93,5 +94,26 @@ class SchemaValidatorTest extends TestCase
 
         $this->assertFalse($validator->validate());
         $this->assertContains("The attribute 'serie' is required but missing", $validator->getLastError());
+    }
+
+    public function testValidateWithSchemasUsingRemote()
+    {
+        $validator = $this->utilCreateValidator('books-valid.xml');
+        $schemas = new Schemas();
+        $schemas->create('http://test.org/schemas/books', 'http://localhost:8999/xsd/books.xsd');
+        $validator->validateWithSchemas($schemas);
+        $this->assertTrue(true, 'validateWithSchemas did not throw any exception');
+    }
+
+    public function testValidateWithSchemasUsingLocal()
+    {
+        $validator = $this->utilCreateValidator('books-valid.xml');
+        $schemas = new Schemas();
+        $schemas->create(
+            'http://test.org/schemas/books',
+            str_replace('/', '\\', dirname(__DIR__)) . '/public/xsd/books.xsd' // simulate windows path
+        );
+        $validator->validateWithSchemas($schemas);
+        $this->assertTrue(true, 'validateWithSchemas did not throw any exception');
     }
 }
