@@ -1,3 +1,10 @@
+# Version 2.0.1
+- Fix bug when using windows path (backslashs), it does not validate
+- Add docblock to buildSchemas
+- Improve building, add phpstan
+- Use phplint instead of php-parallel-lint
+- Update dependencies using composer-require-checker
+
 # Version 2.0.0
 - This version does not include `Locator` nor `DownloaderInterface` implementations.
   That functionality is actually outside the scope of this library and that is the reason
