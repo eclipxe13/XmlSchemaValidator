@@ -13,7 +13,7 @@ class SchemaValidatorTest extends TestCase
         if (! file_exists($location)) {
             $this->markTestSkipped("The file $location was not found");
         }
-        $content = file_get_contents($location);
+        $content = (string) file_get_contents($location);
         return new SchemaValidator($content);
     }
 

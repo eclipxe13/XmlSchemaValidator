@@ -110,6 +110,7 @@ class SchemaValidator
         }
 
         // get all the xsi:schemaLocation attributes in the document
+        /** @var \DOMNodeList|false $schemasList */
         $schemasList = $xpath->query("//@$xsi:schemaLocation");
 
         // schemaLocation attribute not found, no need to continue
@@ -119,8 +120,12 @@ class SchemaValidator
 
         // process every schemaLocation for even parts
         for ($s = 0; $s < $schemasList->length; $s++) {
+            $node = $schemasList->item($s);
+            if (null === $node) {
+                continue;
+            }
             // get the node content
-            $content = $schemasList->item($s)->nodeValue;
+            $content = $node->nodeValue;
             // get parts without inner spaces
             $parts = array_values(array_filter(explode(' ', $content)));
             $partsCount = count($parts);
