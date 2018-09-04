@@ -1,3 +1,6 @@
+# Version 2.0.3
+- Allow PHPUnit 7 on PHP >= 7.1
+
 # Version 2.0.2
 - Fix bug when running on PHP >= 7.1 and warning was raised when call `DOMDocument::schemaValidateSource`
   making impossible to obtain errors from `libxml_clear_errors` and throw a new `LibXmlException`
