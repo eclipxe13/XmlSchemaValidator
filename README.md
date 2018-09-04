@@ -48,7 +48,7 @@ $schemas->create('http://example.org/schemas/x1', './local-schemas/x1.xsd');
 
 // validateWithSchemas does not return boolean, it throws an exception
 try {
-    $validator->validateWithSchemas($schemas));
+    $validator->validateWithSchemas($schemas);
 } catch (\XmlSchemaValidator\SchemaValidatorException $ex) {
     echo 'Found error: ' . $ex->getMessage();
 }
