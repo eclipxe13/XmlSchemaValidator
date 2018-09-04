@@ -39,6 +39,8 @@ class LibXmlException extends SchemaValidatorException
      */
     public static function useInternalErrors(callable $callable)
     {
+        $previousErrorReporting = error_reporting();
+        error_reporting(0);
         $previousLibXmlUseInternalErrors = libxml_use_internal_errors(true);
         if ($previousLibXmlUseInternalErrors) {
             libxml_clear_errors();
@@ -47,6 +49,7 @@ class LibXmlException extends SchemaValidatorException
         try {
             static::throwFromLibXml();
         } finally {
+            error_reporting($previousErrorReporting);
             libxml_use_internal_errors($previousLibXmlUseInternalErrors);
         }
         return $return;
