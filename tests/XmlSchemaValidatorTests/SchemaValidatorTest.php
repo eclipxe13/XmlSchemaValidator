@@ -116,4 +116,18 @@ class SchemaValidatorTest extends TestCase
         $validator->validateWithSchemas($schemas);
         $this->assertTrue(true, 'validateWithSchemas did not throw any exception');
     }
+
+    public function testValidateWithEmptySchema()
+    {
+        $validator = $this->utilCreateValidator('books-valid.xml');
+        $schemas = new Schemas();
+        $schemas->create(
+            'http://test.org/schemas/books',
+            $this->utilAssetLocation('empty.xsd')
+        );
+
+        $this->expectException(SchemaValidatorException::class);
+        $this->expectExceptionMessage('Failed to parse the XML resource');
+        $validator->validateWithSchemas($schemas);
+    }
 }

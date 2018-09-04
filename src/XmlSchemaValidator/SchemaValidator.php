@@ -73,6 +73,7 @@ class SchemaValidator
      *
      * @param Schemas $schemas
      * @return void
+     *
      * @throws LibXmlException if schema validation fails
      */
     public function validateWithSchemas(Schemas $schemas)
