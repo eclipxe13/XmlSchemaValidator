@@ -21,18 +21,19 @@ class SchemaValidator
      * SchemaValidator constructor.
      *
      * @param string $content
+     * @param int $options DOMDocument::loadXML options
      * @throws \InvalidArgumentException if content is empty
      * @throws SchemaValidatorException if malformed xml content
      */
-    public function __construct(string $content)
+    public function __construct(string $content, int $options = LIBXML_NOWARNING)
     {
         if ('' === $content) {
             throw new \InvalidArgumentException('The content to validate must be a non-empty string');
         }
         $document = new DOMDocument();
         try {
-            LibXmlException::useInternalErrors(function () use ($content, $document) {
-                $document->loadXML($content, LIBXML_NOWARNING);
+            LibXmlException::useInternalErrors(function () use ($content, $document, $options) {
+                $document->loadXML($content, $options);
             });
         } catch (LibXmlException $ex) {
             throw new SchemaValidatorException('Malformed XML Document: ' . $ex->getMessage());

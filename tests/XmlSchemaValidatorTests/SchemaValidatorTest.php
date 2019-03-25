@@ -17,6 +17,16 @@ class SchemaValidatorTest extends TestCase
         return new SchemaValidator($content);
     }
 
+    public function utilCreateValidatorForLargeFiles($file)
+    {
+        $location = $this->utilAssetLocation($file);
+        if (! file_exists($location)) {
+            $this->markTestSkipped("The file $location was not found");
+        }
+        $content = file_get_contents($location);
+        return new SchemaValidator($content, LIBXML_NOWARNING | LIBXML_PARSEHUGE);
+    }
+
     public function testConstructorWithEmptyString()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -129,5 +139,18 @@ class SchemaValidatorTest extends TestCase
         $this->expectException(SchemaValidatorException::class);
         $this->expectExceptionMessage('Failed to parse the XML resource');
         $validator->validateWithSchemas($schemas);
+    }
+
+    public function testValidateLargeXml()
+    {
+        $validator = $this->utilCreateValidatorForLargeFiles('books-large.xml');
+        $this->assertTrue(true, 'SchemaValidator constructor did not throw any exception');
+    }
+
+    public function testValidateLargeXmlWithoutCorrectOptions()
+    {
+        $this->expectException(SchemaValidatorException::class);
+        $this->expectExceptionMessage('Malformed XML Document: Extra content at the end of the document');
+        $validator = $this->utilCreateValidator('books-large.xml');
     }
 }
