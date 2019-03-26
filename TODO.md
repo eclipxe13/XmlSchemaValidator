@@ -2,6 +2,16 @@
 
 - [ ] Document usage examples
 
+## Panned breaking changes
+
+- [ ] Move sources to namespace `Eclipxe\SchemaValidator`
+- [ ] Move tests to namespace `Eclipxe\SchemaValidator\Tests`
+- [ ] `SchemaValidator` should be constructed using a `DOMDocument`
+- [ ] `SchemaValidator` should offer a new method `createFromString`
+- [ ] PHP Minimal version to 7.2 (or 7.1?)
+- [ ] Use strict types
+- [ ] Review all docblocks, remove or justify
+
 ## Done
 
 - [X] Deprecate PHP 5.6 to PHP 7.0 and phpunit from ^5.7 to ^6.3
