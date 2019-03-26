@@ -2,7 +2,7 @@
 
 - [ ] Document usage examples
 
-## Panned breaking changes
+## Planned breaking changes
 
 - [ ] Move sources to namespace `Eclipxe\SchemaValidator`
 - [ ] Move tests to namespace `Eclipxe\SchemaValidator\Tests`
