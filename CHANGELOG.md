@@ -1,6 +1,7 @@
-# Version 2.0.3
-- Allow PHPUnit 7 on PHP >= 7.1
-- Allow phpstan 0.10 on PHP >= 7.1
+# Version 2.1.0
+- Allow create a `SchemaValidator` instance using `DOMDocument`
+- Run PHPUnit 7 on PHP >= 7.1
+- Run phpstan 0.10/0.11 on PHP >= 7.1
 
 # Version 2.0.2
 - Fix bug when running on PHP >= 7.1 and warning was raised when call `DOMDocument::schemaValidateSource`
