@@ -84,9 +84,8 @@ class SchemaValidator
         }
         // build the unique importing schema
         $xsd = $schemas->getImporterXsd();
-        $document = $this->document;
-        LibXmlException::useInternalErrors(function () use ($document, $xsd) {
-            $document->schemaValidateSource($xsd);
+        LibXmlException::useInternalErrors(function () use ($xsd) {
+            $this->document->schemaValidateSource($xsd);
         });
     }
 
