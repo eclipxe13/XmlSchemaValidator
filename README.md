@@ -40,8 +40,11 @@ if (! $validator->validate()) {
 
 ```php
 <?php
-$contents = file_get_contents('example.xml');
-$validator = new \XmlSchemaValidator\SchemaValidator($contents);
+// create SchemaValidator using a DOMDocument
+$document = new \DOMDocument();
+$document->load('example.xml');
+$validator = new \XmlSchemaValidator\SchemaValidator($document);
+
 // change schemas collection to override the schema location of an specific namespace
 $schemas = $validator->buildSchemas();
 $schemas->create('http://example.org/schemas/x1', './local-schemas/x1.xsd');
