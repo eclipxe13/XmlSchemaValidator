@@ -112,11 +112,7 @@ class SchemaValidator
         }
 
         // process every schemaLocation for even parts
-        for ($s = 0; $s < $schemasList->length; $s++) {
-            $node = $schemasList->item($s);
-            if (null === $node) {
-                continue;
-            }
+        foreach ($schemasList as $node) {
             // get the node content
             $content = $node->nodeValue;
             // get parts without inner spaces
