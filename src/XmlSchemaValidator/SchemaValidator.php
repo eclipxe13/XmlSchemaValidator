@@ -20,22 +20,16 @@ class SchemaValidator
     /**
      * SchemaValidator constructor.
      *
-     * @param string $content
+     * @param DOMDocument|string $content
      * @throws \InvalidArgumentException if content is empty
      * @throws SchemaValidatorException if malformed xml content
      */
-    public function __construct(string $content)
+    public function __construct($content)
     {
-        if ('' === $content) {
-            throw new \InvalidArgumentException('The content to validate must be a non-empty string');
-        }
-        $document = new DOMDocument();
-        try {
-            LibXmlException::useInternalErrors(function () use ($content, $document) {
-                $document->loadXML($content, LIBXML_NOWARNING);
-            });
-        } catch (LibXmlException $ex) {
-            throw new SchemaValidatorException('Malformed XML Document: ' . $ex->getMessage());
+        if ($content instanceof DOMDocument) {
+            $document = $content;
+        } else {
+            $document = $this->createDocumentFromString($content);
         }
         $this->document = $document;
     }
@@ -84,9 +78,8 @@ class SchemaValidator
         }
         // build the unique importing schema
         $xsd = $schemas->getImporterXsd();
-        $document = $this->document;
-        LibXmlException::useInternalErrors(function () use ($document, $xsd) {
-            $document->schemaValidateSource($xsd);
+        LibXmlException::useInternalErrors(function () use ($xsd) {
+            $this->document->schemaValidateSource($xsd);
         });
     }
 
@@ -110,6 +103,7 @@ class SchemaValidator
         }
 
         // get all the xsi:schemaLocation attributes in the document
+        /** @var \DOMNodeList|false $schemasList */
         $schemasList = $xpath->query("//@$xsi:schemaLocation");
 
         // schemaLocation attribute not found, no need to continue
@@ -118,9 +112,9 @@ class SchemaValidator
         }
 
         // process every schemaLocation for even parts
-        for ($s = 0; $s < $schemasList->length; $s++) {
+        foreach ($schemasList as $node) {
             // get the node content
-            $content = $schemasList->item($s)->nodeValue;
+            $content = $node->nodeValue;
             // get parts without inner spaces
             $parts = array_values(array_filter(explode(' ', $content)));
             $partsCount = count($parts);
@@ -137,5 +131,21 @@ class SchemaValidator
         }
 
         return $schemas;
+    }
+
+    private function createDocumentFromString(string $content): DOMDocument
+    {
+        if ('' === $content) {
+            throw new \InvalidArgumentException('The content to validate must be a non-empty string');
+        }
+        $document = new DOMDocument();
+        try {
+            LibXmlException::useInternalErrors(function () use ($content, $document) {
+                $document->loadXML($content);
+            });
+        } catch (LibXmlException $ex) {
+            throw new SchemaValidatorException('Malformed XML Document: ' . $ex->getMessage());
+        }
+        return $document;
     }
 }

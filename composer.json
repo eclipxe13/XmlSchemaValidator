@@ -16,11 +16,11 @@
         "ext-libxml": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.2",
+        "phpunit/phpunit": "^6.2|^7.3",
         "overtrue/phplint": "^1.0",
         "squizlabs/php_codesniffer": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.4",
-        "phpstan/phpstan-shim": "^0.9.1"
+        "phpstan/phpstan-shim": "^0.9|^0.10|^0.11"
     },
     "autoload": {
         "psr-4": {
@@ -31,5 +31,37 @@
         "psr-4": {
             "XmlSchemaValidatorTests\\": "tests/XmlSchemaValidatorTests/"
         }
+    },
+    "scripts": {
+        "dev:clean": [
+            "rm -rf build/",
+            "find . -type f -name .phpunit.result.cache -delete",
+            "mkdir -p build/"
+        ],
+        "dev:build": ["@dev:fix-style", "@dev:test"],
+        "dev:check-style": [
+            "vendor/bin/php-cs-fixer fix --dry-run --verbose",
+            "vendor/bin/phpcs --colors -sp src/ tests/"
+        ],
+        "dev:fix-style": [
+            "vendor/bin/php-cs-fixer fix --verbose",
+            "vendor/bin/phpcbf --colors -sp src/ tests/"
+        ],
+        "dev:test": [
+            "vendor/bin/phplint",
+            "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
+            "vendor/bin/phpstan analyse --no-progress --level max src/ tests/"
+        ],
+        "dev:coverage": [
+            "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"
+        ]
+    },
+    "scripts-descriptions": {
+        "dev:clean": "DEV: recreate build directory, remove any .phpunit.result.cache files",
+        "dev:build": "DEV: run dev:fix-style dev:tests and dev:docs, run before pull request",
+        "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
+        "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
+        "dev:test": "DEV: run phplint, phpunit and phpstan",
+        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
     }
 }

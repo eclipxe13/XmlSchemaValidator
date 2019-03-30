@@ -1,6 +1,7 @@
 <?php
 namespace XmlSchemaValidatorTests;
 
+use DOMDocument;
 use XmlSchemaValidator\Schemas;
 use XmlSchemaValidator\SchemaValidator;
 use XmlSchemaValidator\SchemaValidatorException;
@@ -13,8 +14,16 @@ class SchemaValidatorTest extends TestCase
         if (! file_exists($location)) {
             $this->markTestSkipped("The file $location was not found");
         }
-        $content = file_get_contents($location);
+        $content = (string) file_get_contents($location);
         return new SchemaValidator($content);
+    }
+
+    public function testConstructUsingExistingDocument()
+    {
+        $document = new DOMDocument();
+        $document->load($this->utilAssetLocation('books-valid.xml'));
+        new SchemaValidator($document);
+        $this->assertTrue(true, 'Expected no exception creating the schema validator using a DOMDocument');
     }
 
     public function testConstructorWithEmptyString()
