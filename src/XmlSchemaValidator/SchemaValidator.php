@@ -20,22 +20,16 @@ class SchemaValidator
     /**
      * SchemaValidator constructor.
      *
-     * @param string $content
+     * @param DOMDocument|string $content
      * @throws \InvalidArgumentException if content is empty
      * @throws SchemaValidatorException if malformed xml content
      */
-    public function __construct(string $content)
+    public function __construct($content)
     {
-        if ('' === $content) {
-            throw new \InvalidArgumentException('The content to validate must be a non-empty string');
-        }
-        $document = new DOMDocument();
-        try {
-            LibXmlException::useInternalErrors(function () use ($content, $document) {
-                $document->loadXML($content, LIBXML_NOWARNING);
-            });
-        } catch (LibXmlException $ex) {
-            throw new SchemaValidatorException('Malformed XML Document: ' . $ex->getMessage());
+        if ($content instanceof DOMDocument) {
+            $document = $content;
+        } else {
+            $document = $this->createDocumentFromString($content);
         }
         $this->document = $document;
     }
@@ -141,5 +135,21 @@ class SchemaValidator
         }
 
         return $schemas;
+    }
+
+    private function createDocumentFromString(string $content): DOMDocument
+    {
+        if ('' === $content) {
+            throw new \InvalidArgumentException('The content to validate must be a non-empty string');
+        }
+        $document = new DOMDocument();
+        try {
+            LibXmlException::useInternalErrors(function () use ($content, $document) {
+                $document->loadXML($content);
+            });
+        } catch (LibXmlException $ex) {
+            throw new SchemaValidatorException('Malformed XML Document: ' . $ex->getMessage());
+        }
+        return $document;
     }
 }
