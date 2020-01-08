@@ -1,4 +1,4 @@
-# eclipxe13/xmlschemavalidator To Do
+# eclipxe/xmlschemavalidator To Do
 
 - [ ] Document usage examples
 
