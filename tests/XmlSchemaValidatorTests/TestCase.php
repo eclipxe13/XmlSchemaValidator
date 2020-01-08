@@ -2,7 +2,7 @@
 
 namespace XmlSchemaValidatorTests;
 
-class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * Return the location of a file from the assets folder

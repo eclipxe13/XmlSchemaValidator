@@ -7,7 +7,8 @@ use XmlSchemaValidator\Schemas;
 use XmlSchemaValidator\SchemaValidator;
 use XmlSchemaValidator\SchemaValidatorException;
 
-class SchemaValidatorTest extends TestCase
+/** @covers \XmlSchemaValidator\SchemaValidator */
+final class SchemaValidatorTest extends TestCase
 {
     public function utilCreateValidator($file)
     {
@@ -34,13 +35,17 @@ class SchemaValidatorTest extends TestCase
         new SchemaValidator('');
     }
 
-    public function testValidatePreserveLibXmlErrors()
+    public function testValidatePreserveGlobalEnvironment()
     {
+        error_reporting(E_NOTICE);
         libxml_use_internal_errors(false);
-        $this->expectException(SchemaValidatorException::class);
-        $this->expectExceptionMessage("Malformed XML Document: Start tag expected, '<' not found");
-        new SchemaValidator(' this is not a valid xml ');
-        $this->assertFalse(libxml_use_internal_errors());
+        try {
+            new SchemaValidator(' this is not a valid xml ');
+        } catch (SchemaValidatorException $exception) {
+            unset($exception);
+        }
+        $this->assertSame(E_NOTICE, error_reporting());
+        $this->assertSame(false, libxml_use_internal_errors());
     }
 
     public function testValidateWithNoSchema()

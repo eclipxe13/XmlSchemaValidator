@@ -5,11 +5,12 @@ namespace XmlSchemaValidator;
 class LibXmlException extends SchemaValidatorException
 {
     /**
-     * Checks for errors in libxml, if found clear the errors and chain all the error messages
+     * Create a LibXmlException based on errors in libxml.
+     * If found, clear the errors and chain all the error messages.
      *
-     * @throws LibXmlException when found a libxml error
+     * @return LibXmlException|null
      */
-    public static function throwFromLibXml()
+    public static function createFromLibXml()
     {
         $errors = libxml_get_errors();
         if (count($errors)) {
@@ -22,7 +23,22 @@ class LibXmlException extends SchemaValidatorException
             $lastException = $current;
         }
         if (null !== $lastException) {
-            throw $lastException;
+            return $lastException;
+        }
+        return null;
+    }
+
+    /**
+     * Throw a LibXmlException based on errors in libxml.
+     * If found, clear the errors and chain all the error messages.
+     *
+     * @throws LibXmlException when found a libxml error
+     */
+    public static function throwFromLibXml()
+    {
+        $exception = static::createFromLibXml();
+        if (null !== $exception) {
+            throw $exception;
         }
     }
 
