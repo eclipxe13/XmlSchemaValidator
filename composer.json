@@ -32,11 +32,6 @@
         }
     },
     "scripts": {
-        "dev:clean": [
-            "rm -rf build/",
-            "find . -type f -name .phpunit.result.cache -delete",
-            "mkdir -p build/"
-        ],
         "dev:build": ["@dev:fix-style", "@dev:test"],
         "dev:check-style": [
             "vendor/bin/php-cs-fixer fix --dry-run --verbose",
@@ -56,7 +51,6 @@
         ]
     },
     "scripts-descriptions": {
-        "dev:clean": "DEV: recreate build directory, remove any .phpunit.result.cache files",
         "dev:build": "DEV: run dev:fix-style dev:tests and dev:docs, run before pull request",
         "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
         "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
