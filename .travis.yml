@@ -13,7 +13,7 @@ before_script:
 script:
   - vendor/bin/phpcs -sp src/ tests/
   - vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --verbose
-  - vendor/bin/phpunit --testdox --verbose
+  - vendor/bin/phpunit --verbose
   - test $TRAVIS_PHP_VERSION != "7.0" && vendor/bin/phpstan analyse --no-progress --level max src/ tests/ || true
   - test $TRAVIS_PHP_VERSION != "7.0" && vendor/bin/psalm --no-progress || true
 
