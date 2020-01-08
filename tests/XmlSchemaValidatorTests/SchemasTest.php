@@ -1,10 +1,12 @@
 <?php
+
 namespace XmlSchemaValidatorTests;
 
 use XmlSchemaValidator\Schema;
 use XmlSchemaValidator\Schemas;
 
-class SchemasTest extends TestCase
+/** @covers \XmlSchemaValidator\Schemas */
+final class SchemasTest extends TestCase
 {
     public function testEmptyObject()
     {

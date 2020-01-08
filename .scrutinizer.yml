@@ -1,15 +1,19 @@
 filter:
-    excluded_paths:
-        - 'tests/*'
-        - 'vendor/*'
+  excluded_paths:
+    - 'tests/'
+    - 'vendor/'
 
-checks:
+build:
+  dependencies:
+    override:
+      - composer self-update --no-interaction --no-progress
+      - composer install --no-interaction
+  nodes:
     php:
-        code_rating: true
-        duplication: true
-
-tools:
-    php_code_sniffer:
-        config:
-            standard: "PSR2"
-    external_code_coverage: true
+      tests:
+        override:
+          - php-scrutinizer-run --enable-security-analysis
+          - command: vendor/bin/phpunit --testdox --coverage-clover=coverage.clover
+            coverage:
+              file: coverage.clover
+              format: clover

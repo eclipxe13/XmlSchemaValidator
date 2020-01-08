@@ -17,10 +17,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2|^7.3",
-        "overtrue/phplint": "^1.0",
         "squizlabs/php_codesniffer": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.4",
-        "phpstan/phpstan-shim": "^0.9|^0.10|^0.11"
+        "phpstan/phpstan": "^0.9|^0.10|^0.11",
+        "vimeo/psalm": "^3.8"
     },
     "autoload": {
         "psr-4": {
@@ -33,11 +33,6 @@
         }
     },
     "scripts": {
-        "dev:clean": [
-            "rm -rf build/",
-            "find . -type f -name .phpunit.result.cache -delete",
-            "mkdir -p build/"
-        ],
         "dev:build": ["@dev:fix-style", "@dev:test"],
         "dev:check-style": [
             "vendor/bin/php-cs-fixer fix --dry-run --verbose",
@@ -48,20 +43,20 @@
             "vendor/bin/phpcbf --colors -sp src/ tests/"
         ],
         "dev:test": [
-            "vendor/bin/phplint",
+            "@dev:check-style",
             "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "vendor/bin/phpstan analyse --no-progress --level max src/ tests/"
+            "vendor/bin/phpstan analyse --no-progress --level max src/ tests/",
+            "vendor/bin/psalm --no-progress"
         ],
         "dev:coverage": [
             "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"
         ]
     },
     "scripts-descriptions": {
-        "dev:clean": "DEV: recreate build directory, remove any .phpunit.result.cache files",
         "dev:build": "DEV: run dev:fix-style dev:tests and dev:docs, run before pull request",
         "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
         "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
-        "dev:test": "DEV: run phplint, phpunit and phpstan",
+        "dev:test": "DEV: dev:check-style, phpunit and phpstan",
         "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
     }
 }

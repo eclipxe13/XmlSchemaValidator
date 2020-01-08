@@ -1,4 +1,5 @@
 <?php
+
 namespace XmlSchemaValidator;
 
 /**
@@ -6,7 +7,7 @@ namespace XmlSchemaValidator;
  */
 class Schemas implements \IteratorAggregate, \Countable
 {
-    /** @var Schema[] */
+    /** @var array<string, Schema> */
     private $schemas = [];
 
     /**
@@ -19,11 +20,13 @@ class Schemas implements \IteratorAggregate, \Countable
     {
         $xsd = new \DOMDocument('1.0', 'utf-8');
         $xsd->loadXML('<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"/>');
+        /** @var \DOMElement $document */
+        $document = $xsd->documentElement;
         foreach ($this->schemas as $schema) {
             $node = $xsd->createElementNS('http://www.w3.org/2001/XMLSchema', 'import');
             $node->setAttribute('namespace', $schema->getNamespace());
             $node->setAttribute('schemaLocation', str_replace('\\', '/', $schema->getLocation()));
-            $xsd->documentElement->appendChild($node);
+            $document->appendChild($node);
         }
         return $xsd->saveXML();
     }
@@ -55,6 +58,7 @@ class Schemas implements \IteratorAggregate, \Countable
     /**
      * Remove a schema
      * @param string $namespace
+     * @return void
      */
     public function remove(string $namespace)
     {
@@ -63,7 +67,7 @@ class Schemas implements \IteratorAggregate, \Countable
 
     /**
      * Return the complete collection of schemas as an associative array
-     * @return Schema[]
+     * @return array<string, Schema>
      */
     public function all(): array
     {
@@ -97,6 +101,7 @@ class Schemas implements \IteratorAggregate, \Countable
         return count($this->schemas);
     }
 
+    /** @return \Traversable<Schema> */
     public function getIterator()
     {
         return new \ArrayIterator($this->schemas);

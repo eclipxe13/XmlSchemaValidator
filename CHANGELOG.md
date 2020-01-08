@@ -1,22 +1,40 @@
-# Version 2.1.0
+# CHANGELOG
+
+Notice: This library follows [SEMVER 2.0.0](https://semver.org/spec/v2.0.0.html) convention.
+
+## Version 2.1.1 2020-01-08
+
+- Improve testing, 100% code coverage, each test class uses cover related class.
+- Improve Travis-CI, do not create code coverage.
+- Improve Scrutinizer-CI, create code coverage.
+- Change development dependence from `phpstan/phpstan-shim` to `phpstan/phpstan`.
+- Remove development dependence `overtrue/phplint`.
+- Remove SensioLabs Insight.
+- Update documentation, licence, changelog, etc..
+
+## Version 2.1.0
+
 - Allow create a `SchemaValidator` instance using `DOMDocument`
 - Run PHPUnit 7 on PHP >= 7.1
 - Run phpstan 0.10/0.11 on PHP >= 7.1
 
-# Version 2.0.2
+## Version 2.0.2
+
 - Fix bug when running on PHP >= 7.1 and warning was raised when call `DOMDocument::schemaValidateSource`
   making impossible to obtain errors from `libxml_clear_errors` and throw a new `LibXmlException`
 - Add a new test `SchemaValidatorTest::testValidateWithEmptySchema` to make sure that
   a `LibXmlException` exception is raised
 
-# Version 2.0.1
+## Version 2.0.1
+
 - Fix bug when using windows path (backslashs), it does not validate
 - Add docblock to buildSchemas
 - Improve building, add phpstan
 - Use phplint instead of php-parallel-lint
 - Update dependencies using composer-require-checker
 
-# Version 2.0.0
+## Version 2.0.0
+
 - This version does not include `Locator` nor `DownloaderInterface` implementations.
   That functionality is actually outside the scope of this library and that is the reason
   why it was removed. A new library was created to implement this, take a look in
@@ -37,24 +55,29 @@
 - Tests: Move files served by php built-in web server to from assets to public
 
 # Version 1.1.4
+
 - Fix implementation of libxml use internal errors on `SchemaValidator::validate`
 - When creating the dom document avoid warnings (fix using the correct constant)
 - Avoid using versions `@stable` in `composer.json`
 - Install scrutinizer/ocular only on travis and PHP 7.1
 
-# Version 1.1.3
+## Version 1.1.3
+
 - Fix test were fialing on php 7.0 and 7.1
     - class PHPUnit_Framework_TestCase is deprecated
     - wait for 0.5 seconds after run the php server
 
-# Version 1.1.2
+## Version 1.1.2
+
 - Fix project name in README.md
 - Add composer.json tag xmlschema
 
-# Version 1.1.1
+## Version 1.1.1
+
 - Remove typo on .travis.yml
 
-# Version 1.1.0
+## Version 1.1.0
+
 - This change does not introduce any break with previous versions but add a new interface and objects
   to perform the download
 - Library
@@ -83,7 +106,8 @@
     - Fix badges
     - Drop coveralls
 
-# Version 1.0.0
+## Version 1.0.0
+
 - Follow recommendations from sensiolabs
 - Project does not depends on zip extension
 - Include SensioLabs Insight

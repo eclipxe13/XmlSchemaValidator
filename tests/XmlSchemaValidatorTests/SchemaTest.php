@@ -1,9 +1,11 @@
 <?php
+
 namespace XmlSchemaValidatorTests;
 
 use XmlSchemaValidator\Schema;
 
-class SchemaTest extends TestCase
+/** @covers \XmlSchemaValidator\Schema */
+final class SchemaTest extends TestCase
 {
     public function testCreateObjectAndReadProperties()
     {
