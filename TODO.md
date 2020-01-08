@@ -9,6 +9,8 @@
 - [ ] `SchemaValidator` should be constructed using a `DOMDocument`
 - [ ] `SchemaValidator` should offer a new method `createFromString`
 - [ ] PHP Minimal version to 7.2 (or 7.1?)
+    - Build on Scrutinizer-CI removes squizlabs/php_codesniffer, friendsofphp/php-cs-fixer, vimeo/psalm & phpstan/phpstan
+    - Build on Travis-CI on 7.0 removes vimeo/psalm & phpstan/phpstan, else runs psalm & phpstan  
 - [ ] Use strict types
 - [ ] Review all docblocks, remove or justify
 
