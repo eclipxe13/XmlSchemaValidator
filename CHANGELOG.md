@@ -2,6 +2,16 @@
 
 Notice: This library follows [SEMVER 2.0.0](https://semver.org/spec/v2.0.0.html) convention.
 
+## Version 2.1.1 2020-01-08
+
+- Improve testing, 100% code coverage, each test class uses cover related class.
+- Improve Travis-CI, do not create code coverage.
+- Improve Scrutinizer-CI, create code coverage.
+- Change development dependence from `phpstan/phpstan-shim` to `phpstan/phpstan`.
+- Remove development dependence `overtrue/phplint`.
+- Remove SensioLabs Insight.
+- Update documentation, licence, changelog, etc..
+
 ## Version 2.1.0
 
 - Allow create a `SchemaValidator` instance using `DOMDocument`
