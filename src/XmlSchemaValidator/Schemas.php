@@ -7,7 +7,7 @@ namespace XmlSchemaValidator;
  */
 class Schemas implements \IteratorAggregate, \Countable
 {
-    /** @var Schema[] */
+    /** @var array<string, Schema> */
     private $schemas = [];
 
     /**
@@ -58,6 +58,7 @@ class Schemas implements \IteratorAggregate, \Countable
     /**
      * Remove a schema
      * @param string $namespace
+     * @return void
      */
     public function remove(string $namespace)
     {
@@ -66,7 +67,7 @@ class Schemas implements \IteratorAggregate, \Countable
 
     /**
      * Return the complete collection of schemas as an associative array
-     * @return Schema[]
+     * @return array<string, Schema>
      */
     public function all(): array
     {
@@ -100,6 +101,7 @@ class Schemas implements \IteratorAggregate, \Countable
         return count($this->schemas);
     }
 
+    /** @return \Traversable<Schema> */
     public function getIterator()
     {
         return new \ArrayIterator($this->schemas);

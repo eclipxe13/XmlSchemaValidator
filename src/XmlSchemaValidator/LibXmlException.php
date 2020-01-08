@@ -33,6 +33,7 @@ class LibXmlException extends SchemaValidatorException
      * If found, clear the errors and chain all the error messages.
      *
      * @throws LibXmlException when found a libxml error
+     * @return void
      */
     public static function throwFromLibXml()
     {
@@ -62,6 +63,7 @@ class LibXmlException extends SchemaValidatorException
         if ($previousLibXmlUseInternalErrors) {
             libxml_clear_errors();
         }
+        /** @psalm-var mixed $return */
         $return = $callable();
         try {
             static::throwFromLibXml();

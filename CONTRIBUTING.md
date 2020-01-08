@@ -75,8 +75,9 @@ Before you can run these, be sure to `composer install` or `composer update`.
 ```shell
 vendor/bin/phpcs -sp src/ tests/
 vendor/bin/php-cs-fixer fix -v --dry-run
-vendor/bin/phpunit --coverage-text
-vendor/bin/phpstan.phar analyse --level max src/ tests/
+vendor/bin/phpunit --testdox
+vendor/bin/phpstan analyse --level max src/ tests/
+vendor/bin/psalm
 ```
 
 ## web server instance while running tests
