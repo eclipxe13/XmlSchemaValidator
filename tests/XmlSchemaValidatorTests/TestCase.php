@@ -1,4 +1,5 @@
 <?php
+
 namespace XmlSchemaValidatorTests;
 
 class TestCase extends \PHPUnit\Framework\TestCase

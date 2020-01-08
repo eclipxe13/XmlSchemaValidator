@@ -1,4 +1,5 @@
 <?php
+
 namespace XmlSchemaValidatorTests;
 
 use XmlSchemaValidator\Schema;

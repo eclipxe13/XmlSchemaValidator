@@ -1,4 +1,5 @@
 <?php
+
 namespace XmlSchemaValidator;
 
 use DOMDocument;
