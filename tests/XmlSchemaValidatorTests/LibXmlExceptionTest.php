@@ -42,7 +42,7 @@ final class LibXmlExceptionTest extends TestCase
         for ($previous = $foundException; null !== $previous; $previous = $previous->getPrevious()) {
             $chain[] = $previous->getMessage();
         }
-        $this->assertStringContainsString('Start tag expected', $foundException->getMessage());
+        $this->assertStringStartsWith('Start tag expected', $foundException->getMessage());
         $this->assertCount(1, $chain, 'It should only exists 1 error');
     }
 
