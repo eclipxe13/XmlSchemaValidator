@@ -71,7 +71,12 @@ issues: Validate an XML file and store locally a copy of the XSD files.
 Version 2.x breaks this problem and give this library only one propose:
 Validate an XML file against its multiple XSD files, it does not matter where are located.
 
-Also, version 2.x uses PHP 7 with scalar type declarations, so it no longer compatible with PHP 5.6. 
+## Version 2.x is deprecated
+
+Version 2.x was compatible with PHP 7 and was deprecated on 2020-04-05.
+
+A branch `2.x` has been created, it might be installable using `composer require eclipxe/xmlschemavalidator:2.x-dev`,
+but it will not be active maintained and you should change your dependency as soon as possible.
 
 ## Contributing
 
