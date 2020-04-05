@@ -68,7 +68,7 @@ final class LibXmlExceptionTest extends TestCase
             function (): string {
                 $document = new DOMDocument();
                 $document->loadXML('<r/>');
-                return $document->saveXML();
+                return $document->saveXML() ?: '';
             }
         );
         $this->assertXmlStringEqualsXmlString('<r/>', $returnedValue);

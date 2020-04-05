@@ -14,6 +14,7 @@ use Traversable;
 
 /**
  * Collection of Schema objects, used by SchemaValidator
+ * @implements IteratorAggregate<string, Schema>
  */
 class Schemas implements IteratorAggregate, Countable
 {
@@ -38,7 +39,7 @@ class Schemas implements IteratorAggregate, Countable
             $node->setAttribute('schemaLocation', str_replace('\\', '/', $schema->getLocation()));
             $document->appendChild($node);
         }
-        return $xsd->saveXML();
+        return $xsd->saveXML() ?: '';
     }
 
     /**
@@ -106,12 +107,12 @@ class Schemas implements IteratorAggregate, Countable
         return $this->schemas[$namespace];
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->schemas);
     }
 
-    /** @return Traversable<Schema> */
+    /** @return Traversable<string, Schema> */
     public function getIterator()
     {
         return new ArrayIterator($this->schemas);

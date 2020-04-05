@@ -13,7 +13,7 @@ use XmlSchemaValidator\SchemaValidatorException;
 /** @covers \XmlSchemaValidator\SchemaValidator */
 final class SchemaValidatorTest extends TestCase
 {
-    public function utilCreateValidator($file)
+    public function utilCreateValidator(string $file): SchemaValidator
     {
         $location = $this->utilAssetLocation($file);
         if (! file_exists($location)) {

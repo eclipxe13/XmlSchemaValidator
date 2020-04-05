@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XmlSchemaValidator;
 
+use DOMAttr;
 use DOMDocument;
 use DOMNodeList;
 use DOMXPath;
@@ -109,7 +110,7 @@ class SchemaValidator
         }
 
         // get all the xsi:schemaLocation attributes in the document
-        /** @var DOMNodeList|false $schemasList */
+        /** @var DOMNodeList<DOMAttr>|false $schemasList */
         $schemasList = $xpath->query("//@$xsi:schemaLocation");
 
         // schemaLocation attribute not found, no need to continue
