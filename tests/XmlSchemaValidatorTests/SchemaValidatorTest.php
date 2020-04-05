@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace XmlSchemaValidatorTests;
 
 use DOMDocument;
+use InvalidArgumentException;
 use XmlSchemaValidator\Schemas;
 use XmlSchemaValidator\SchemaValidator;
 use XmlSchemaValidator\SchemaValidatorException;
@@ -32,7 +33,7 @@ final class SchemaValidatorTest extends TestCase
 
     public function testConstructorWithEmptyString(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('empty');
         new SchemaValidator('');
     }

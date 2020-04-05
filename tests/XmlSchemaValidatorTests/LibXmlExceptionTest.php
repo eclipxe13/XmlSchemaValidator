@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XmlSchemaValidatorTests;
 
+use DOMDocument;
 use XmlSchemaValidator\LibXmlException;
 
 /** @covers \XmlSchemaValidator\LibXmlException */
@@ -20,7 +21,7 @@ final class LibXmlExceptionTest extends TestCase
         libxml_use_internal_errors(true);
         error_reporting(0);
         // create an error
-        $document = new \DOMDocument();
+        $document = new DOMDocument();
         $document->loadXML('<r>');
         // run the code that create the LibXmlException
         /** @var LibXmlException|null $foundException */
@@ -28,7 +29,7 @@ final class LibXmlExceptionTest extends TestCase
         try {
             LibXmlException::useInternalErrors(
                 function (): void {
-                    $document = new \DOMDocument();
+                    $document = new DOMDocument();
                     $document->loadXML('invalid xml');
                 }
             );
@@ -65,7 +66,7 @@ final class LibXmlExceptionTest extends TestCase
     {
         $returnedValue = LibXmlException::useInternalErrors(
             function (): string {
-                $document = new \DOMDocument();
+                $document = new DOMDocument();
                 $document->loadXML('<r/>');
                 return $document->saveXML();
             }

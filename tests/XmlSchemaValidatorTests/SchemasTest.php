@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace XmlSchemaValidatorTests;
 
+use Countable;
+use InvalidArgumentException;
+use IteratorAggregate;
 use XmlSchemaValidator\Schema;
 use XmlSchemaValidator\Schemas;
 
@@ -13,8 +16,8 @@ final class SchemasTest extends TestCase
     public function testEmptyObject(): void
     {
         $schemas = new Schemas();
-        $this->assertInstanceOf(\Countable::class, $schemas, 'The class must implements Countable');
-        $this->assertInstanceOf(\IteratorAggregate::class, $schemas, 'The class must implements IteratorAggregate');
+        $this->assertInstanceOf(Countable::class, $schemas, 'The class must implements Countable');
+        $this->assertInstanceOf(IteratorAggregate::class, $schemas, 'The class must implements IteratorAggregate');
         $this->assertCount(0, $schemas, 'Assert that the count is zero');
         $this->assertSame([], $schemas->all(), 'Assert that the returned array is empty');
     }
@@ -36,7 +39,7 @@ final class SchemasTest extends TestCase
     {
         $ns = 'http://example.com';
         $schemas = new Schemas();
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Namespace $ns does not exists in the schemas");
         $schemas->item($ns);
     }

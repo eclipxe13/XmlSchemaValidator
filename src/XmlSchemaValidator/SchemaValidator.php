@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace XmlSchemaValidator;
 
 use DOMDocument;
+use DOMNodeList;
 use DOMXPath;
+use InvalidArgumentException;
+use Traversable;
 
 /**
  * This class is an XML schema validator
@@ -24,7 +27,7 @@ class SchemaValidator
      * SchemaValidator constructor.
      *
      * @param DOMDocument|string $content
-     * @throws \InvalidArgumentException if content is empty
+     * @throws InvalidArgumentException if content is empty
      * @throws SchemaValidatorException if malformed xml content
      */
     public function __construct($content)
@@ -89,8 +92,8 @@ class SchemaValidator
     /**
      * Retrieve a list of namespaces based on the schemaLocation attributes
      *
+     * @return Schemas&Traversable<Schema>
      * @throws SchemaValidatorException if the content of schemaLocation is not an even number of uris
-     * @return Schemas&\Traversable<Schema>
      */
     public function buildSchemas(): Schemas
     {
@@ -106,7 +109,7 @@ class SchemaValidator
         }
 
         // get all the xsi:schemaLocation attributes in the document
-        /** @var \DOMNodeList|false $schemasList */
+        /** @var DOMNodeList|false $schemasList */
         $schemasList = $xpath->query("//@$xsi:schemaLocation");
 
         // schemaLocation attribute not found, no need to continue
@@ -139,7 +142,7 @@ class SchemaValidator
     private function createDocumentFromString(string $content): DOMDocument
     {
         if ('' === $content) {
-            throw new \InvalidArgumentException('The content to validate must be a non-empty string');
+            throw new InvalidArgumentException('The content to validate must be a non-empty string');
         }
         $document = new DOMDocument();
         try {

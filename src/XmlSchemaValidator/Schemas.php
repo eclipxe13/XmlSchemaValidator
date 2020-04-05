@@ -4,10 +4,18 @@ declare(strict_types=1);
 
 namespace XmlSchemaValidator;
 
+use ArrayIterator;
+use Countable;
+use DOMDocument;
+use DOMElement;
+use InvalidArgumentException;
+use IteratorAggregate;
+use Traversable;
+
 /**
  * Collection of Schema objects, used by SchemaValidator
  */
-class Schemas implements \IteratorAggregate, \Countable
+class Schemas implements IteratorAggregate, Countable
 {
     /** @var array<string, Schema> */
     private $schemas = [];
@@ -20,9 +28,9 @@ class Schemas implements \IteratorAggregate, \Countable
      */
     public function getImporterXsd(): string
     {
-        $xsd = new \DOMDocument('1.0', 'utf-8');
+        $xsd = new DOMDocument('1.0', 'utf-8');
         $xsd->loadXML('<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"/>');
-        /** @var \DOMElement $document */
+        /** @var DOMElement $document */
         $document = $xsd->documentElement;
         foreach ($this->schemas as $schema) {
             $node = $xsd->createElementNS('http://www.w3.org/2001/XMLSchema', 'import');
@@ -93,7 +101,7 @@ class Schemas implements \IteratorAggregate, \Countable
     public function item(string $namespace): Schema
     {
         if (! $this->exists($namespace)) {
-            throw new \InvalidArgumentException("Namespace $namespace does not exists in the schemas");
+            throw new InvalidArgumentException("Namespace $namespace does not exists in the schemas");
         }
         return $this->schemas[$namespace];
     }
@@ -103,9 +111,9 @@ class Schemas implements \IteratorAggregate, \Countable
         return count($this->schemas);
     }
 
-    /** @return \Traversable<Schema> */
+    /** @return Traversable<Schema> */
     public function getIterator()
     {
-        return new \ArrayIterator($this->schemas);
+        return new ArrayIterator($this->schemas);
     }
 }

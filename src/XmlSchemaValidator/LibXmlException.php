@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace XmlSchemaValidator;
 
+use LibXMLError;
+
 class LibXmlException extends SchemaValidatorException
 {
     /**
@@ -19,7 +21,7 @@ class LibXmlException extends SchemaValidatorException
             libxml_clear_errors();
         }
         $lastException = null;
-        /** @var \LibXMLError $error */
+        /** @var LibXMLError $error */
         foreach ($errors as $error) {
             $current = new self($error->message, 0, $lastException);
             $lastException = $current;
