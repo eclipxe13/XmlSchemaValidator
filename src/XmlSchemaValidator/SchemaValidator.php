@@ -151,7 +151,7 @@ class SchemaValidator
             // check that the list count is an even number
             if (0 !== $partsCount % 2) {
                 throw new SchemaValidatorException(
-                    "The schemaLocation value '" . $content . "' must have even number of URIs"
+                    "The schemaLocation value '$content' must have even number of URIs"
                 );
             }
             // insert the uris pairs into the schemas
