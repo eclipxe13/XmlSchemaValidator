@@ -77,6 +77,8 @@ Validate an XML file against its multiple XSD files, it does not matter where ar
 
 ## Version 2.x is deprecated
 
+[Migration changes between version 2 and version 3](docs/UPGRADE-v2-v3.md)
+
 Version 2.x was compatible with PHP 7 and was deprecated on 2020-04-05.
 
 A branch `2.x` has been created, it might be installable using `composer require eclipxe/xmlschemavalidator:2.x-dev`,
@@ -93,8 +95,8 @@ The `eclipxe/XmlSchemaValidator` library is copyright © [Carlos C Soto](https:/
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
 [contributing]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/CONTRIBUTING.md
-[changelog]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/CHANGELOG.md
-[todo]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/TODO.md
+[changelog]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/docs/CHANGELOG.md
+[todo]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/docs/TODO.md
 
 [source]: https://github.com/eclipxe13/XmlSchemaValidator
 [release]: https://github.com/eclipxe13/XmlSchemaValidator/releases
