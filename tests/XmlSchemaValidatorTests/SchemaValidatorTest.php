@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace XmlSchemaValidatorTests;
+namespace Eclipxe\XmlSchemaValidator\Tests;
 
 use DOMDocument;
+use Eclipxe\XmlSchemaValidator\Schemas;
+use Eclipxe\XmlSchemaValidator\SchemaValidator;
+use Eclipxe\XmlSchemaValidator\SchemaValidatorException;
 use InvalidArgumentException;
-use XmlSchemaValidator\Schemas;
-use XmlSchemaValidator\SchemaValidator;
-use XmlSchemaValidator\SchemaValidatorException;
 
-/** @covers \XmlSchemaValidator\SchemaValidator */
+/** @covers \Eclipxe\XmlSchemaValidator\SchemaValidator */
 final class SchemaValidatorTest extends TestCase
 {
     public function utilCreateValidator(string $file): SchemaValidator

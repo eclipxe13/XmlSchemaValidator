@@ -28,8 +28,10 @@ composer require eclipxe/xmlschemavalidator
 
 ```php
 <?php
+declare(strict_types=1);
+use Eclipxe\XmlSchemaValidator\SchemaValidator;
 $contents = file_get_contents('example.xml');
-$validator = new \XmlSchemaValidator\SchemaValidator($contents);
+$validator = new SchemaValidator($contents);
 if (! $validator->validate()) {
     echo 'Found error: ' . $validator->getLastError();
 }
@@ -39,10 +41,13 @@ if (! $validator->validate()) {
 
 ```php
 <?php
+declare(strict_types=1);
+use Eclipxe\XmlSchemaValidator\SchemaValidator;
+use Eclipxe\XmlSchemaValidator\SchemaValidatorException;
 // create SchemaValidator using a DOMDocument
-$document = new \DOMDocument();
+$document = new DOMDocument();
 $document->load('example.xml');
-$validator = new \XmlSchemaValidator\SchemaValidator($document);
+$validator = new SchemaValidator($document);
 
 // change schemas collection to override the schema location of an specific namespace
 $schemas = $validator->buildSchemas();
@@ -51,7 +56,7 @@ $schemas->create('http://example.org/schemas/x1', './local-schemas/x1.xsd');
 // validateWithSchemas does not return boolean, it throws an exception
 try {
     $validator->validateWithSchemas($schemas);
-} catch (\XmlSchemaValidator\SchemaValidatorException $ex) {
+} catch (SchemaValidatorException $ex) {
     echo 'Found error: ' . $ex->getMessage();
 }
 ```

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace XmlSchemaValidator;
+namespace Eclipxe\XmlSchemaValidator;
 
 use RuntimeException;
 

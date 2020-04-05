@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace XmlSchemaValidatorTests;
+namespace Eclipxe\XmlSchemaValidator\Tests;
 
 use DOMDocument;
-use XmlSchemaValidator\LibXmlException;
+use Eclipxe\XmlSchemaValidator\LibXmlException;
 
-/** @covers \XmlSchemaValidator\LibXmlException */
+/** @covers \Eclipxe\XmlSchemaValidator\LibXmlException */
 final class LibXmlExceptionTest extends TestCase
 {
     public function testCreateFromLibXmlWithoutAnyErrorReturnsNull(): void

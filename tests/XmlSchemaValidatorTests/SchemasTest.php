@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace XmlSchemaValidatorTests;
+namespace Eclipxe\XmlSchemaValidator\Tests;
 
 use Countable;
+use Eclipxe\XmlSchemaValidator\Schema;
+use Eclipxe\XmlSchemaValidator\Schemas;
 use InvalidArgumentException;
 use IteratorAggregate;
-use XmlSchemaValidator\Schema;
-use XmlSchemaValidator\Schemas;
 
-/** @covers \XmlSchemaValidator\Schemas */
+/** @covers \Eclipxe\XmlSchemaValidator\Schemas */
 final class SchemasTest extends TestCase
 {
     public function testEmptyObject(): void

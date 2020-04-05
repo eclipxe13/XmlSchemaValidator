@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace XmlSchemaValidatorTests;
+namespace Eclipxe\XmlSchemaValidator\Tests;
 
-use XmlSchemaValidator\Schema;
+ use Eclipxe\XmlSchemaValidator\Schema;
 
-/** @covers \XmlSchemaValidator\Schema */
+ /** @covers \Eclipxe\XmlSchemaValidator\Schema */
 final class SchemaTest extends TestCase
 {
     public function testCreateObjectAndReadProperties(): void
