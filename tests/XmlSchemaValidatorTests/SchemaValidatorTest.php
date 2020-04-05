@@ -20,7 +20,7 @@ final class SchemaValidatorTest extends TestCase
             $this->markTestSkipped("The file $location was not found");
         }
         $content = (string) file_get_contents($location);
-        return new SchemaValidator($content);
+        return SchemaValidator::createFromString($content);
     }
 
     public function testConstructUsingExistingDocument(): void
@@ -35,7 +35,7 @@ final class SchemaValidatorTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('empty');
-        new SchemaValidator('');
+        SchemaValidator::createFromString('');
     }
 
     public function testValidatePreserveGlobalEnvironment(): void
@@ -43,7 +43,7 @@ final class SchemaValidatorTest extends TestCase
         error_reporting(E_NOTICE);
         libxml_use_internal_errors(false);
         try {
-            new SchemaValidator(' this is not a valid xml ');
+            SchemaValidator::createFromString(' this is not a valid xml ');
         } catch (SchemaValidatorException $exception) {
             unset($exception);
         }

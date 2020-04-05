@@ -9,7 +9,6 @@ use DOMDocument;
 use DOMNodeList;
 use DOMXPath;
 use InvalidArgumentException;
-use Traversable;
 
 /**
  * This class is an XML schema validator
@@ -27,18 +26,37 @@ class SchemaValidator
     /**
      * SchemaValidator constructor.
      *
-     * @param DOMDocument|string $content
-     * @throws InvalidArgumentException if content is empty
-     * @throws SchemaValidatorException if malformed xml content
+     * @param DOMDocument $document
+     * @throws InvalidArgumentException when the content to validate is an empty string
+     * @throws SchemaValidatorException when malformed xml document
      */
-    public function __construct($content)
+    public function __construct(DOMDocument $document)
     {
-        if ($content instanceof DOMDocument) {
-            $document = $content;
-        } else {
-            $document = $this->createDocumentFromString($content);
-        }
         $this->document = $document;
+    }
+
+    /**
+     * Create a SchemaValidator instance based on a XML string
+     *
+     * @param string $contents
+     * @return self
+     * @throws InvalidArgumentException when the content to validate is an empty string
+     * @throws SchemaValidatorException when malformed xml document
+     */
+    public static function createFromString(string $contents): self
+    {
+        if ('' === $contents) {
+            throw new InvalidArgumentException('The content to validate must be a non-empty string');
+        }
+        $document = new DOMDocument();
+        try {
+            LibXmlException::useInternalErrors(function () use ($contents, $document): void {
+                $document->loadXML($contents);
+            });
+        } catch (LibXmlException $ex) {
+            throw new SchemaValidatorException('Malformed XML Document: ' . $ex->getMessage(), 0, $ex);
+        }
+        return new self($document);
     }
 
     /**
@@ -64,6 +82,11 @@ class SchemaValidator
         return true;
     }
 
+    /**
+     * Retrieve the last error message
+     *
+     * @return string
+     */
     public function getLastError(): string
     {
         return $this->error;
@@ -93,7 +116,7 @@ class SchemaValidator
     /**
      * Retrieve a list of namespaces based on the schemaLocation attributes
      *
-     * @return Schemas&Traversable<Schema>
+     * @return Schemas
      * @throws SchemaValidatorException if the content of schemaLocation is not an even number of uris
      */
     public function buildSchemas(): Schemas
@@ -138,21 +161,5 @@ class SchemaValidator
         }
 
         return $schemas;
-    }
-
-    private function createDocumentFromString(string $content): DOMDocument
-    {
-        if ('' === $content) {
-            throw new InvalidArgumentException('The content to validate must be a non-empty string');
-        }
-        $document = new DOMDocument();
-        try {
-            LibXmlException::useInternalErrors(function () use ($content, $document): void {
-                $document->loadXML($content);
-            });
-        } catch (LibXmlException $ex) {
-            throw new SchemaValidatorException('Malformed XML Document: ' . $ex->getMessage());
-        }
-        return $document;
     }
 }
