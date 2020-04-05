@@ -14,11 +14,12 @@ use Traversable;
 
 /**
  * Collection of Schema objects, used by SchemaValidator
+ *
  * @implements IteratorAggregate<string, Schema>
  */
 class Schemas implements IteratorAggregate, Countable
 {
-    /** @var array<string, Schema> */
+    /** @var array<string, Schema> intenal collection of schemas */
     private $schemas = [];
 
     /**
@@ -44,7 +45,8 @@ class Schemas implements IteratorAggregate, Countable
 
     /**
      * Create a new schema and inserts it to the collection
-     * The returned object is the schema
+     * The returned object is the created schema
+     *
      * @param string $namespace
      * @param string $location
      * @return Schema
@@ -57,6 +59,7 @@ class Schemas implements IteratorAggregate, Countable
     /**
      * Insert a schema to the collection
      * The returned object is the same schema
+     *
      * @param Schema $schema
      * @return Schema
      */
@@ -67,7 +70,8 @@ class Schemas implements IteratorAggregate, Countable
     }
 
     /**
-     * Remove a schema
+     * Remove a schema based on its namespace
+     *
      * @param string $namespace
      * @return void
      */
@@ -78,6 +82,7 @@ class Schemas implements IteratorAggregate, Countable
 
     /**
      * Return the complete collection of schemas as an associative array
+     *
      * @return array<string, Schema>
      */
     public function all(): array
@@ -86,6 +91,8 @@ class Schemas implements IteratorAggregate, Countable
     }
 
     /**
+     * Check if a schema exists by its namespace
+     *
      * @param string $namespace
      * @return bool
      */
@@ -96,7 +103,9 @@ class Schemas implements IteratorAggregate, Countable
 
     /**
      * Get an schema object by its namespace
+     *
      * @param string $namespace
+     * @throws InvalidArgumentException when namespace does not exists on schema
      * @return Schema
      */
     public function item(string $namespace): Schema
@@ -107,6 +116,11 @@ class Schemas implements IteratorAggregate, Countable
         return $this->schemas[$namespace];
     }
 
+    /**
+     * Count elements on the collection
+     *
+     * @return int
+     */
     public function count(): int
     {
         return count($this->schemas);

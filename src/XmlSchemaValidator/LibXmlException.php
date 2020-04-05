@@ -14,7 +14,7 @@ class LibXmlException extends SchemaValidatorException
      *
      * @return LibXmlException|null
      */
-    public static function createFromLibXml()
+    public static function createFromLibXml(): ?self
     {
         $errors = libxml_get_errors();
         if (count($errors)) {
