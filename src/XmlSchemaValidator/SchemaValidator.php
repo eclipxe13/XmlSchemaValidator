@@ -116,14 +116,8 @@ class SchemaValidator
         foreach ($schemasList as $node) {
             // get the node content
             $content = $node->nodeValue;
-
             // get parts without inner spaces
-            // $parts = array_values(array_filter(explode(' ', $content)));
-
-            // 2020-04-03 DDW - use preg_split to handle all types of whitespace?  not necessary!  $xpath-query appears to remove
-            // vertical whitespace and convert tabs to spaces.  But preg_split is a little more elegant.....
-            $parts = preg_split('/[\s]+/', $content);
-
+            $parts = preg_split('/\s+/', $content) ?: [];
             $partsCount = count($parts);
             // check that the list count is an even number
             if (0 !== $partsCount % 2) {

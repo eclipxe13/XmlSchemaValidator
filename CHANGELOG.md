@@ -2,6 +2,12 @@
 
 Notice: This library follows [SEMVER 2.0.0](https://semver.org/spec/v2.0.0.html) convention.
 
+## Version 2.1.2 2020-04-05
+
+- Internal change to split namespace and xsd location using `preg_split`.
+- Introduce deprecation notice on version `2.x`.
+- Update travis badges and link.
+
 ## Version 2.1.1 2020-01-08
 
 - Improve testing, 100% code coverage, each test class uses cover related class.
