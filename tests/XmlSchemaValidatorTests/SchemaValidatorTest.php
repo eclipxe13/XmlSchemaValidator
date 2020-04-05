@@ -57,7 +57,8 @@ final class SchemaValidatorTest extends TestCase
         );
     }
 
-    public function testValidateWithVariousWhitespaceInSchemaDeclaration() {
+    public function testValidateWithVariousWhitespaceInSchemaDeclaration()
+    {
         $validator = $this->utilCreateValidator('books-valid-with-extra-whitespace-in-schema-declaration.xml');
         $this->assertTrue($validator->validate());
     }
