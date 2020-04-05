@@ -7,7 +7,6 @@
 [![Scrutinizer][badge-quality]][quality]
 [![Coverage Status][badge-coverage]][coverage]
 [![Total Downloads][badge-downloads]][downloads]
-[![SensioLabsInsight][badge-sensiolabs]][sensiolabs]
 
 This is a library to validate XML files against multiple XSD Schemas according to its own definitions.
 
