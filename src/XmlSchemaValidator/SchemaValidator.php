@@ -73,7 +73,7 @@ class SchemaValidator
      *
      * @throws LibXmlException if schema validation fails
      */
-    public function validateWithSchemas(Schemas $schemas)
+    public function validateWithSchemas(Schemas $schemas): void
     {
         // create the schemas collection, then validate the document against the schemas
         if (! $schemas->count()) {
@@ -81,7 +81,7 @@ class SchemaValidator
         }
         // build the unique importing schema
         $xsd = $schemas->getImporterXsd();
-        LibXmlException::useInternalErrors(function () use ($xsd) {
+        LibXmlException::useInternalErrors(function () use ($xsd): void {
             $this->document->schemaValidateSource($xsd);
         });
     }
@@ -143,7 +143,7 @@ class SchemaValidator
         }
         $document = new DOMDocument();
         try {
-            LibXmlException::useInternalErrors(function () use ($content, $document) {
+            LibXmlException::useInternalErrors(function () use ($content, $document): void {
                 $document->loadXML($content);
             });
         } catch (LibXmlException $ex) {

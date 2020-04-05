@@ -37,7 +37,7 @@ class LibXmlException extends SchemaValidatorException
      * @throws LibXmlException when found a libxml error
      * @return void
      */
-    public static function throwFromLibXml()
+    public static function throwFromLibXml(): void
     {
         $exception = static::createFromLibXml();
         if (null !== $exception) {

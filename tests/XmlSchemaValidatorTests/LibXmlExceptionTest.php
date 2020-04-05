@@ -9,12 +9,12 @@ use XmlSchemaValidator\LibXmlException;
 /** @covers \XmlSchemaValidator\LibXmlException */
 final class LibXmlExceptionTest extends TestCase
 {
-    public function testCreateFromLibXmlWithoutAnyErrorReturnsNull()
+    public function testCreateFromLibXmlWithoutAnyErrorReturnsNull(): void
     {
         $this->assertNull(LibXmlException::createFromLibXml());
     }
 
-    public function testCallUseInternalErrorsCatchOnlyTheError()
+    public function testCallUseInternalErrorsCatchOnlyTheError(): void
     {
         // setup to use internal errors and disable error reporting
         libxml_use_internal_errors(true);
@@ -27,7 +27,7 @@ final class LibXmlExceptionTest extends TestCase
         $foundException = null;
         try {
             LibXmlException::useInternalErrors(
-                function () {
+                function (): void {
                     $document = new \DOMDocument();
                     $document->loadXML('invalid xml');
                 }
@@ -48,20 +48,20 @@ final class LibXmlExceptionTest extends TestCase
         $this->assertCount(1, $chain, 'It should only exists 1 error');
     }
 
-    public function testCallUseInternalErrorsRestoreGlobalSettings()
+    public function testCallUseInternalErrorsRestoreGlobalSettings(): void
     {
         // setup global environment
         $libxmlUseInternalErrors = false;
         $errorReportingLevel = E_ERROR;
         libxml_use_internal_errors($libxmlUseInternalErrors);
         error_reporting($errorReportingLevel);
-        LibXmlException::useInternalErrors(function () {
+        LibXmlException::useInternalErrors(function (): void {
         });
         $this->assertSame($libxmlUseInternalErrors, libxml_use_internal_errors());
         $this->assertSame($errorReportingLevel, error_reporting());
     }
 
-    public function testCallUseInternalErrorsReturnValue()
+    public function testCallUseInternalErrorsReturnValue(): void
     {
         $returnedValue = LibXmlException::useInternalErrors(
             function (): string {

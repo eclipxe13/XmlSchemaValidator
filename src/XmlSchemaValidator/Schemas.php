@@ -62,7 +62,7 @@ class Schemas implements \IteratorAggregate, \Countable
      * @param string $namespace
      * @return void
      */
-    public function remove(string $namespace)
+    public function remove(string $namespace): void
     {
         unset($this->schemas[$namespace]);
     }

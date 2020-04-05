@@ -9,7 +9,7 @@ use XmlSchemaValidator\Schema;
 /** @covers \XmlSchemaValidator\Schema */
 final class SchemaTest extends TestCase
 {
-    public function testCreateObjectAndReadProperties()
+    public function testCreateObjectAndReadProperties(): void
     {
         $schema = new Schema('a', 'b');
         $this->assertSame('a', $schema->getNamespace(), 'First parameter is namespace');

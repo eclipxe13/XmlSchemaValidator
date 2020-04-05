@@ -8,7 +8,7 @@ error_reporting(-1);
 // require composer autoloader
 require_once __DIR__ . '/../vendor/autoload.php';
 
-call_user_func(function () {
+call_user_func(function (): void {
     // Command that starts the built-in web server
     $command = sprintf(
         'php -S %s:%d -t %s >/dev/null 2>&1 & echo $!',
@@ -27,7 +27,7 @@ call_user_func(function () {
     $pid = (int) $output[0];
 
     // Kill the web server when the process ends
-    register_shutdown_function(function () use ($pid) {
+    register_shutdown_function(function () use ($pid): void {
         exec('kill ' . $pid);
     });
     // wait 0.5 seconds to server start before continue
