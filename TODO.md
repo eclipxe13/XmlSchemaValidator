@@ -2,19 +2,19 @@
 
 - [ ] Document usage examples
 
-## Planned breaking changes
+## Completed on version 3.0
 
-- [ ] Move sources to namespace `Eclipxe\SchemaValidator`
-- [ ] Move tests to namespace `Eclipxe\SchemaValidator\Tests`
-- [ ] `SchemaValidator` should be constructed using a `DOMDocument`
-- [ ] `SchemaValidator` should offer a new method `createFromString`
-- [ ] PHP Minimal version to 7.2 (or 7.1?)
+- [X] Move sources to namespace `Eclipxe\SchemaValidator`
+- [X] Move tests to namespace `Eclipxe\SchemaValidator\Tests`
+- [X] `SchemaValidator` should be constructed using a `DOMDocument`
+- [X] `SchemaValidator` should offer a new method `createFromString`
+- [X] PHP Minimal version to 7.2 (or 7.1?)
     - Build on Scrutinizer-CI removes squizlabs/php_codesniffer, friendsofphp/php-cs-fixer, vimeo/psalm & phpstan/phpstan
     - Build on Travis-CI on 7.0 removes vimeo/psalm & phpstan/phpstan, else runs psalm & phpstan  
-- [ ] Use strict types
-- [ ] Review all docblocks, remove or justify
+- [X] Use strict types
+- [X] Review all docblocks, remove or justify
 
-## Done
+## Completed
 
 - [X] Deprecate PHP 5.6 to PHP 7.0 and phpunit from ^5.7 to ^6.3
 - [X] Move from standard exceptions to library exceptions
