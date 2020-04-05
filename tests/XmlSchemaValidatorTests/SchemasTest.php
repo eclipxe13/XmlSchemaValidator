@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XmlSchemaValidatorTests;
 
 use XmlSchemaValidator\Schema;
