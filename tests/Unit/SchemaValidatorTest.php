@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Eclipxe\XmlSchemaValidator\Tests;
+namespace Eclipxe\XmlSchemaValidator\Tests\Unit;
 
 use DOMDocument;
 use Eclipxe\XmlSchemaValidator\Schemas;
 use Eclipxe\XmlSchemaValidator\SchemaValidator;
 use Eclipxe\XmlSchemaValidator\SchemaValidatorException;
+use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 use InvalidArgumentException;
 
 /** @covers \Eclipxe\XmlSchemaValidator\SchemaValidator */

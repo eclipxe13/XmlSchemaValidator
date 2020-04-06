@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Eclipxe\XmlSchemaValidator\Tests;
+namespace Eclipxe\XmlSchemaValidator\Tests\Unit;
 
 use Countable;
 use Eclipxe\XmlSchemaValidator\Schema;
 use Eclipxe\XmlSchemaValidator\Schemas;
+use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 use InvalidArgumentException;
 use IteratorAggregate;
 
@@ -52,6 +53,32 @@ final class SchemasTest extends TestCase
         $schema = $schemas->insert(new Schema($ns, $location));
         $this->assertInstanceOf(Schema::class, $schema, 'The insert method must return a Schema object');
         $this->assertCount(1, $schemas);
+    }
+
+    public function testImport(): void
+    {
+        $source = new Schemas();
+        $source->create('http://example.com/foo', 'foo.xsd');
+        $source->create('http://example.com/bar', 'bar.xsd');
+
+        $schemas = new Schemas();
+        $schemas->create('http://example.com/xee', '001.xsd');
+        $schemas->create('http://example.com/foo', '002.xsd');
+
+        $schemas->import($source);
+        /** @var Schema $baseSchema */
+        foreach ($source as $baseSchema) {
+            $this->assertTrue(
+                $schemas->exists($baseSchema->getNamespace()),
+                "Namespace {$baseSchema->getNamespace()} should exists"
+            );
+            $this->assertSame(
+                $baseSchema,
+                $schemas->item($baseSchema->getNamespace()),
+                "Imported schema object for {$baseSchema->getNamespace()} should be the same"
+            );
+        }
+        $this->assertCount(3, $schemas, 'Imported schemas should have only 3 elements');
     }
 
     /**

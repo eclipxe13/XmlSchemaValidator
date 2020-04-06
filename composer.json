@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Eclipxe\\XmlSchemaValidator\\": "src/XmlSchemaValidator/"
+            "Eclipxe\\XmlSchemaValidator\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Eclipxe\\XmlSchemaValidator\\Tests\\": "tests/XmlSchemaValidatorTests/"
+            "Eclipxe\\XmlSchemaValidator\\Tests\\": "tests/"
         }
     },
     "scripts": {

@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Eclipxe\XmlSchemaValidator\Tests;
+namespace Eclipxe\XmlSchemaValidator\Tests\Unit;
 
 use DOMDocument;
 use Eclipxe\XmlSchemaValidator\LibXmlException;
+use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 
 /** @covers \Eclipxe\XmlSchemaValidator\LibXmlException */
 final class LibXmlExceptionTest extends TestCase

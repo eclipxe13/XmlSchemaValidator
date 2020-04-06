@@ -70,6 +70,18 @@ class Schemas implements IteratorAggregate, Countable
     }
 
     /**
+     * Import the schemas from other schema collection to this collection
+     *
+     * @param Schemas $schemas
+     */
+    public function import(self $schemas): void
+    {
+        foreach ($schemas as $schema) {
+            $this->insert($schema);
+        }
+    }
+
+    /**
      * Remove a schema based on its namespace
      *
      * @param string $namespace

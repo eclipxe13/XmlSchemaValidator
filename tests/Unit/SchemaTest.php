@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Eclipxe\XmlSchemaValidator\Tests;
+namespace Eclipxe\XmlSchemaValidator\Tests\Unit;
 
  use Eclipxe\XmlSchemaValidator\Schema;
+ use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 
  /** @covers \Eclipxe\XmlSchemaValidator\Schema */
 final class SchemaTest extends TestCase

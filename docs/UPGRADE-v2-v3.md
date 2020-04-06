@@ -21,11 +21,17 @@ As of 2020-04-05 versions `7.0` and `7.1` were on *End of life*;
 version `7.2` is on security fixes only until 2020-11-30;
 version `7.3` has active support and has security fixes until 2021-12-06.
 
+## Internal changes
+
+The following changes are about the library, not about your implementation
+
 ### Strict mode
 
 Strict type declaration `declare(strict_types=1);` has been set to all files.
 
-### Strict mode
-
 Functions that does not return are defined as `void`.
 
+### File locations
+
+- `Eclipxe\XmlSchemaValidator => src/`
+- `Eclipxe\XmlSchemaValidator\Tests => tests/`

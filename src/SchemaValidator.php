@@ -143,23 +143,35 @@ class SchemaValidator
 
         // process every schemaLocation for even parts
         foreach ($schemasList as $node) {
-            // get the node content
-            $content = $node->nodeValue;
-            // get parts without inner spaces
-            $parts = preg_split('/\s+/', $content) ?: [];
-            $partsCount = count($parts);
-            // check that the list count is an even number
-            if (0 !== $partsCount % 2) {
-                throw new SchemaValidatorException(
-                    "The schemaLocation value '$content' must have even number of URIs"
-                );
-            }
-            // insert the uris pairs into the schemas
-            for ($k = 0; $k < $partsCount; $k = $k + 2) {
-                $schemas->create($parts[$k], $parts[$k + 1]);
-            }
+            $schemas->import($this->buildSchemasFromSchemaLocationValue($node->nodeValue));
         }
 
+        return $schemas;
+    }
+
+    /**
+     * Create a schemas collection from the content of a schema location
+     *
+     * @param string $content
+     * @return Schemas
+     */
+    public function buildSchemasFromSchemaLocationValue(string $content): Schemas
+    {
+        // get parts without inner spaces
+        $parts = preg_split('/\s+/', $content) ?: [];
+        $partsCount = count($parts);
+        // check that the list count is an even number
+        if (0 !== $partsCount % 2) {
+            throw new SchemaValidatorException(
+                "The schemaLocation value '$content' must have even number of URIs"
+            );
+        }
+
+        $schemas = new Schemas();
+        // insert the uris pairs into the schemas
+        for ($k = 0; $k < $partsCount; $k = $k + 2) {
+            $schemas->create($parts[$k], $parts[$k + 1]);
+        }
         return $schemas;
     }
 }
