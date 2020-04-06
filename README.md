@@ -31,7 +31,7 @@ composer require eclipxe/xmlschemavalidator
 declare(strict_types=1);
 use Eclipxe\XmlSchemaValidator\SchemaValidator;
 $contents = file_get_contents('example.xml');
-$validator = new SchemaValidator($contents);
+$validator = SchemaValidator::createFromString($contents);
 if (! $validator->validate()) {
     echo 'Found error: ' . $validator->getLastError();
 }
