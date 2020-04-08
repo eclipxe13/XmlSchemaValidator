@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Eclipxe\XmlSchemaValidator\Exceptions;
 
-use OutOfBoundsException;
+use OutOfRangeException;
 
-final class NamespaceNotFoundInSchemas extends OutOfBoundsException implements XmlSchemaValidatorException
+final class NamespaceNotFoundInSchemas extends OutOfRangeException implements XmlSchemaValidatorException
 {
     /** @var string */
     private $namespace;

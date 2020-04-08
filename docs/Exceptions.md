@@ -27,7 +27,7 @@ This can happend using `SchemaValidator::buildSchemas` or `SchemaValidator::buil
 
 ### `NamespaceNotFoundInSchemas`
 
-This exception extends of `OutOfBoundsException` and is thrown when you call `Schemas::item()` with a namespace
+This exception extends of `OutOfRangeException` and is thrown when you call `Schemas::item()` with a namespace
 that does not exists, verify that the namespace is registered using `Schemas::exists()`.
 
 ## Named constructors
