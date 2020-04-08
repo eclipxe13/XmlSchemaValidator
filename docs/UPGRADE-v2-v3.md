@@ -13,6 +13,12 @@ The namespace changes from `\XmlSchemaValidator` to `\Eclipxe\XmlSchemaValidator
 
 This is because the project was not following the `vendor\product` convension.
 
+### Exceptions
+
+The library now uses own exceptions, check the [exceptions documentation](Exceptions.md).
+
+All exceptions are annotated on `phpdoc` blocks.
+
 ### PHP minimal version
 
 Minimal version changes from `7.0` to `7.3`.
@@ -23,7 +29,12 @@ version `7.3` has active support and has security fixes until 2021-12-06.
 
 ## Internal changes
 
-The following changes are about the library, not about your implementation
+The following changes are about the library, not about your implementation.
+
+### Internal `LibXmlException`
+
+`LibXmlException` is now `@internal`, it is not to be used from outside library scope. It can ce exposed
+by a named exception as previous, but it is fine since is just a `Throwable`.
 
 ### Strict mode
 

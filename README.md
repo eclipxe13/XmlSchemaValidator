@@ -29,7 +29,9 @@ composer require eclipxe/xmlschemavalidator
 ```php
 <?php
 declare(strict_types=1);
+
 use Eclipxe\XmlSchemaValidator\SchemaValidator;
+
 $contents = file_get_contents('example.xml');
 $validator = SchemaValidator::createFromString($contents);
 if (! $validator->validate()) {
@@ -42,8 +44,10 @@ if (! $validator->validate()) {
 ```php
 <?php
 declare(strict_types=1);
+
 use Eclipxe\XmlSchemaValidator\SchemaValidator;
-use Eclipxe\XmlSchemaValidator\SchemaValidatorException;
+use Eclipxe\XmlSchemaValidator\Exceptions\ValidationFailException;
+
 // create SchemaValidator using a DOMDocument
 $document = new DOMDocument();
 $document->load('example.xml');
@@ -56,17 +60,17 @@ $schemas->create('http://example.org/schemas/x1', './local-schemas/x1.xsd');
 // validateWithSchemas does not return boolean, it throws an exception
 try {
     $validator->validateWithSchemas($schemas);
-} catch (SchemaValidatorException $ex) {
+} catch (ValidationFailException $ex) {
     echo 'Found error: ' . $ex->getMessage();
 }
 ```
 
-## About libxml errors
+## Exceptions
 
-This library depends on PHP libxml and uses internal errors `libxml_use_internal_errors` to retrieve
-the errors when creates the `DOMDocument` or validate against the schema files.
-Instead of raise an error it creates a `LibXmlException` with the errors chained.
-It also restore the value of `libxml_use_internal_errors` after execution.
+This library creates its own specific exceptions and all of them implements `XmlSchemaValidatorException`.
+Check the [exceptions documentation](docs/Exceptions.md) for more information.
+
+When this library uses LibXML functions, it captures the errors and throw its own exception.
 
 ## Version 1.x is deprecated
 

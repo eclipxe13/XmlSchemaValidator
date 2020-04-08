@@ -1,13 +1,16 @@
 <?php
 
+/** @noinspection PhpUnhandledExceptionInspection */
+
 declare(strict_types=1);
 
 namespace Eclipxe\XmlSchemaValidator\Tests\Unit;
 
 use DOMDocument;
+use Eclipxe\XmlSchemaValidator\Exceptions\ValidationFailException;
+use Eclipxe\XmlSchemaValidator\Exceptions\XmlContentIsInvalidException;
 use Eclipxe\XmlSchemaValidator\Schemas;
 use Eclipxe\XmlSchemaValidator\SchemaValidator;
-use Eclipxe\XmlSchemaValidator\SchemaValidatorException;
 use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 use InvalidArgumentException;
 
@@ -45,7 +48,7 @@ final class SchemaValidatorTest extends TestCase
         libxml_use_internal_errors(false);
         try {
             SchemaValidator::createFromString(' this is not a valid xml ');
-        } catch (SchemaValidatorException $exception) {
+        } catch (XmlContentIsInvalidException $exception) {
             unset($exception);
         }
         $this->assertSame(E_NOTICE, error_reporting());
@@ -76,10 +79,7 @@ final class SchemaValidatorTest extends TestCase
     public function testValidateWithNotEvenSchemaLocations(): void
     {
         $validator = $this->utilCreateValidator('not-even-schemalocations.xml');
-
-        $this->expectException(SchemaValidatorException::class);
-        $this->expectExceptionMessage('must have even number of URIs');
-        $validator->validate();
+        $this->assertFalse($validator->validate());
     }
 
     public function testValidateValidXmlWithSchema(): void
@@ -87,6 +87,7 @@ final class SchemaValidatorTest extends TestCase
         $validator = $this->utilCreateValidator('books-valid.xml');
 
         $this->assertTrue($validator->validate());
+        $this->assertEmpty($validator->getLastError());
     }
 
     public function testValidateValidXmlWithTwoSchemas(): void
@@ -151,7 +152,7 @@ final class SchemaValidatorTest extends TestCase
             $this->utilAssetLocation('empty.xsd')
         );
 
-        $this->expectException(SchemaValidatorException::class);
+        $this->expectException(ValidationFailException::class);
         $this->expectExceptionMessage('Failed to parse the XML resource');
         $validator->validateWithSchemas($schemas);
     }

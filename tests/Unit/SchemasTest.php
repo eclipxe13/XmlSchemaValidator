@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Eclipxe\XmlSchemaValidator\Tests\Unit;
 
 use Countable;
+use Eclipxe\XmlSchemaValidator\Exceptions\NamespaceNotFoundInSchemas;
 use Eclipxe\XmlSchemaValidator\Schema;
 use Eclipxe\XmlSchemaValidator\Schemas;
 use Eclipxe\XmlSchemaValidator\Tests\TestCase;
-use InvalidArgumentException;
 use IteratorAggregate;
 
 /** @covers \Eclipxe\XmlSchemaValidator\Schemas */
@@ -40,7 +40,7 @@ final class SchemasTest extends TestCase
     {
         $ns = 'http://example.com';
         $schemas = new Schemas();
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(NamespaceNotFoundInSchemas::class);
         $this->expectExceptionMessage("Namespace $ns does not exists in the schemas");
         $schemas->item($ns);
     }

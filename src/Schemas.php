@@ -8,7 +8,7 @@ use ArrayIterator;
 use Countable;
 use DOMDocument;
 use DOMElement;
-use InvalidArgumentException;
+use Eclipxe\XmlSchemaValidator\Exceptions\NamespaceNotFoundInSchemas;
 use IteratorAggregate;
 use Traversable;
 
@@ -117,13 +117,13 @@ class Schemas implements IteratorAggregate, Countable
      * Get an schema object by its namespace
      *
      * @param string $namespace
-     * @throws InvalidArgumentException when namespace does not exists on schema
+     * @throws NamespaceNotFoundInSchemas when namespace does not exists on schema
      * @return Schema
      */
     public function item(string $namespace): Schema
     {
-        if (! $this->exists($namespace)) {
-            throw new InvalidArgumentException("Namespace $namespace does not exists in the schemas");
+        if (! array_key_exists($namespace, $this->schemas)) {
+            throw NamespaceNotFoundInSchemas::create($namespace);
         }
         return $this->schemas[$namespace];
     }

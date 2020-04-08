@@ -8,7 +8,12 @@ use DOMAttr;
 use DOMDocument;
 use DOMNodeList;
 use DOMXPath;
-use InvalidArgumentException;
+use Eclipxe\XmlSchemaValidator\Exceptions\SchemaLocationPartsNotEvenException;
+use Eclipxe\XmlSchemaValidator\Exceptions\ValidationFailException;
+use Eclipxe\XmlSchemaValidator\Exceptions\XmlContentIsEmptyException;
+use Eclipxe\XmlSchemaValidator\Exceptions\XmlContentIsInvalidException;
+use Eclipxe\XmlSchemaValidator\Exceptions\XmlSchemaValidatorException;
+use Eclipxe\XmlSchemaValidator\Internal\LibXmlException;
 
 /**
  * This class is an XML schema validator
@@ -21,14 +26,12 @@ class SchemaValidator
     private $document;
 
     /** @var string */
-    private $error = '';
+    private $lastError = '';
 
     /**
      * SchemaValidator constructor.
      *
      * @param DOMDocument $document
-     * @throws InvalidArgumentException when the content to validate is an empty string
-     * @throws SchemaValidatorException when malformed xml document
      */
     public function __construct(DOMDocument $document)
     {
@@ -40,13 +43,13 @@ class SchemaValidator
      *
      * @param string $contents
      * @return self
-     * @throws InvalidArgumentException when the content to validate is an empty string
-     * @throws SchemaValidatorException when malformed xml document
+     * @throws XmlContentIsEmptyException when the xml contents is an empty string
+     * @throws XmlContentIsInvalidException when the xml contents cannot be loaded
      */
     public static function createFromString(string $contents): self
     {
         if ('' === $contents) {
-            throw new InvalidArgumentException('The content to validate must be a non-empty string');
+            throw XmlContentIsEmptyException::create();
         }
         $document = new DOMDocument();
         try {
@@ -54,7 +57,7 @@ class SchemaValidator
                 $document->loadXML($contents);
             });
         } catch (LibXmlException $ex) {
-            throw new SchemaValidatorException('Malformed XML Document: ' . $ex->getMessage(), 0, $ex);
+            throw XmlContentIsInvalidException::create($ex);
         }
         return new self($document);
     }
@@ -63,33 +66,34 @@ class SchemaValidator
      * Validate the content by:
      * - Create the Schemas collection from the document
      * - Validate using validateWithSchemas
+     * - Populate the error property
      *
-     * @see validateWithSchemas
      * @return bool
+     * @see validateWithSchemas
      */
     public function validate(): bool
     {
-        $this->error = '';
+        $this->lastError = '';
         try {
             // create the schemas collection
             $schemas = $this->buildSchemas();
             // validate the document against the schema collection
             $this->validateWithSchemas($schemas);
-        } catch (LibXmlException $ex) {
-            $this->error = $ex->getMessage();
+        } catch (XmlSchemaValidatorException $ex) {
+            $this->lastError = $ex->getMessage();
             return false;
         }
         return true;
     }
 
     /**
-     * Retrieve the last error message
+     * Retrieve the last error message captured on the last validate operation
      *
      * @return string
      */
     public function getLastError(): string
     {
-        return $this->error;
+        return $this->lastError;
     }
 
     /**
@@ -98,7 +102,7 @@ class SchemaValidator
      * @param Schemas $schemas
      * @return void
      *
-     * @throws LibXmlException if schema validation fails
+     * @throws ValidationFailException when schema validation fails
      */
     public function validateWithSchemas(Schemas $schemas): void
     {
@@ -108,16 +112,20 @@ class SchemaValidator
         }
         // build the unique importing schema
         $xsd = $schemas->getImporterXsd();
-        LibXmlException::useInternalErrors(function () use ($xsd): void {
-            $this->document->schemaValidateSource($xsd);
-        });
+        try {
+            LibXmlException::useInternalErrors(function () use ($xsd): void {
+                $this->document->schemaValidateSource($xsd);
+            });
+        } catch (LibXmlException $exception) {
+            throw ValidationFailException::create($exception);
+        }
     }
 
     /**
      * Retrieve a list of namespaces based on the schemaLocation attributes
      *
      * @return Schemas
-     * @throws SchemaValidatorException if the content of schemaLocation is not an even number of uris
+     * @throws SchemaLocationPartsNotEvenException when the schemaLocation attribute does not have even parts
      */
     public function buildSchemas(): Schemas
     {
@@ -154,6 +162,7 @@ class SchemaValidator
      *
      * @param string $content
      * @return Schemas
+     * @throws SchemaLocationPartsNotEvenException when the schemaLocation attribute does not have even parts
      */
     public function buildSchemasFromSchemaLocationValue(string $content): Schemas
     {
@@ -162,9 +171,7 @@ class SchemaValidator
         $partsCount = count($parts);
         // check that the list count is an even number
         if (0 !== $partsCount % 2) {
-            throw new SchemaValidatorException(
-                "The schemaLocation value '$content' must have even number of URIs"
-            );
+            throw SchemaLocationPartsNotEvenException::create($parts);
         }
 
         $schemas = new Schemas();

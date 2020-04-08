@@ -1,6 +1,9 @@
 # CHANGELOG
 
-Notice: This library follows [SEMVER 2.0.0](https://semver.org/spec/v2.0.0.html) convention.
+This library follows [SEMVER 2.0.0](https://semver.org/spec/v2.0.0.html) convention.
+
+Notice: Classes with tag `@internal` are only for internal use, you should not create instances of this
+classes. The library will not export any of these objects outside its own scope.
 
 ## Version 2.1.2 2020-04-05
 

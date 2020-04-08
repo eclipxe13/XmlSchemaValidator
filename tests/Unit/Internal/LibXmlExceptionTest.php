@@ -1,14 +1,16 @@
 <?php
 
+/** @noinspection PhpUnhandledExceptionInspection */
+
 declare(strict_types=1);
 
-namespace Eclipxe\XmlSchemaValidator\Tests\Unit;
+namespace Eclipxe\XmlSchemaValidator\Tests\Unit\Internal;
 
 use DOMDocument;
-use Eclipxe\XmlSchemaValidator\LibXmlException;
+use Eclipxe\XmlSchemaValidator\Internal\LibXmlException;
 use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 
-/** @covers \Eclipxe\XmlSchemaValidator\LibXmlException */
+/** @covers \Eclipxe\XmlSchemaValidator\Internal\LibXmlException */
 final class LibXmlExceptionTest extends TestCase
 {
     public function testCreateFromLibXmlWithoutAnyErrorReturnsNull(): void
@@ -25,7 +27,7 @@ final class LibXmlExceptionTest extends TestCase
         $document = new DOMDocument();
         $document->loadXML('<r>');
         // run the code that create the LibXmlException
-        /** @var LibXmlException|null $foundException */
+        /** @var \Eclipxe\XmlSchemaValidator\Internal\LibXmlException|null $foundException */
         $foundException = null;
         try {
             LibXmlException::useInternalErrors(

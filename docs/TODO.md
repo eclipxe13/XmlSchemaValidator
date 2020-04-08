@@ -4,8 +4,8 @@
 
 ## Completed on version 3.0
 
-- [X] Move sources to namespace `Eclipxe\SchemaValidator`
-- [X] Move tests to namespace `Eclipxe\SchemaValidator\Tests`
+- [X] Move sources to namespace `Eclipxe\XmlSchemaValidator`
+- [X] Move tests to namespace `Eclipxe\XmlSchemaValidator\Tests`
 - [X] `SchemaValidator` should be constructed using a `DOMDocument`
 - [X] `SchemaValidator` should offer a new method `createFromString`
 - [X] PHP Minimal version to 7.2 (or 7.1?)
