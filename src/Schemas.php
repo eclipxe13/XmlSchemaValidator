@@ -30,7 +30,7 @@ class Schemas implements IteratorAggregate, Countable
      */
     public function getImporterXsd(): string
     {
-        $xsd = new DOMDocument('1.0', 'utf-8');
+        $xsd = new DOMDocument('1.0', 'UTF-8');
         $xsd->loadXML('<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"/>');
         /** @var DOMElement $document */
         $document = $xsd->documentElement;

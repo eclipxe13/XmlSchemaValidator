@@ -47,17 +47,25 @@ class SchemaValidator
      */
     public static function createFromString(string $contents): self
     {
+        // do not allow empty string
         if ('' === $contents) {
             throw XmlContentIsEmptyException::create();
         }
-        $document = new DOMDocument();
+
+        // create and load contents throwing specific exception
         try {
-            LibXmlException::useInternalErrors(function () use ($contents, $document): void {
-                $document->loadXML($contents);
-            });
-        } catch (LibXmlException $ex) {
-            throw XmlContentIsInvalidException::create($ex);
+            /** @var DOMDocument $document */
+            $document = LibXmlException::useInternalErrors(
+                function () use ($contents): DOMDocument {
+                    $document = new DOMDocument();
+                    $document->loadXML($contents);
+                    return $document;
+                }
+            );
+        } catch (LibXmlException $exception) {
+            throw XmlContentIsInvalidException::create($exception);
         }
+
         return new self($document);
     }
 
@@ -76,7 +84,7 @@ class SchemaValidator
         try {
             // create the schemas collection
             $schemas = $this->buildSchemas();
-            // validate the document against the schema collection
+            // validate the document using the schema collection
             $this->validateWithSchemas($schemas);
         } catch (XmlSchemaValidatorException $ex) {
             $this->lastError = $ex->getMessage();
@@ -105,12 +113,15 @@ class SchemaValidator
      */
     public function validateWithSchemas(Schemas $schemas): void
     {
-        // create the schemas collection, then validate the document against the schemas
-        if (! $schemas->count()) {
+        // early exit, do not validate if schemas collection is empty
+        if (0 === $schemas->count()) {
             return;
         }
+
         // build the unique importing schema
         $xsd = $schemas->getImporterXsd();
+
+        // validate and trap LibXmlException
         try {
             LibXmlException::useInternalErrors(function () use ($xsd): void {
                 $this->document->schemaValidateSource($xsd);
@@ -133,22 +144,15 @@ class SchemaValidator
 
         // get the http://www.w3.org/2001/XMLSchema-instance namespace (it could not be 'xsi')
         $xsi = $this->document->lookupPrefix('http://www.w3.org/2001/XMLSchema-instance');
-
-        // the namespace is not registered, no need to continue
-        if (! $xsi) {
+        if (! $xsi) { // the namespace is not registered, no need to continue
             return $schemas;
         }
 
         // get all the xsi:schemaLocation attributes in the document
-        /** @var DOMNodeList<DOMAttr>|false $schemasList */
-        $schemasList = $xpath->query("//@$xsi:schemaLocation");
+        /** @var DOMNodeList<DOMAttr> $schemasList */
+        $schemasList = $xpath->query("//@$xsi:schemaLocation") ?: new DOMNodeList();
 
-        // schemaLocation attribute not found, no need to continue
-        if (false === $schemasList || 0 === $schemasList->length) {
-            return $schemas;
-        }
-
-        // process every schemaLocation for even parts
+        // process every schemaLocation and import them into schemas
         foreach ($schemasList as $node) {
             $schemas->import($this->buildSchemasFromSchemaLocationValue($node->nodeValue));
         }
@@ -168,13 +172,14 @@ class SchemaValidator
         // get parts without inner spaces
         $parts = preg_split('/\s+/', $content) ?: [];
         $partsCount = count($parts);
+
         // check that the list count is an even number
         if (0 !== $partsCount % 2) {
             throw SchemaLocationPartsNotEvenException::create($parts);
         }
 
-        $schemas = new Schemas();
         // insert the uris pairs into the schemas
+        $schemas = new Schemas();
         for ($k = 0; $k < $partsCount; $k = $k + 2) {
             $schemas->create($parts[$k], $parts[$k + 1]);
         }
