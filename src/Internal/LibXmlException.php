@@ -37,7 +37,7 @@ class LibXmlException extends Exception
      * @return LibXmlException
      * @throws InvalidArgumentException when an error item is not a LibXmlError
      */
-    public function create(string $message, array $errors)
+    public static function create(string $message, array $errors): self
     {
         /** @var mixed $error psalm found this validation contradictory since $errors is defined as LibXMLError[] */
         foreach ($errors as $index => $error) {

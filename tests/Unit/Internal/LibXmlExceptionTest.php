@@ -9,10 +9,28 @@ namespace Eclipxe\XmlSchemaValidator\Tests\Unit\Internal;
 use DOMDocument;
 use Eclipxe\XmlSchemaValidator\Internal\LibXmlException;
 use Eclipxe\XmlSchemaValidator\Tests\TestCase;
+use LibXMLError;
+use LogicException;
 
 /** @covers \Eclipxe\XmlSchemaValidator\Internal\LibXmlException */
 final class LibXmlExceptionTest extends TestCase
 {
+    public function testConstructorWithEmptyErrors(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('Errors array of LibXmlError is empty');
+        LibXmlException::create('foo', []);
+    }
+
+    public function testConstructorWithNonLibXmlError(): void
+    {
+        /** @var LibXMLError[] $errors */
+        $errors = ['x-index' => (object) []];
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('Error index x-index is not a LibXmlError');
+        LibXmlException::create('foo', $errors);
+    }
+
     public function testCreateFromLibXmlWithoutAnyErrorReturnsNull(): void
     {
         $this->assertNull(LibXmlException::createFromLibXml());
@@ -27,7 +45,7 @@ final class LibXmlExceptionTest extends TestCase
         $document = new DOMDocument();
         $document->loadXML('<r>');
         // run the code that create the LibXmlException
-        /** @var \Eclipxe\XmlSchemaValidator\Internal\LibXmlException|null $foundException */
+        /** @var LibXmlException|null $foundException */
         $foundException = null;
         try {
             LibXmlException::useInternalErrors(
@@ -43,13 +61,11 @@ final class LibXmlExceptionTest extends TestCase
             $this->fail('The LibXmlException was not thrown');
             return;
         }
-        $chain = [];
-        // assertions over the created LibXmlException
-        for ($previous = $foundException; null !== $previous; $previous = $previous->getPrevious()) {
-            $chain[] = $previous->getMessage();
-        }
+
+        /** @var LibXmlException $foundException */
         $this->assertStringStartsWith('Start tag expected', $foundException->getMessage());
-        $this->assertCount(1, $chain, 'It should only exists 1 error');
+        $this->assertCount(1, $foundException->getErrors(), 'It should only exists 1 error');
+        $this->assertContainsOnlyInstancesOf(LibXMLError::class, $foundException->getErrors());
     }
 
     public function testCallUseInternalErrorsRestoreGlobalSettings(): void
