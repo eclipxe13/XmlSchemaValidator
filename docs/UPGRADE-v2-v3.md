@@ -46,3 +46,10 @@ Functions that does not return are defined as `void`.
 
 - `Eclipxe\XmlSchemaValidator => src/`
 - `Eclipxe\XmlSchemaValidator\Tests => tests/`
+
+### Development tools
+
+Development tools (except `PHPUnit`) are installed into `tools/` directory using the tool
+`develop/install-development-tools`.
+
+This helps to memory usage on IDE like `PhpStorm` and to have a light development dependencies on composer.

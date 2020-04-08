@@ -57,27 +57,43 @@ When you do begin working on your feature, here are some guidelines to consider:
 * **Submit one feature per pull request.** If you have multiple features you wish to submit, please break them up into separate pull requests.
 * **Send coherent history**. Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before submitting.
 
+## Install development dependencies
+
+To install development dependencies run:
+
+```shell
+# project dependencies
+composer install
+# development dependencies 
+composer dev:install
+```
+
 ## Check the code style
 
 If you are having issues with coding standars use `php-cs-fixer` and `phpcbf`
 
 ```shell
-vendor/bin/php-cs-fixer fix -v
-vendor/bin/phpcbf src/ tests/
+# using composer
+composer dev:fix-style
+# or
+tools/php-cs-fixer fix -v
+tools/phpcbf src/ tests/
 ```
 
 ## Running Tests
 
 The following tests must pass before we will accept a pull request.
 If any of these do not pass, it will result in a complete build failure.
-Before you can run these, be sure to `composer install` or `composer update`.
 
 ```shell
-vendor/bin/phpcs -sp src/ tests/
-vendor/bin/php-cs-fixer fix -v --dry-run
+# using composer
+composer dev:test
+# or
+tools/phpcs -sp src/ tests/
+tools/php-cs-fixer fix -v --dry-run
 vendor/bin/phpunit --testdox
-vendor/bin/phpstan analyse --level max src/ tests/
-vendor/bin/psalm
+tools/phpstan analyse --level max src/ tests/
+tools/psalm
 ```
 
 ## web server instance while running tests
