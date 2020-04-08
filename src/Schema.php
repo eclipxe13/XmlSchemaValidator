@@ -1,6 +1,8 @@
 <?php
 
-namespace XmlSchemaValidator;
+declare(strict_types=1);
+
+namespace Eclipxe\XmlSchemaValidator;
 
 /**
  * Schema immutable object, used by SchemaValidator and Schemas

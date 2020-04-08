@@ -28,8 +28,12 @@ composer require eclipxe/xmlschemavalidator
 
 ```php
 <?php
+declare(strict_types=1);
+
+use Eclipxe\XmlSchemaValidator\SchemaValidator;
+
 $contents = file_get_contents('example.xml');
-$validator = new \XmlSchemaValidator\SchemaValidator($contents);
+$validator = SchemaValidator::createFromString($contents);
 if (! $validator->validate()) {
     echo 'Found error: ' . $validator->getLastError();
 }
@@ -39,10 +43,15 @@ if (! $validator->validate()) {
 
 ```php
 <?php
+declare(strict_types=1);
+
+use Eclipxe\XmlSchemaValidator\SchemaValidator;
+use Eclipxe\XmlSchemaValidator\Exceptions\ValidationFailException;
+
 // create SchemaValidator using a DOMDocument
-$document = new \DOMDocument();
+$document = new DOMDocument();
 $document->load('example.xml');
-$validator = new \XmlSchemaValidator\SchemaValidator($document);
+$validator = new SchemaValidator($document);
 
 // change schemas collection to override the schema location of an specific namespace
 $schemas = $validator->buildSchemas();
@@ -51,17 +60,17 @@ $schemas->create('http://example.org/schemas/x1', './local-schemas/x1.xsd');
 // validateWithSchemas does not return boolean, it throws an exception
 try {
     $validator->validateWithSchemas($schemas);
-} catch (\XmlSchemaValidator\SchemaValidatorException $ex) {
+} catch (ValidationFailException $ex) {
     echo 'Found error: ' . $ex->getMessage();
 }
 ```
 
-## About libxml errors
+## Exceptions
 
-This library depends on PHP libxml and uses internal errors `libxml_use_internal_errors` to retrieve
-the errors when creates the `DOMDocument` or validate against the schema files.
-Instead of raise an error it creates a `LibXmlException` with the errors chained.
-It also restore the value of `libxml_use_internal_errors` after execution.
+This library creates its own specific exceptions and all of them implements `XmlSchemaValidatorException`.
+Check the [exceptions documentation](docs/Exceptions.md) for more information.
+
+When this library uses LibXML functions, it captures the errors and throw its own exception.
 
 ## Version 1.x is deprecated
 
@@ -71,6 +80,8 @@ Version 2.x breaks this problem and give this library only one propose:
 Validate an XML file against its multiple XSD files, it does not matter where are located.
 
 ## Version 2.x is deprecated
+
+[Migration changes between version 2 and version 3](docs/UPGRADE-v2-v3.md)
 
 Version 2.x was compatible with PHP 7 and was deprecated on 2020-04-05.
 
@@ -88,8 +99,8 @@ The `eclipxe/XmlSchemaValidator` library is copyright © [Carlos C Soto](https:/
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
 [contributing]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/CONTRIBUTING.md
-[changelog]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/CHANGELOG.md
-[todo]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/TODO.md
+[changelog]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/docs/CHANGELOG.md
+[todo]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/docs/TODO.md
 
 [source]: https://github.com/eclipxe13/XmlSchemaValidator
 [release]: https://github.com/eclipxe13/XmlSchemaValidator/releases

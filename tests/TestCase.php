@@ -1,6 +1,8 @@
 <?php
 
-namespace XmlSchemaValidatorTests;
+declare(strict_types=1);
+
+namespace Eclipxe\XmlSchemaValidator\Tests;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -12,6 +14,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function utilAssetLocation($filename)
     {
-        return dirname(__DIR__) . '/assets/' . $filename;
+        return __DIR__ . '/assets/' . $filename;
     }
 }

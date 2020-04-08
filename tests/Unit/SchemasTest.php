@@ -1,23 +1,29 @@
 <?php
 
-namespace XmlSchemaValidatorTests;
+declare(strict_types=1);
 
-use XmlSchemaValidator\Schema;
-use XmlSchemaValidator\Schemas;
+namespace Eclipxe\XmlSchemaValidator\Tests\Unit;
 
-/** @covers \XmlSchemaValidator\Schemas */
+use Countable;
+use Eclipxe\XmlSchemaValidator\Exceptions\NamespaceNotFoundInSchemas;
+use Eclipxe\XmlSchemaValidator\Schema;
+use Eclipxe\XmlSchemaValidator\Schemas;
+use Eclipxe\XmlSchemaValidator\Tests\TestCase;
+use IteratorAggregate;
+
+/** @covers \Eclipxe\XmlSchemaValidator\Schemas */
 final class SchemasTest extends TestCase
 {
-    public function testEmptyObject()
+    public function testEmptyObject(): void
     {
         $schemas = new Schemas();
-        $this->assertInstanceOf(\Countable::class, $schemas, 'The class must implements Countable');
-        $this->assertInstanceOf(\IteratorAggregate::class, $schemas, 'The class must implements IteratorAggregate');
+        $this->assertInstanceOf(Countable::class, $schemas, 'The class must implements Countable');
+        $this->assertInstanceOf(IteratorAggregate::class, $schemas, 'The class must implements IteratorAggregate');
         $this->assertCount(0, $schemas, 'Assert that the count is zero');
         $this->assertSame([], $schemas->all(), 'Assert that the returned array is empty');
     }
 
-    public function testCreateAndGetItem()
+    public function testCreateAndGetItem(): void
     {
         $ns = 'http://example.com';
         $location = 'http://example.com/xsd';
@@ -30,16 +36,16 @@ final class SchemasTest extends TestCase
         $this->assertSame($schema, $schemas->item($ns), 'The object created is the SAME as the object retrieved');
     }
 
-    public function testItemNonExistent()
+    public function testItemNonExistent(): void
     {
         $ns = 'http://example.com';
         $schemas = new Schemas();
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(NamespaceNotFoundInSchemas::class);
         $this->expectExceptionMessage("Namespace $ns does not exists in the schemas");
         $schemas->item($ns);
     }
 
-    public function testInsert()
+    public function testInsert(): void
     {
         $ns = 'http://example.com';
         $location = 'http://example.com/xsd';
@@ -47,6 +53,32 @@ final class SchemasTest extends TestCase
         $schema = $schemas->insert(new Schema($ns, $location));
         $this->assertInstanceOf(Schema::class, $schema, 'The insert method must return a Schema object');
         $this->assertCount(1, $schemas);
+    }
+
+    public function testImport(): void
+    {
+        $source = new Schemas();
+        $source->create('http://example.com/foo', 'foo.xsd');
+        $source->create('http://example.com/bar', 'bar.xsd');
+
+        $schemas = new Schemas();
+        $schemas->create('http://example.com/xee', '001.xsd');
+        $schemas->create('http://example.com/foo', '002.xsd');
+
+        $schemas->import($source);
+        /** @var Schema $baseSchema */
+        foreach ($source as $baseSchema) {
+            $this->assertTrue(
+                $schemas->exists($baseSchema->getNamespace()),
+                "Namespace {$baseSchema->getNamespace()} should exists"
+            );
+            $this->assertSame(
+                $baseSchema,
+                $schemas->item($baseSchema->getNamespace()),
+                "Imported schema object for {$baseSchema->getNamespace()} should be the same"
+            );
+        }
+        $this->assertCount(3, $schemas, 'Imported schemas should have only 3 elements');
     }
 
     /**
@@ -64,7 +96,7 @@ final class SchemasTest extends TestCase
         return $schemas;
     }
 
-    public function testInsertSeveral()
+    public function testInsertSeveral(): void
     {
         $ns = 'http://example.com/';
         $location = 'http://example.com/xsd/';
@@ -75,7 +107,7 @@ final class SchemasTest extends TestCase
         $this->assertSame("{$location}X", $schemas->item("{$ns}1")->getLocation(), 'The old schema was overriten');
     }
 
-    public function testRemove()
+    public function testRemove(): void
     {
         $ns = 'http://example.com/';
         $location = 'http://example.com/xsd/';
@@ -89,7 +121,7 @@ final class SchemasTest extends TestCase
         $this->assertCount(5, $schemas, 'Remove a non existent schema do nothing');
     }
 
-    public function testGetImporterXsdEmpty()
+    public function testGetImporterXsdEmpty(): void
     {
         $basefile = $this->utilAssetLocation('include-template.xsd');
         $this->assertFileExists($basefile, "File $basefile must exists");
@@ -97,7 +129,7 @@ final class SchemasTest extends TestCase
         $this->assertXmlStringEqualsXmlFile($basefile, $schemas->getImporterXsd());
     }
 
-    public function testGetImporterXsdWithContents()
+    public function testGetImporterXsdWithContents(): void
     {
         $basefile = $this->utilAssetLocation('include-realurls.xsd');
         $this->assertFileExists($basefile, "File $basefile must exists");
@@ -115,7 +147,7 @@ final class SchemasTest extends TestCase
         $this->assertXmlStringEqualsXmlFile($basefile, $schemas->getImporterXsd());
     }
 
-    public function testIteratorAggregate()
+    public function testIteratorAggregate(): void
     {
         $data = [
             new Schema('a', 'aaa'),

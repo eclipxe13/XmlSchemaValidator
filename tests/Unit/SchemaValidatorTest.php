@@ -1,26 +1,33 @@
 <?php
 
-namespace XmlSchemaValidatorTests;
+/** @noinspection PhpUnhandledExceptionInspection */
+
+declare(strict_types=1);
+
+namespace Eclipxe\XmlSchemaValidator\Tests\Unit;
 
 use DOMDocument;
-use XmlSchemaValidator\Schemas;
-use XmlSchemaValidator\SchemaValidator;
-use XmlSchemaValidator\SchemaValidatorException;
+use Eclipxe\XmlSchemaValidator\Exceptions\ValidationFailException;
+use Eclipxe\XmlSchemaValidator\Exceptions\XmlContentIsInvalidException;
+use Eclipxe\XmlSchemaValidator\Schemas;
+use Eclipxe\XmlSchemaValidator\SchemaValidator;
+use Eclipxe\XmlSchemaValidator\Tests\TestCase;
+use InvalidArgumentException;
 
-/** @covers \XmlSchemaValidator\SchemaValidator */
+/** @covers \Eclipxe\XmlSchemaValidator\SchemaValidator */
 final class SchemaValidatorTest extends TestCase
 {
-    public function utilCreateValidator($file)
+    public function utilCreateValidator(string $file): SchemaValidator
     {
         $location = $this->utilAssetLocation($file);
         if (! file_exists($location)) {
             $this->markTestSkipped("The file $location was not found");
         }
         $content = (string) file_get_contents($location);
-        return new SchemaValidator($content);
+        return SchemaValidator::createFromString($content);
     }
 
-    public function testConstructUsingExistingDocument()
+    public function testConstructUsingExistingDocument(): void
     {
         $document = new DOMDocument();
         $document->load($this->utilAssetLocation('books-valid.xml'));
@@ -28,27 +35,27 @@ final class SchemaValidatorTest extends TestCase
         $this->assertTrue(true, 'Expected no exception creating the schema validator using a DOMDocument');
     }
 
-    public function testConstructorWithEmptyString()
+    public function testConstructorWithEmptyString(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('empty');
-        new SchemaValidator('');
+        SchemaValidator::createFromString('');
     }
 
-    public function testValidatePreserveGlobalEnvironment()
+    public function testValidatePreserveGlobalEnvironment(): void
     {
         error_reporting(E_NOTICE);
         libxml_use_internal_errors(false);
         try {
-            new SchemaValidator(' this is not a valid xml ');
-        } catch (SchemaValidatorException $exception) {
+            SchemaValidator::createFromString(' this is not a valid xml ');
+        } catch (XmlContentIsInvalidException $exception) {
             unset($exception);
         }
         $this->assertSame(E_NOTICE, error_reporting());
         $this->assertSame(false, libxml_use_internal_errors());
     }
 
-    public function testValidateWithNoSchema()
+    public function testValidateWithNoSchema(): void
     {
         $validator = $this->utilCreateValidator('xml-without-schemas.xml');
         $this->assertTrue(
@@ -57,35 +64,33 @@ final class SchemaValidatorTest extends TestCase
         );
     }
 
-    public function testValidateWithVariousWhitespaceInSchemaDeclaration()
+    public function testValidateWithVariousWhitespaceInSchemaDeclaration(): void
     {
         $validator = $this->utilCreateValidator('books-valid-with-extra-whitespace-in-schema-declaration.xml');
         $this->assertTrue($validator->validate());
     }
 
-    public function testValidateWithNotListedSchemaLocations()
+    public function testValidateWithNotListedSchemaLocations(): void
     {
         $validator = $this->utilCreateValidator('not-listed-schemalocations.xml');
         $this->assertTrue($validator->validate());
     }
 
-    public function testValidateWithNotEvenSchemaLocations()
+    public function testValidateWithNotEvenSchemaLocations(): void
     {
         $validator = $this->utilCreateValidator('not-even-schemalocations.xml');
-
-        $this->expectException(SchemaValidatorException::class);
-        $this->expectExceptionMessage('must have even number of URIs');
-        $validator->validate();
+        $this->assertFalse($validator->validate());
     }
 
-    public function testValidateValidXmlWithSchema()
+    public function testValidateValidXmlWithSchema(): void
     {
         $validator = $this->utilCreateValidator('books-valid.xml');
 
         $this->assertTrue($validator->validate());
+        $this->assertEmpty($validator->getLastError());
     }
 
-    public function testValidateValidXmlWithTwoSchemas()
+    public function testValidateValidXmlWithTwoSchemas(): void
     {
         $validator = $this->utilCreateValidator('ticket-valid.xml');
 
@@ -93,31 +98,31 @@ final class SchemaValidatorTest extends TestCase
         $this->assertEmpty($validator->getLastError());
     }
 
-    public function testValidateInvalidXmlOnlyOneSchema()
+    public function testValidateInvalidXmlOnlyOneSchema(): void
     {
         $validator = $this->utilCreateValidator('books-invalid.xml');
 
         $this->assertFalse($validator->validate());
-        $this->assertContains("The attribute 'serie' is required but missing", $validator->getLastError());
+        $this->assertStringContainsString("The attribute 'serie' is required but missing", $validator->getLastError());
     }
 
-    public function testValidateInvalidXmlFirstSchemas()
+    public function testValidateInvalidXmlFirstSchemas(): void
     {
         $validator = $this->utilCreateValidator('ticket-invalid-ticket.xml');
 
         $this->assertFalse($validator->validate());
-        $this->assertContains("The attribute 'notes' is required but missing", $validator->getLastError());
+        $this->assertStringContainsString("The attribute 'notes' is required but missing", $validator->getLastError());
     }
 
-    public function testValidateInvalidXmlSecondSchemas()
+    public function testValidateInvalidXmlSecondSchemas(): void
     {
         $validator = $this->utilCreateValidator('ticket-invalid-book.xml');
 
         $this->assertFalse($validator->validate());
-        $this->assertContains("The attribute 'serie' is required but missing", $validator->getLastError());
+        $this->assertStringContainsString("The attribute 'serie' is required but missing", $validator->getLastError());
     }
 
-    public function testValidateWithSchemasUsingRemote()
+    public function testValidateWithSchemasUsingRemote(): void
     {
         $validator = $this->utilCreateValidator('books-valid.xml');
         $schemas = new Schemas();
@@ -126,7 +131,7 @@ final class SchemaValidatorTest extends TestCase
         $this->assertTrue(true, 'validateWithSchemas did not throw any exception');
     }
 
-    public function testValidateWithSchemasUsingLocal()
+    public function testValidateWithSchemasUsingLocal(): void
     {
         $validator = $this->utilCreateValidator('books-valid.xml');
         $schemas = new Schemas();
@@ -138,7 +143,7 @@ final class SchemaValidatorTest extends TestCase
         $this->assertTrue(true, 'validateWithSchemas did not throw any exception');
     }
 
-    public function testValidateWithEmptySchema()
+    public function testValidateWithEmptySchema(): void
     {
         $validator = $this->utilCreateValidator('books-valid.xml');
         $schemas = new Schemas();
@@ -147,7 +152,7 @@ final class SchemaValidatorTest extends TestCase
             $this->utilAssetLocation('empty.xsd')
         );
 
-        $this->expectException(SchemaValidatorException::class);
+        $this->expectException(ValidationFailException::class);
         $this->expectExceptionMessage('Failed to parse the XML resource');
         $validator->validateWithSchemas($schemas);
     }
