@@ -6,14 +6,14 @@ php: ["7.3", "7.4"]
 before_script:
   - phpenv config-rm xdebug.ini || true
   - travis_retry composer install --no-interaction --no-progress --prefer-dist
-  - travis_retry composer dev:install
+  - composer dev:install
 
 script:
-  - vendor/bin/phpcs -sp src/ tests/
-  - vendor/bin/php-cs-fixer fix --dry-run --verbose
+  - tools/phpcs -sp src/ tests/
+  - tools/php-cs-fixer fix --dry-run --verbose
   - vendor/bin/phpunit --verbose
-  - vendor/bin/phpstan analyse --no-progress --level max src/ tests/
-  - vendor/bin/psalm --no-progress
+  - tools/phpstan analyse --no-progress --level max src/ tests/
+  - tools/psalm --no-progress
 
 notifications:
   email:
