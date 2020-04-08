@@ -5,6 +5,16 @@ This library follows [SEMVER 2.0.0](https://semver.org/spec/v2.0.0.html) convent
 Notice: Classes with tag `@internal` are only for internal use, you should not create instances of this
 classes. The library will not export any of these objects outside its own scope.
 
+## Version 3.0.0 2020-04-08
+
+- Lot of breacking changes has been made, see [upgrade from version `2.x` to `3.x`](UPGRADE-v2-v3.md).
+- Namespace change from `\XmlSchemaValidator` to `\Eclipxe\XmlSchemaValidator`.
+- Now uses named exceptions, see [exceptions documentation](Exceptions.md).
+- Minimal PHP version is PHP 7.3.
+- `LibXmlException` is not `@internal`. Do not use it outside this project.
+- `SchemaValidator` constructor uses `DOMDocument`.
+  To create it from a XML content use `SchemaValidator::createFromString`.
+
 ## Version 2.1.2 2020-04-05
 
 - Internal change to split namespace and xsd location using `preg_split`.
