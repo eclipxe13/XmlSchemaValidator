@@ -8,9 +8,7 @@ use RuntimeException;
 
 final class SchemaLocationPartsNotEvenException extends RuntimeException implements XmlSchemaValidatorException
 {
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private $parts;
 
     /**
@@ -35,13 +33,20 @@ final class SchemaLocationPartsNotEvenException extends RuntimeException impleme
     }
 
     /**
+     * Return the parts found on the schemaLocations attribute
+     *
      * @return string[]
      */
-    public function getParts()
+    public function getParts(): array
     {
         return $this->parts;
     }
 
+    /**
+     * Return the parts found on the schemaLocations attribute separated by a space
+     *
+     * @return string
+     */
     public function getPartsAsString(): string
     {
         return implode(' ', $this->parts);
