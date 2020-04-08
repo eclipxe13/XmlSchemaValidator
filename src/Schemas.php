@@ -57,7 +57,7 @@ class Schemas implements IteratorAggregate, Countable
     }
 
     /**
-     * Insert a schema to the collection
+     * Insert (add or replace) a schema to the collection
      * The returned object is the same schema
      *
      * @param Schema $schema
@@ -76,7 +76,7 @@ class Schemas implements IteratorAggregate, Countable
      */
     public function import(self $schemas): void
     {
-        foreach ($schemas as $schema) {
+        foreach ($schemas->getIterator() as $schema) {
             $this->insert($schema);
         }
     }

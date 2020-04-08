@@ -11,7 +11,7 @@ an XML string use the static method `SchemaValidator::createFromString`.
 
 The namespace changes from `\XmlSchemaValidator` to `\Eclipxe\XmlSchemaValidator`.
 
-This is because the project was not following the `vendor\product` convension.
+This is because the project was not following the `vendor\product` convention.
 
 ### Exceptions
 

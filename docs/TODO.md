@@ -1,7 +1,5 @@
 # eclipxe/XmlSchemaValidator To Do
 
-- [ ] Document usage examples
-
 ## Completed on version 3.0
 
 - [X] Move sources to namespace `Eclipxe\XmlSchemaValidator`
@@ -13,6 +11,7 @@
     - Build on Travis-CI on 7.0 removes vimeo/psalm & phpstan/phpstan, else runs psalm & phpstan  
 - [X] Use strict types
 - [X] Review all docblocks, remove or justify
+- [X] Change file locations to library standards
 
 ## Completed
 

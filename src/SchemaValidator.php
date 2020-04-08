@@ -17,8 +17,7 @@ use Eclipxe\XmlSchemaValidator\Internal\LibXmlException;
 
 /**
  * This class is an XML schema validator
- * It is needed because some XML can contain more than one external schema
- * and DOM library fails to load it.
+ * It is needed because some XML can contain more than one external schema and DOM library fails to load it.
  */
 class SchemaValidator
 {
