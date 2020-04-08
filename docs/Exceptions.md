@@ -9,7 +9,7 @@ The class throws its own exceptions, all the exceptions implements `XmlSchemaVal
 This exception extends of `InvalidArgumentException` and is thrown from `SchemaValidator::createFromString`
 when you pass an empty string, to avoid this exception validate previously that the xml content is not empty.
 
-### `XmlContentIsEmptyException`
+### `XmlContentIsInvalidException`
 
 This exception extends of `InvalidArgumentException` and is thrown from `SchemaValidator::createFromString`
 when you pass a string that was not able to load as xmlbecause of malformed xml or any other libxml error.

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Eclipxe\XmlSchemaValidator\Exceptions;
 
-use LogicException;
+use InvalidArgumentException;
 use Throwable;
 
-final class XmlContentIsInvalidException extends LogicException implements XmlSchemaValidatorException
+final class XmlContentIsInvalidException extends InvalidArgumentException implements XmlSchemaValidatorException
 {
     private function __construct(string $message, Throwable $previous)
     {
