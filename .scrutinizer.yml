@@ -9,7 +9,7 @@ build:
       - composer self-update --no-interaction --no-progress
       - composer install --no-interaction --no-progress
   nodes:
-    php:
+    analysis:
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
