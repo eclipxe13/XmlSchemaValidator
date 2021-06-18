@@ -36,6 +36,27 @@ final class LibXmlExceptionTest extends TestCase
         $this->assertNull(LibXmlException::createFromLibXml());
     }
 
+    public function testCreateFromLibXmlWithErrors(): void
+    {
+        $errorReporting = error_reporting(0);
+        $libXmlUseInternalErrors = libxml_use_internal_errors(true);
+        try {
+            $document = new DOMDocument();
+            $document->loadXML('<root invalid xml');
+            $errorsBeforeCreateLibXmlException = libxml_get_errors();
+            $libXmlException = LibXmlException::createFromLibXml();
+            $errorsAfterCreateLibXmlException = libxml_get_errors();
+        } finally {
+            error_reporting($errorReporting);
+            libxml_use_internal_errors($libXmlUseInternalErrors);
+        }
+
+        $this->assertNotEmpty($errorsBeforeCreateLibXmlException, 'It must have at least one error');
+        $this->assertEmpty($errorsAfterCreateLibXmlException, 'It must have empty list of errors');
+        /** @var LibXmlException $libXmlException */
+        $this->assertNotEmpty($libXmlException->getErrors(), 'LibXmlErrors must be captured inside LibXmlException');
+    }
+
     public function testCallUseInternalErrorsCatchOnlyTheError(): void
     {
         // setup to use internal errors and disable error reporting
@@ -59,7 +80,6 @@ final class LibXmlExceptionTest extends TestCase
         }
         if (null === $foundException) {
             $this->fail('The LibXmlException was not thrown');
-            return;
         }
 
         /** @var LibXmlException $foundException */

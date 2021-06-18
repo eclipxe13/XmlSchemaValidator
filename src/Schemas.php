@@ -32,7 +32,7 @@ class Schemas implements IteratorAggregate, Countable
     {
         $xsd = new DOMDocument('1.0', 'UTF-8');
         $xsd->loadXML('<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"/>');
-        /** @var DOMElement $document */
+        /** @phpstan-var DOMElement $document */
         $document = $xsd->documentElement;
         foreach ($this->schemas as $schema) {
             $node = $xsd->createElementNS('http://www.w3.org/2001/XMLSchema', 'import');

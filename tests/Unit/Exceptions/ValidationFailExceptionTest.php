@@ -9,7 +9,7 @@ use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 use Exception;
 use RuntimeException;
 
-class ValidationFailExceptionTest extends TestCase
+final class ValidationFailExceptionTest extends TestCase
 {
     public function testCreate(): void
     {

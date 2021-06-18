@@ -147,6 +147,20 @@ final class SchemasTest extends TestCase
         $this->assertXmlStringEqualsXmlFile($basefile, $schemas->getImporterXsd());
     }
 
+    public function testGetImporterXsdWithBackSlashes(): void
+    {
+        $schemas = new Schemas();
+        $schemas->create('http://tempuri.org/foo', '\C:\XSD\foo.xsd');
+
+        $expectedXml = <<<'XML'
+            <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+              <xs:import namespace="http://tempuri.org/foo" schemaLocation="/C:/XSD/foo.xsd"/>
+            </xs:schema>
+            XML;
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $schemas->getImporterXsd());
+    }
+
     public function testIteratorAggregate(): void
     {
         $data = [

@@ -8,7 +8,7 @@ use Eclipxe\XmlSchemaValidator\Exceptions\XmlContentIsEmptyException;
 use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 use InvalidArgumentException;
 
-class XmlContentIsEmptyExceptionTest extends TestCase
+final class XmlContentIsEmptyExceptionTest extends TestCase
 {
     public function testCreate(): void
     {

@@ -9,7 +9,7 @@ use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 use Exception;
 use InvalidArgumentException;
 
-class XmlContentIsInvalidExceptionTest extends TestCase
+final class XmlContentIsInvalidExceptionTest extends TestCase
 {
     public function testCreate(): void
     {

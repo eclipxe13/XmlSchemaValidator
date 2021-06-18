@@ -98,22 +98,22 @@ and don't forget to take a look in the [TODO][] and [CHANGELOG][] files.
 The `eclipxe/XmlSchemaValidator` library is copyright © [Carlos C Soto](https://eclipxe.com.mx/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
-[contributing]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/CONTRIBUTING.md
-[changelog]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/docs/CHANGELOG.md
-[todo]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/docs/TODO.md
+[contributing]: https://github.com/eclipxe13/XmlSchemaValidator/blob/main/CONTRIBUTING.md
+[changelog]: https://github.com/eclipxe13/XmlSchemaValidator/blob/main/docs/CHANGELOG.md
+[todo]: https://github.com/eclipxe13/XmlSchemaValidator/blob/main/docs/TODO.md
 
 [source]: https://github.com/eclipxe13/XmlSchemaValidator
 [release]: https://github.com/eclipxe13/XmlSchemaValidator/releases
-[license]: https://github.com/eclipxe13/XmlSchemaValidator/blob/master/LICENSE
-[build]: https://travis-ci.com/eclipxe13/XmlSchemaValidator?branch=master
+[license]: https://github.com/eclipxe13/XmlSchemaValidator/blob/main/LICENSE
+[build]: https://github.com/eclipxe13/XmlSchemaValidator/actions/workflows/build.yml?query=branch:main
 [quality]: https://scrutinizer-ci.com/g/eclipxe13/XmlSchemaValidator/
-[coverage]: https://scrutinizer-ci.com/g/eclipxe13/XmlSchemaValidator/code-structure/master
+[coverage]: https://scrutinizer-ci.com/g/eclipxe13/XmlSchemaValidator/code-structure/main
 [downloads]: https://packagist.org/packages/eclipxe/xmlschemavalidator
 
 [badge-source]: https://img.shields.io/badge/source-eclipxe13/XmlSchemaValidator-blue.svg?style=flat-square
 [badge-release]: https://img.shields.io/github/release/eclipxe13/XmlSchemaValidator.svg?style=flat-square
 [badge-license]: https://img.shields.io/github/license/eclipxe13/XmlSchemaValidator.svg?style=flat-square
-[badge-build]: https://img.shields.io/travis/com/eclipxe13/XmlSchemaValidator/master.svg?style=flat-square
-[badge-quality]: https://img.shields.io/scrutinizer/g/eclipxe13/XmlSchemaValidator/master.svg?style=flat-square
-[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/eclipxe13/XmlSchemaValidator/master.svg?style=flat-square
+[badge-build]: https://img.shields.io/github/workflow/status/eclipxe13/XmlSchemaValidator/build/main?style=flat-square
+[badge-quality]: https://img.shields.io/scrutinizer/g/eclipxe13/XmlSchemaValidator/main.svg?style=flat-square
+[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/eclipxe13/XmlSchemaValidator/main.svg?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/eclipxe/xmlschemavalidator.svg?style=flat-square

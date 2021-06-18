@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
-<psalm
-    totallyTyped="true"
+<psalm xmlns="https://getpsalm.org/schema/config"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://getpsalm.org/schema/config https://psalm.dev/schema/config"
     errorLevel="1"
     resolveFromConfigFile="true"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
         <directory name="src" />
@@ -13,4 +11,18 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+
+    <issueHandlers>
+        <UnnecessaryVarAnnotation>
+            <!--
+            UnnecessaryVarAnnotation - src/Schemas.php:35:26 - The @var DOMElement annotation for $document is unnecessary
+            https://github.com/vimeo/psalm/issues/2270
+            https://github.com/vimeo/psalm/issues/3088
+            -->
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </UnnecessaryVarAnnotation>
+    </issueHandlers>
+
 </psalm>
