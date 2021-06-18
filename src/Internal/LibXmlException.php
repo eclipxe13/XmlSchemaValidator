@@ -10,6 +10,8 @@ use LibXMLError;
 
 class LibXmlException extends Exception
 {
+    private const ERROR_LEVEL_SUPRESS_ALL = 0;
+
     /** @var LibXMLError[] */
     private $errors;
 
@@ -72,9 +74,8 @@ class LibXmlException extends Exception
             return null;
         }
         libxml_clear_errors();
-        /** @var LibXMLError $error */
         $error = end($errors);
-        return new self($error->message, $errors);
+        return self::create($error->message, $errors);
     }
 
     /**
@@ -92,8 +93,7 @@ class LibXmlException extends Exception
     public static function useInternalErrors(callable $callable)
     {
         // capture current error reporting level and set to no-errors
-        $previousErrorReporting = error_reporting();
-        error_reporting(0);
+        $previousErrorReporting = error_reporting(self::ERROR_LEVEL_SUPRESS_ALL);
 
         // capture current libxml use internal errors and set to true
         $previousLibXmlUseInternalErrors = libxml_use_internal_errors(true);

@@ -9,6 +9,7 @@ namespace Eclipxe\XmlSchemaValidator\Tests\Unit;
 use DOMDocument;
 use Eclipxe\XmlSchemaValidator\Exceptions\ValidationFailException;
 use Eclipxe\XmlSchemaValidator\Exceptions\XmlContentIsInvalidException;
+use Eclipxe\XmlSchemaValidator\Schema;
 use Eclipxe\XmlSchemaValidator\Schemas;
 use Eclipxe\XmlSchemaValidator\SchemaValidator;
 use Eclipxe\XmlSchemaValidator\Tests\TestCase;
@@ -31,6 +32,7 @@ final class SchemaValidatorTest extends TestCase
     {
         $document = new DOMDocument();
         $document->load($this->utilAssetLocation('books-valid.xml'));
+        /** @noinspection PhpExpressionResultUnusedInspection */
         new SchemaValidator($document);
         $this->assertTrue(true, 'Expected no exception creating the schema validator using a DOMDocument');
     }
@@ -155,5 +157,44 @@ final class SchemaValidatorTest extends TestCase
         $this->expectException(ValidationFailException::class);
         $this->expectExceptionMessage('Failed to parse the XML resource');
         $validator->validateWithSchemas($schemas);
+    }
+
+    public function testBuildSchemas(): void
+    {
+        $expected = [
+            'http://test.org/schemas/books' => 'http://localhost:8999/xsd/books.xsd',
+        ];
+        $validator = $this->utilCreateValidator('books-valid.xml');
+        $schemas = $validator->buildSchemas();
+
+        $retrieved = [];
+        /** @var Schema $schema */
+        foreach ($schemas as $schema) {
+            $retrieved[$schema->getNamespace()] = $schema->getLocation();
+        }
+        $this->assertSame($expected, $retrieved);
+    }
+
+    public function testBuildSchemasFromSchemaLocationValue(): void
+    {
+        $validator = $this->utilCreateValidator('books-valid.xml');
+        $parts = [
+            'uri:foo',
+            'foo.xsd',
+            '  uri:bar',
+            "\nbar.xsd",
+            "\turi:xee \r\n",
+            "\nxee.xsd \r\n",
+        ];
+        $schemaLocationValue = implode(' ', $parts);
+        $expectedParts = array_map('trim', $parts);
+        $schemas = $validator->buildSchemasFromSchemaLocationValue($schemaLocationValue);
+        $retrievedParts = [];
+        /** @var Schema $schema */
+        foreach ($schemas as $schema) {
+            $retrievedParts[] = $schema->getNamespace();
+            $retrievedParts[] = $schema->getLocation();
+        }
+        $this->assertSame($expectedParts, $retrievedParts);
     }
 }

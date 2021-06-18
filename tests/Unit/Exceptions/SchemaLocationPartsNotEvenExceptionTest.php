@@ -8,7 +8,7 @@ use Eclipxe\XmlSchemaValidator\Exceptions\SchemaLocationPartsNotEvenException;
 use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 use RuntimeException;
 
-class SchemaLocationPartsNotEvenExceptionTest extends TestCase
+final class SchemaLocationPartsNotEvenExceptionTest extends TestCase
 {
     public function testCreate(): void
     {

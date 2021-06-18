@@ -7,7 +7,8 @@
     "authors": [
         {
             "name": "Carlos C Soto",
-            "email": "eclipxe13@gmail.com"
+            "email": "eclipxe13@gmail.com",
+            "homepage": "https://eclipxe.com.mx/"
         }
     ],
     "support": {
@@ -20,7 +21,7 @@
         "ext-libxml": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.1"
+        "phpunit/phpunit": "^9.5.5"
     },
     "autoload": {
         "psr-4": {
@@ -38,21 +39,25 @@
         ],
         "dev:build": ["@dev:fix-style", "@dev:test"],
         "dev:check-style": [
-            "tools/php-cs-fixer fix --dry-run --verbose",
-            "tools/phpcs --colors -sp src/ tests/"
+            "@php tools/php-cs-fixer fix --dry-run --verbose",
+            "@php tools/phpcs --colors -sp"
         ],
         "dev:fix-style": [
-            "tools/php-cs-fixer fix --verbose",
-            "tools/phpcbf --colors -sp src/ tests/"
+            "@php tools/php-cs-fixer fix --verbose",
+            "@php tools/phpcbf --colors -sp"
         ],
         "dev:test": [
             "@dev:check-style",
-            "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "tools/phpstan analyse --no-progress --level max src/ tests/",
-            "tools/psalm --no-progress"
+            "@php vendor/bin/phpunit --testdox --verbose --stop-on-failure",
+            "@php tools/phpstan analyse --no-progress",
+            "@php tools/psalm --no-progress",
+            "@dev:infection"
         ],
         "dev:coverage": [
-            "@php -dzend_extension=xdebug.so vendor/bin/phpunit --testdox --coverage-html build/coverage/html/"
+            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --verbose --coverage-html build/coverage/html/"
+        ],
+        "dev:infection": [
+            "@php tools/infection --initial-tests-php-options='-dzend_extension=xdebug.so -dxdebug.mode=coverage' --show-mutations --no-progress"
         ]
     },
     "scripts-descriptions": {
@@ -60,7 +65,8 @@
         "dev:build": "DEV: run dev:fix-style dev:tests and dev:docs, run before pull request",
         "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
         "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
-        "dev:test": "DEV: run phplint, dev:check-style, phpunit, phpstan and psalm",
-        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
+        "dev:test": "DEV: run dev:fix-style, dev:check-style, phpunit, phpstan, psalm and infection",
+        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/",
+        "dev:infection": "DEV: run mutation tests using infection"
     }
 }

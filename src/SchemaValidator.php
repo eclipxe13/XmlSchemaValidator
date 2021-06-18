@@ -170,7 +170,7 @@ class SchemaValidator
     public function buildSchemasFromSchemaLocationValue(string $content): Schemas
     {
         // get parts without inner spaces
-        $parts = preg_split('/\s+/', $content) ?: [];
+        $parts = array_filter(preg_split('/\s+/', $content) ?: []);
         $partsCount = count($parts);
 
         // check that the list count is an even number

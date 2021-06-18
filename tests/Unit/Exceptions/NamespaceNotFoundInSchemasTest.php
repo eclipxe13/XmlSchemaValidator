@@ -8,7 +8,7 @@ use Eclipxe\XmlSchemaValidator\Exceptions\NamespaceNotFoundInSchemas;
 use Eclipxe\XmlSchemaValidator\Tests\TestCase;
 use OutOfRangeException;
 
-class NamespaceNotFoundInSchemasTest extends TestCase
+final class NamespaceNotFoundInSchemasTest extends TestCase
 {
     public function testCreate(): void
     {
