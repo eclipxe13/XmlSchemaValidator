@@ -1,11 +1,9 @@
 name: build
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
   push:
-    branches:
-      - main
+    branches: [ main ]
   schedule:
     - cron: '0 16 * * 0' # sunday 16:00
 
@@ -26,7 +24,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
-          extensions: filter, fileinfo, dom
+          extensions: libxml, dom
           coverage: xdebug
           tools: composer:v2, cs2pr, phpcs, php-cs-fixer, phpstan, psalm, infection
         env:
@@ -90,7 +88,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: filter, fileinfo, dom
+          extensions: libxml, dom
           coverage: none
           tools: composer:v2, cs2pr
         env:
