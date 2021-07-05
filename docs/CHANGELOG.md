@@ -5,6 +5,13 @@ This library follows [SEMVER 2.0.0](https://semver.org/spec/v2.0.0.html) convent
 Notice: Classes with tag `@internal` are only for internal use, you should not create instances of this
 classes. The library will not export any of these objects outside its own scope.
 
+## Unreleased changes
+
+-2021-07-05: GitHub Actions has been failing on testing step.
+
+`SchemaValidatorTest` now is more verbose on validations, hopping this messages let me know what the problem is.
+This problem was unable to reproduce on local or `act`.
+
 ## Version 3.0.1 2020-06-18
 
 Source Code:

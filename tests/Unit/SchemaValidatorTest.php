@@ -69,59 +69,70 @@ final class SchemaValidatorTest extends TestCase
     public function testValidateWithVariousWhitespaceInSchemaDeclaration(): void
     {
         $validator = $this->utilCreateValidator('books-valid-with-extra-whitespace-in-schema-declaration.xml');
-        $this->assertTrue($validator->validate());
+        $valid = $validator->validate();
+        $this->assertEquals('', $validator->getLastError(), 'Last error should be empty');
+        $this->assertTrue($valid);
     }
 
     public function testValidateWithNotListedSchemaLocations(): void
     {
         $validator = $this->utilCreateValidator('not-listed-schemalocations.xml');
-        $this->assertTrue($validator->validate());
+        $valid = $validator->validate();
+        $this->assertEquals('', $validator->getLastError(), 'Last error should be empty');
+        $this->assertTrue($valid);
     }
 
     public function testValidateWithNotEvenSchemaLocations(): void
     {
         $validator = $this->utilCreateValidator('not-even-schemalocations.xml');
-        $this->assertFalse($validator->validate());
+        $valid = $validator->validate();
+        $this->assertNotEquals('', $validator->getLastError(), 'Last error should contain a message');
+        $this->assertFalse($valid);
     }
 
     public function testValidateValidXmlWithSchema(): void
     {
         $validator = $this->utilCreateValidator('books-valid.xml');
 
-        $this->assertTrue($validator->validate());
-        $this->assertEmpty($validator->getLastError());
+        $valid = $validator->validate();
+        $this->assertEquals('', $validator->getLastError(), 'Last error should be empty');
+        $this->assertTrue($valid);
     }
 
     public function testValidateValidXmlWithTwoSchemas(): void
     {
         $validator = $this->utilCreateValidator('ticket-valid.xml');
 
-        $this->assertTrue($validator->validate());
-        $this->assertEmpty($validator->getLastError());
+        $valid = $validator->validate();
+        $this->assertEquals('', $validator->getLastError(), 'Last error should be empty');
+        $this->assertTrue($valid);
     }
 
     public function testValidateInvalidXmlOnlyOneSchema(): void
     {
         $validator = $this->utilCreateValidator('books-invalid.xml');
 
-        $this->assertFalse($validator->validate());
+        $valid = $validator->validate();
         $this->assertStringContainsString("The attribute 'serie' is required but missing", $validator->getLastError());
+        $this->assertFalse($valid);
     }
 
     public function testValidateInvalidXmlFirstSchemas(): void
     {
         $validator = $this->utilCreateValidator('ticket-invalid-ticket.xml');
 
-        $this->assertFalse($validator->validate());
+        $valid = $validator->validate();
         $this->assertStringContainsString("The attribute 'notes' is required but missing", $validator->getLastError());
+        $this->assertFalse($valid);
     }
 
     public function testValidateInvalidXmlSecondSchemas(): void
     {
         $validator = $this->utilCreateValidator('ticket-invalid-book.xml');
 
-        $this->assertFalse($validator->validate());
+        $valid = $validator->validate();
         $this->assertStringContainsString("The attribute 'serie' is required but missing", $validator->getLastError());
+        $this->assertFalse($valid);
     }
 
     public function testValidateWithSchemasUsingRemote(): void
