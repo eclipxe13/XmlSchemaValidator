@@ -2,7 +2,7 @@
 
 This library follows [SEMVER 2.0.0](https://semver.org/spec/v2.0.0.html) convention.
 
-Notice: Classes with tag `@internal` are only for internal use, you should not create instances of this
+Notice: Classes with tag `@internal` are only for internal use, you should not create instances of these
 classes. The library will not export any of these objects outside its own scope.
 
 ## Unreleased changes
@@ -88,7 +88,7 @@ Development environment:
   `eclipxe/xmlresourceretriever` https://github.com/eclipxe13/XmlResourceRetriever/
 - Constructor of `SchemaValidator` and `Schemas` changed.
 - Add new method `SchemaValidator::validateWithSchemas` that do the same
-  thing than `SchemaValidator::validate` but you must provide the `Schemas` collection
+  thing as `SchemaValidator::validate` but you must provide the `Schemas` collection
 - Change from `protected` to `public` the method `SchemaValidator::buildSchemas`,
   it's usefull when used with `SchemaValidator::validateWithSchemas` to change
   XSD remote locations to local or other places.

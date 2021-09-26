@@ -53,7 +53,7 @@ $document = new DOMDocument();
 $document->load('example.xml');
 $validator = new SchemaValidator($document);
 
-// change schemas collection to override the schema location of an specific namespace
+// change schemas collection to override the schema location of a specific namespace
 $schemas = $validator->buildSchemas();
 $schemas->create('http://example.org/schemas/x1', './local-schemas/x1.xsd');
 
@@ -86,7 +86,7 @@ Validate an XML file against its multiple XSD files, it does not matter where ar
 Version 2.x was compatible with PHP 7 and was deprecated on 2020-04-05.
 
 A branch `2.x` has been created, it might be installable using `composer require eclipxe/xmlschemavalidator:2.x-dev`,
-but it will not be active maintained and you should change your dependency as soon as possible.
+but it will not be active maintained. You should change your dependency as soon as possible.
 
 ## Contributing
 
