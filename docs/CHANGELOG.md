@@ -7,7 +7,11 @@ classes. The library will not export any of these objects outside its own scope.
 
 ## Unreleased changes
 
--2021-07-05: GitHub Actions has been failing on testing step.
+- 2021-09-26: Fix broken CI.
+
+Run Continuous Integration on PHP 8.0. Mutation testing was failing when running on PHP 7.4.
+
+- 2021-07-05: GitHub Actions has been failing on testing step.
 
 `SchemaValidatorTest` now is more verbose on validations, hopping this messages let me know what the problem is.
 This problem was unable to reproduce on local or `act`.
