@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  ci: # this job runs all the development tools and upload code coverage to scrutinizer
+  ci: # this job runs all the development tools
 
     name: Continuous Integration
     runs-on: "ubuntu-latest"
@@ -23,7 +23,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.0'
           extensions: libxml, dom
           coverage: xdebug
           tools: composer:v2, cs2pr, phpcs, php-cs-fixer, phpstan, psalm, infection
@@ -50,8 +50,8 @@ jobs:
       - name: Code style (php-cs-fixer)
         run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
 
-      - name: Tests (phpunit with code coverage)
-        run: vendor/bin/phpunit --testdox --verbose --coverage-clover=build/coverage-clover.xml
+      - name: Tests (phpunit)
+        run: vendor/bin/phpunit --testdox --verbose
 
       - name: Code analysis (phpstan)
         run: phpstan analyse --no-progress --verbose
@@ -62,13 +62,6 @@ jobs:
       - name: Mutation testing (infection)
         run: infection --no-progress --no-interaction --show-mutations --logger-github
 
-      # see https://github.com/marketplace/actions/action-scrutinizer
-      - name: Upload code coverage to scrutinizer
-        uses: sudo-bot/action-scrutinizer@latest
-        with:
-          cli-args: "--format=php-clover build/coverage-clover.xml"
-        continue-on-error: true
-
   build:
 
     name: PHP ${{ matrix.php-versions }}
@@ -76,7 +69,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4', '8.0']
+        php-versions: ['7.3', '7.4']
 
     steps:
 

@@ -16,20 +16,20 @@ when you pass a string that was not able to load as xmlbecause of malformed xml 
 
 ### `ValidationFailException`
 
-This exceptions extends of `RuntimeException` and is thrown when the validation didn't pass on method
+These exceptions extend of `RuntimeException` and is thrown when the validation didn't pass on method
 `SchemaValidator::validateWithSchemas()`.
 
 ### `SchemaLocationPartsNotEvenException`
 
-This exceptions extends of `RuntimeException` and is thrown when have to build an schema collection based on
-the current `schemaLocation` atrributes but one of them have a odd number of elements.
+These exceptions extend of `RuntimeException` and is thrown when have to build a schema collection based on
+the current `schemaLocation` atrributes but one of them have an odd number of elements.
 This can happend using `SchemaValidator::buildSchemas` or `SchemaValidator::buildSchemasFromSchemaLocationValue`.
 
 ### `NamespaceNotFoundInSchemas`
 
 This exception extends of `OutOfRangeException` and is thrown when you call `Schemas::item()` with a namespace
-that does not exists, verify that the namespace is registered using `Schemas::exists()`.
+that does not exist, verify that the namespace is registered using `Schemas::exists()`.
 
 ## Named constructors
 
-The exceptions of this library cannot be created using new, all of them have static constructors.  
+The exceptions on this library cannot be created using new, all of them have static constructors.  

@@ -2,12 +2,16 @@
 
 This library follows [SEMVER 2.0.0](https://semver.org/spec/v2.0.0.html) convention.
 
-Notice: Classes with tag `@internal` are only for internal use, you should not create instances of this
+Notice: Classes with tag `@internal` are only for internal use, you should not create instances of these
 classes. The library will not export any of these objects outside its own scope.
 
 ## Unreleased changes
 
--2021-07-05: GitHub Actions has been failing on testing step.
+- 2021-09-26: Fix broken CI.
+
+Run Continuous Integration on PHP 8.0. Mutation testing was failing when running on PHP 7.4.
+
+- 2021-07-05: GitHub Actions has been failing on testing step.
 
 `SchemaValidatorTest` now is more verbose on validations, hopping this messages let me know what the problem is.
 This problem was unable to reproduce on local or `act`.
@@ -88,7 +92,7 @@ Development environment:
   `eclipxe/xmlresourceretriever` https://github.com/eclipxe13/XmlResourceRetriever/
 - Constructor of `SchemaValidator` and `Schemas` changed.
 - Add new method `SchemaValidator::validateWithSchemas` that do the same
-  thing than `SchemaValidator::validate` but you must provide the `Schemas` collection
+  thing as `SchemaValidator::validate` but you must provide the `Schemas` collection
 - Change from `protected` to `public` the method `SchemaValidator::buildSchemas`,
   it's usefull when used with `SchemaValidator::validateWithSchemas` to change
   XSD remote locations to local or other places.
