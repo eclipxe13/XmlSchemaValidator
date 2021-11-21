@@ -8,25 +8,57 @@ on:
     - cron: '0 16 * * 0' # sunday 16:00
 
 jobs:
-
-  ci: # this job runs all the development tools
-
-    name: Continuous Integration
+  phpcs:
+    name: Coding standards (phpcs)
     runs-on: "ubuntu-latest"
-
     steps:
-
       - name: Checkout
         uses: actions/checkout@v2
-
-      # see https://github.com/marketplace/actions/setup-php-action
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
         with:
           php-version: '8.0'
-          extensions: libxml, dom
-          coverage: xdebug
-          tools: composer:v2, cs2pr, phpcs, php-cs-fixer, phpstan, psalm, infection
+          coverage: none
+          tools: composer:v2, cs2pr, phpcs
+        env:
+          fail-fast: true
+
+      - name: Coding standards (phpcs)
+        run: phpcs -q --report=checkstyle | cs2pr
+
+  php-cs-fixer:
+    name: Coding standards (php-cs-fixer)
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
+        with:
+          php-version: '8.0'
+          coverage: none
+          tools: composer:v2, cs2pr, php-cs-fixer
+        env:
+          fail-fast: true
+
+      - name: Coding standards (php-cs-fixer)
+        run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
+
+  phpunit:
+    name: Tests on PHP ${{ matrix.php-versions }} (phpunit)
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        php-versions: ['7.3', '7.4', '8.0']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
+        with:
+          php-version: ${{ matrix.php-versions }}
+          coverage: none
+          tools: composer:v2
         env:
           fail-fast: true
 
@@ -43,47 +75,22 @@ jobs:
 
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
-
-      - name: Code style (phpcs)
-        run: phpcs -q --report=checkstyle | cs2pr
-
-      - name: Code style (php-cs-fixer)
-        run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
 
       - name: Tests (phpunit)
         run: vendor/bin/phpunit --testdox --verbose
 
-      - name: Code analysis (phpstan)
-        run: phpstan analyse --no-progress --verbose
-
-      - name: Code analysis (psalm)
-        run: psalm --no-progress
-
-      - name: Mutation testing (infection)
-        run: infection --no-progress --no-interaction --show-mutations --logger-github
-
-  build:
-
-    name: PHP ${{ matrix.php-versions }}
+  phpstan:
+    name: Static analysis (phpstan)
     runs-on: "ubuntu-latest"
-
-    strategy:
-      matrix:
-        php-versions: ['7.3', '7.4']
-
     steps:
-
       - name: Checkout
         uses: actions/checkout@v2
-
-      # see https://github.com/marketplace/actions/setup-php-action
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
         with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: libxml, dom
+          php-version: '8.0'
           coverage: none
-          tools: composer:v2, cs2pr
+          tools: composer:v2, phpstan
         env:
           fail-fast: true
 
@@ -101,5 +108,71 @@ jobs:
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
 
-      - name: Tests
-        run: vendor/bin/phpunit --testdox --verbose
+      - name: Static analysis (phpstan)
+        run: phpstan analyse --no-progress --verbose
+
+  psalm:
+    name: Static analysis (psalm)
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
+        with:
+          php-version: '8.0'
+          coverage: none
+          tools: composer:v2, psalm
+        env:
+          fail-fast: true
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+
+      - name: Static analysis (psalm)
+        run: psalm --no-progress
+
+  infection:
+    name: Mutation Testing (infection)
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
+        with:
+          php-version: '8.0'
+          coverage: xdebug
+          tools: composer:v2, infection
+        env:
+          fail-fast: true
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+
+      - name: Mutation testing (infection)
+        run: |
+          infection --no-progress --no-interaction --show-mutations --logger-github
