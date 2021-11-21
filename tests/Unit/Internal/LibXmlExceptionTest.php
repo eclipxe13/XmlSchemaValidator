@@ -103,6 +103,7 @@ final class LibXmlExceptionTest extends TestCase
 
     public function testCallUseInternalErrorsReturnValue(): void
     {
+        /** @var string $returnedValue */
         $returnedValue = LibXmlException::useInternalErrors(
             function (): string {
                 $document = new DOMDocument();
