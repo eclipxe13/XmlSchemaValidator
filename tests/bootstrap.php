@@ -22,7 +22,6 @@ call_user_func(function (): void {
     exec($command, $output);
     if (! isset($output[0])) {
         trigger_error('Unable to start server using ' . $command, E_USER_ERROR);
-        return;
     }
     $pid = (int) $output[0];
 
