@@ -44,7 +44,5 @@ call_user_func(function (): void {
         if ($expectedFileCheck === $givenData) {
             break; // server is working
         }
-
     } while ('' === $givenData);
-
 });
