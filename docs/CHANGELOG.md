@@ -17,6 +17,7 @@ Update license year. Happy 2022.
 Add PHP 8.1 to test matrix.
 Update `psalm` config file and type annotations.
 Update `.gitattributes` with project structure.
+Improve internal web server start up for testing.
 
 - 2021-11-20: Fix broken CI.
 
