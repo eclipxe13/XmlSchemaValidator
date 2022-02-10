@@ -22,7 +22,6 @@ call_user_func(function (): void {
     exec($command, $output);
     if (! isset($output[0])) {
         trigger_error('Unable to start server using ' . $command, E_USER_ERROR);
-        return;
     }
     $pid = (int) $output[0];
 
@@ -30,6 +29,20 @@ call_user_func(function (): void {
     register_shutdown_function(function () use ($pid): void {
         exec('kill ' . $pid);
     });
-    // wait 0.5 seconds to server start before continue
-    usleep(50000);
+
+    $maxWaitTime = time() + 2;
+    $expectedFileCheck = file_get_contents(__DIR__ . '/public/is-working-probe.txt') ?: '';
+    do {
+        usleep(40000); // wait 0.4 seconds to server start before continue
+
+        if (time() > $maxWaitTime) { // maximum time reached
+            trigger_error('Unable to test that server is running using ' . $command, E_USER_ERROR);
+        }
+
+        /** @noinspection PhpUsageOfSilenceOperatorInspection */
+        $givenData = @file_get_contents('http://127.0.0.1:8999/is-working-probe.txt') ?: '';
+        if ($expectedFileCheck === $givenData) {
+            break; // server is working
+        }
+    } while ('' === $givenData);
 });

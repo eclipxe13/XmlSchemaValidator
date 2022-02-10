@@ -11,18 +11,4 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
-
-    <issueHandlers>
-        <UnnecessaryVarAnnotation>
-            <!--
-            UnnecessaryVarAnnotation - src/Schemas.php:35:26 - The @var DOMElement annotation for $document is unnecessary
-            https://github.com/vimeo/psalm/issues/2270
-            https://github.com/vimeo/psalm/issues/3088
-            -->
-            <errorLevel type="suppress">
-                <directory name="src"/>
-            </errorLevel>
-        </UnnecessaryVarAnnotation>
-    </issueHandlers>
-
 </psalm>

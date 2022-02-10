@@ -154,6 +154,7 @@ class SchemaValidator
 
         // process every schemaLocation and import them into schemas
         foreach ($schemasList as $node) {
+            /** @psalm-suppress PossiblyNullArgument */
             $schemas->import($this->buildSchemasFromSchemaLocationValue($node->nodeValue));
         }
 

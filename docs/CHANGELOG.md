@@ -7,9 +7,21 @@ classes. The library will not export any of these objects outside its own scope.
 
 ## Unreleased changes
 
+- 2022-02-09: Fix broken CI.
+
+Remove unused code on test.
+
+- 2022-02-09: Maintenance.
+
+Update license year. Happy 2022.
+Add PHP 8.1 to test matrix.
+Update `psalm` config file and type annotations.
+Update `.gitattributes` with project structure.
+Improve internal web server start up for testing.
+
 - 2021-11-20: Fix broken CI.
 
-Split Continuous Integration steps to jobs.
+Split Continuous Integration steps into jobs.
 Fix issues reported by recent version of PHPStan.
 
 - 2021-09-26: Fix broken CI.
