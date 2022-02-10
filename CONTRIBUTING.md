@@ -68,11 +68,8 @@ This project uses different development tools to ensure code style, test and qua
 # install project direct dependences
 composer install
 
-# install development tools dependences (using composer script)
-composer dev:install
-
-# install development tools dependences (using installer script)
-bash develop/install-development-tools
+# install development tools dependences
+phive update
 ```
 
 ## Check the code style
