@@ -7,6 +7,20 @@ classes. The library will not export any of these objects outside its own scope.
 
 ## Unreleased changes
 
+There are no unreleased changes.
+
+## Version 3.0.2 2022-03-08
+
+Change return type on `Schemas::getIterator()` to include `Traversable`. This avoid compatibility issues with PHP 8.1.
+
+Check `DOMAttr::nodeValue` can be `null`. Remove Psalm ignore.
+
+Fix build, PHPStan ^1.4.7 does not recognize `DOMNodeList` element types. Change type to `iterable`.
+
+Update development tools to recent versions.
+
+This release includes Previous unreleased changes:
+
 - 2022-02-09: Fix broken CI.
 
 Remove unused code on test.
