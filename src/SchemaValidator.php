@@ -153,9 +153,11 @@ class SchemaValidator
         $schemasList = $xpath->query("//@$xsi:schemaLocation") ?: new DOMNodeList();
 
         // process every schemaLocation and import them into schemas
-        foreach ($schemasList as $node) {
-            /** @psalm-suppress PossiblyNullArgument */
-            $schemas->import($this->buildSchemasFromSchemaLocationValue($node->nodeValue));
+        foreach ($schemasList as $schemaAttribute) {
+            $schemaValue = $schemaAttribute->nodeValue;
+            if (null !== $schemaValue) {
+                $schemas->import($this->buildSchemasFromSchemaLocationValue($schemaValue));
+            }
         }
 
         return $schemas;
