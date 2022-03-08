@@ -11,7 +11,7 @@ There are no unreleased changes.
 
 ## Version 3.0.2 2022-03-08
 
-Change return type on `Schemas::getIterator()` to include `Traversable`. This avoid compatibility issues with PHP 8.1.
+Change return type on `Schemas::getIterator()` to include `Traversable`. This avoids compatibility issues with PHP 8.1.
 
 Check `DOMAttr::nodeValue` can be `null`. Remove Psalm ignore.
 

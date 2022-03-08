@@ -68,7 +68,7 @@ try {
 ## Exceptions
 
 This library creates its own specific exceptions and all of them implements `XmlSchemaValidatorException`.
-Check the [exceptions documentation](docs/Exceptions.md) for more information.
+Check the [exceptions' documentation](docs/Exceptions.md) for more information.
 
 When this library uses LibXML functions, it captures the errors and throw its own exception.
 
