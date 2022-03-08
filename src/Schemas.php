@@ -139,7 +139,7 @@ class Schemas implements IteratorAggregate, Countable
     }
 
     /** @return Traversable<string, Schema> */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->schemas);
     }
