@@ -149,7 +149,7 @@ class SchemaValidator
         }
 
         // get all the xsi:schemaLocation attributes in the document
-        /** @var DOMNodeList<DOMAttr> $schemasList */
+        /** @var iterable<DOMAttr> $schemasList */
         $schemasList = $xpath->query("//@$xsi:schemaLocation") ?: new DOMNodeList();
 
         // process every schemaLocation and import them into schemas
