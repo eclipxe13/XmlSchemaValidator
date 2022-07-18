@@ -7,7 +7,13 @@ classes. The library will not export any of these objects outside its own scope.
 
 ## Unreleased changes
 
-There are no unreleased changes.
+### Unreleased 2022-07-18
+
+This is a maintenance update.
+
+- Fix code style.
+- Update `php-cs-fixer` config file to recent rules.
+- Update development tools.
 
 ## Version 3.0.2 2022-03-08
 
