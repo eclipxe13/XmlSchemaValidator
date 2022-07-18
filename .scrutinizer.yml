@@ -9,11 +9,14 @@ build:
       - composer upgrade --no-interaction --prefer-dist
   nodes:
     analysis: # see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/
+      environment:
+        php:
+          version: 7.4
       project_setup: { override: true }
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
-          - command: vendor/bin/phpunit --verbose --testdox --coverage-clover=coverage.clover
+          - command: php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --verbose --testdox --coverage-clover=coverage.clover
             coverage:
               file: coverage.clover
               format: clover
