@@ -91,7 +91,7 @@ but it will not be active maintained. You should change your dependency as soon 
 ## Contributing
 
 Contributions are welcome! Please read [CONTRIBUTING][] for details
-and don't forget to take a look in the [TODO][] and [CHANGELOG][] files.
+and don't forget to take a look in [TODO][] and [CHANGELOG][] files.
 
 ## Copyright and License
 
