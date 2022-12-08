@@ -7,6 +7,23 @@ classes. The library will not export any of these objects outside its own scope.
 
 ## Unreleased changes
 
+### Unreleased 2022-12-08
+
+This is a maintenance update that fixes continuous integration.
+
+- Fix Psalm analysis when evaluate that `DOMXPath::query()` return *falsy*.
+  It actually cannot return `false`, the expression is never malformed or the contextNode is never invalid.
+- Maintenance to GitHub workflow for continuous integration.
+  - Add PHP 8.2 to phpunit job matrix
+  - Update GitHub actions to version 3
+  - Run jobs on PHP 8.1
+  - Replace `echo ::set-output` deprecated instruction
+  - Remove composer installation where is not required
+  - Show Psalm version (it was not visible)
+- Update development tools.
+- Exclude linguist detection on `tests/_files`.
+- Update code styles rules as other projects.
+
 ### Unreleased 2022-07-18
 
 This is a maintenance update.
