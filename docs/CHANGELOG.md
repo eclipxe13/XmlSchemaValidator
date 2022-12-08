@@ -23,6 +23,7 @@ This is a maintenance update that fixes continuous integration.
 - Update development tools.
 - Exclude linguist detection on `tests/_files`.
 - Update code styles rules as other projects.
+- Implement `dependency_paths` on Scrutinizer-CI.
 
 ### Unreleased 2022-07-18
 
