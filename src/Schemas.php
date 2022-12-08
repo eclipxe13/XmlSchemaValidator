@@ -19,7 +19,7 @@ use Traversable;
  */
 class Schemas implements IteratorAggregate, Countable
 {
-    /** @var array<string, Schema> intenal collection of schemas */
+    /** @var array<string, Schema> internal collection of schemas */
     private $schemas = [];
 
     /**
@@ -114,10 +114,10 @@ class Schemas implements IteratorAggregate, Countable
     }
 
     /**
-     * Get an schema object by its namespace
+     * Get a schema object by its namespace
      *
      * @param string $namespace
-     * @throws NamespaceNotFoundInSchemas when namespace does not exists on schema
+     * @throws NamespaceNotFoundInSchemas when namespace does not exist on schema
      * @return Schema
      */
     public function item(string $namespace): Schema

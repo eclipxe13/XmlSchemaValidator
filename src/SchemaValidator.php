@@ -37,7 +37,7 @@ class SchemaValidator
     }
 
     /**
-     * Create a SchemaValidator instance based on a XML string
+     * Create a SchemaValidator instance based on an XML string
      *
      * @param string $contents
      * @return self

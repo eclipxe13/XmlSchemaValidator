@@ -94,7 +94,7 @@ Development environment:
 
 ## Version 3.0.0 2020-04-08
 
-- Lot of breacking changes has been made, see [upgrade from version `2.x` to `3.x`](UPGRADE-v2-v3.md).
+- Lot of breaking changes has been made, see [upgrade from version `2.x` to `3.x`](UPGRADE-v2-v3.md).
 - Namespace change from `\XmlSchemaValidator` to `\Eclipxe\XmlSchemaValidator`.
 - Now uses named exceptions, see [exceptions documentation](Exceptions.md).
 - Minimal PHP version is PHP 7.3.
@@ -122,7 +122,7 @@ Development environment:
 
 - Allow to create a `SchemaValidator` instance using `DOMDocument`
 - Run PHPUnit 7 on PHP >= 7.1
-- Run phpstan 0.10/0.11 on PHP >= 7.1
+- Run PHPStan 0.10/0.11 on PHP >= 7.1
 
 ## Version 2.0.2
 
@@ -133,10 +133,10 @@ Development environment:
 
 ## Version 2.0.1
 
-- Fix bug when using windows path (backslashs), it does not validate
+- Fix bug when using windows path (backslashes), it does not validate
 - Add docblock to buildSchemas
-- Improve building, add phpstan
-- Use phplint instead of php-parallel-lint
+- Improve building, add PHPStan
+- Use PHPLint instead of php-parallel-lint
 - Update dependencies using composer-require-checker
 
 ## Version 2.0.0
@@ -149,7 +149,7 @@ Development environment:
 - Add new method `SchemaValidator::validateWithSchemas` that do the same
   thing as `SchemaValidator::validate` but you must provide the `Schemas` collection
 - Change from `protected` to `public` the method `SchemaValidator::buildSchemas`,
-  it's usefull when used with `SchemaValidator::validateWithSchemas` to change
+  it's useful when used with `SchemaValidator::validateWithSchemas` to change
   XSD remote locations to local or other places.
 - Add `XmlSchemaValidator::LibXmlException`. It contains a method to exec a callable
   isolating the use internal errors setting and other to collect libxml errors
@@ -169,7 +169,7 @@ Development environment:
 
 ## Version 1.1.3
 
-- Fix test were fialing on php 7.0 and 7.1
+- Fix test were failing on php 7.0 and 7.1
     - class PHPUnit_Framework_TestCase is deprecated
     - wait for 0.5 seconds after run the php server
 
@@ -196,12 +196,12 @@ Development environment:
 - Tests
     - Add tests for the Locator constructor and downloader getter.
     - Add tests for `XmlSchemaValidator\Downloader`
-    - Start php internal server to run tests on downloaders (bootstrap.php)
+    - Start php internal server to run tests on downloader (bootstrap.php)
     - Default tests for locator uses a faker test to avoid external downloads
 - Continuous Integration
     - Add 7.1
     - Drop hhvm
-- Standarization
+- Standardization
     - Rename folder `sources` to `src`
     - Rename `.php_cs` to `.php_cs.dist` require dev `friendsofphp/php-cs-fixer`
     - Add `phpcs.xml.dist`
@@ -214,6 +214,6 @@ Development environment:
 
 ## Version 1.0.0
 
-- Follow recommendations from sensiolabs
+- Follow recommendations from SensioLabs
 - Project does not depends on zip extension
 - Include SensioLabs Insight
