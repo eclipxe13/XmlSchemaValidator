@@ -19,7 +19,7 @@ use Traversable;
  */
 class Schemas implements IteratorAggregate, Countable
 {
-    /** @var array<string, Schema> intenal collection of schemas */
+    /** @var array<string, Schema> internal collection of schemas */
     private $schemas = [];
 
     /**
@@ -27,6 +27,7 @@ class Schemas implements IteratorAggregate, Countable
      * with the local location
      *
      * @return string
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public function getImporterXsd(): string
     {
@@ -35,6 +36,7 @@ class Schemas implements IteratorAggregate, Countable
         /** @var DOMElement $document */
         $document = $xsd->documentElement;
         foreach ($this->schemas as $schema) {
+            /** @noinspection PhpUnhandledExceptionInspection */
             $node = $xsd->createElementNS('http://www.w3.org/2001/XMLSchema', 'import');
             $node->setAttribute('namespace', $schema->getNamespace());
             $node->setAttribute('schemaLocation', str_replace('\\', '/', $schema->getLocation()));
@@ -114,10 +116,10 @@ class Schemas implements IteratorAggregate, Countable
     }
 
     /**
-     * Get an schema object by its namespace
+     * Get a schema object by its namespace
      *
      * @param string $namespace
-     * @throws NamespaceNotFoundInSchemas when namespace does not exists on schema
+     * @throws NamespaceNotFoundInSchemas when namespace does not exist on schema
      * @return Schema
      */
     public function item(string $namespace): Schema

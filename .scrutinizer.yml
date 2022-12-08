@@ -1,7 +1,8 @@
 filter:
+  dependency_paths:
+    - 'vendor/'
   excluded_paths:
     - 'tests/'
-    - 'vendor/'
 
 build:
   dependencies:

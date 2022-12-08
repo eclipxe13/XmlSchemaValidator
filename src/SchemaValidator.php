@@ -6,7 +6,6 @@ namespace Eclipxe\XmlSchemaValidator;
 
 use DOMAttr;
 use DOMDocument;
-use DOMNodeList;
 use DOMXPath;
 use Eclipxe\XmlSchemaValidator\Exceptions\SchemaLocationPartsNotEvenException;
 use Eclipxe\XmlSchemaValidator\Exceptions\ValidationFailException;
@@ -38,7 +37,7 @@ class SchemaValidator
     }
 
     /**
-     * Create a SchemaValidator instance based on a XML string
+     * Create a SchemaValidator instance based on an XML string
      *
      * @param string $contents
      * @return self
@@ -150,7 +149,7 @@ class SchemaValidator
 
         // get all the xsi:schemaLocation attributes in the document
         /** @var iterable<DOMAttr> $schemasList */
-        $schemasList = $xpath->query("//@$xsi:schemaLocation") ?: new DOMNodeList();
+        $schemasList = $xpath->query("//@$xsi:schemaLocation");
 
         // process every schemaLocation and import them into schemas
         foreach ($schemasList as $schemaAttribute) {
