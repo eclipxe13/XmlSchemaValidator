@@ -27,6 +27,7 @@ class Schemas implements IteratorAggregate, Countable
      * with the local location
      *
      * @return string
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public function getImporterXsd(): string
     {
@@ -35,6 +36,7 @@ class Schemas implements IteratorAggregate, Countable
         /** @var DOMElement $document */
         $document = $xsd->documentElement;
         foreach ($this->schemas as $schema) {
+            /** @noinspection PhpUnhandledExceptionInspection */
             $node = $xsd->createElementNS('http://www.w3.org/2001/XMLSchema', 'import');
             $node->setAttribute('namespace', $schema->getNamespace());
             $node->setAttribute('schemaLocation', str_replace('\\', '/', $schema->getLocation()));
