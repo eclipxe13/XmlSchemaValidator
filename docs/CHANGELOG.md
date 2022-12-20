@@ -23,6 +23,10 @@ The following code wasn't interpreted correctly:
 
 See <https://github.com/eclipxe13/XmlSchemaValidator/issues/14>. Thanks `@brankopetric`.
 
+### Development changes
+
+- Add `fully_qualified_strict_types` rule to `php-cs-fixer` tool.
+
 ### Unreleased 2022-12-08
 
 This is a maintenance update that fixes continuous integration.
