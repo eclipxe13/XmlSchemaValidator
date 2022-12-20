@@ -208,4 +208,27 @@ final class SchemaValidatorTest extends TestCase
         }
         $this->assertSame($expectedParts, $retrievedParts);
     }
+
+    public function testBuildSchemasFromSchemaLocationValueWithLeadingAndTrailingWhiteSpace(): void
+    {
+        /** @see https://github.com/eclipxe13/XmlSchemaValidator/issues/14 */
+        // this line contains leading and trailing whitespace simulating the contents of a multiline attribute content
+        $schemaLocationValue = <<< EOXML
+
+                uri:foo
+                foo.xsd
+                uri:bar
+                bar.xsd
+
+            EOXML;
+        $expected = 'uri:foo foo.xsd uri:bar bar.xsd';
+
+        $validator = SchemaValidator::createFromString('<x/>');
+        $schemas = $validator->buildSchemasFromSchemaLocationValue($schemaLocationValue);
+        $retrieved = implode(' ', array_map(function (Schema $schema): string {
+            return $schema->getNamespace() . ' ' . $schema->getLocation();
+        }, iterator_to_array($schemas)));
+
+        $this->assertSame($expected, $retrieved);
+    }
 }

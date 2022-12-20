@@ -7,6 +7,22 @@ classes. The library will not export any of these objects outside its own scope.
 
 ## Unreleased changes
 
+Unreleased changes will be listed here.
+
+## Version 3.0.3 2022-12-19
+
+When split the content of a *schema location* value, must reindex the list of values.
+The following code wasn't interpreted correctly:
+
+```xml
+<r xsi:schemaLocation="
+    http://test.org/schemas/ticket
+    http://localhost:8999/xsd/ticket.xsd
+    "/>
+```
+
+See <https://github.com/eclipxe13/XmlSchemaValidator/issues/14>. Thanks `@brankopetric`.
+
 ### Unreleased 2022-12-08
 
 This is a maintenance update that fixes continuous integration.
