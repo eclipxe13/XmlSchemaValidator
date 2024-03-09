@@ -28,6 +28,7 @@ When split the content of a *schema location* value, must reindex the list of va
 The following code wasn't interpreted correctly:
 
 ```xml
+
 <r xsi:schemaLocation="
     http://test.org/schemas/ticket
     http://localhost:8999/xsd/ticket.xsd
@@ -47,12 +48,12 @@ This is a maintenance update that fixes continuous integration.
 - Fix Psalm analysis when evaluate that `DOMXPath::query()` return *falsy*.
   It actually cannot return `false`, the expression is never malformed or the contextNode is never invalid.
 - Maintenance to GitHub workflow for continuous integration.
-  - Add PHP 8.2 to phpunit job matrix
-  - Update GitHub actions to version 3
-  - Run jobs on PHP 8.1
-  - Replace `echo ::set-output` deprecated instruction
-  - Remove composer installation where is not required
-  - Show Psalm version (it was not visible)
+    - Add PHP 8.2 to phpunit job matrix
+    - Update GitHub actions to version 3
+    - Run jobs on PHP 8.1
+    - Replace `echo ::set-output` deprecated instruction
+    - Remove composer installation where is not required
+    - Show Psalm version (it was not visible)
 - Update development tools.
 - Exclude linguist detection on `tests/_files`.
 - Update code styles rules as other projects.
