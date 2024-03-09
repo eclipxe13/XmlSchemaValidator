@@ -9,6 +9,19 @@ classes. The library will not export any of these objects outside its own scope.
 
 Unreleased changes will be listed here.
 
+## Version 3.0.4 2024-03-08
+
+- Fix falsy comparisons (Psalm).
+- Update license year to 2024.
+- Update coding standards.
+- Improve GitHub workflow:
+    - Add PHP 8.3 to test matrix.
+    - Run jobs using PHP 8.3.
+    - Update GitHub actions to version 4.
+    - Update code analysis titles.
+    - Rename matrix variable name php-version (singular).
+- Update development tools.
+
 ## Version 3.0.3 2022-12-19
 
 When split the content of a *schema location* value, must reindex the list of values.
