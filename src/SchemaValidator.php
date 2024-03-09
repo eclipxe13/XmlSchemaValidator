@@ -142,8 +142,8 @@ class SchemaValidator
         $xpath = new DOMXPath($this->document);
 
         // get the http://www.w3.org/2001/XMLSchema-instance namespace (it could not be 'xsi')
-        $xsi = $this->document->lookupPrefix('http://www.w3.org/2001/XMLSchema-instance');
-        if (! $xsi) { // the namespace is not registered, no need to continue
+        $xsi = strval($this->document->lookupPrefix('http://www.w3.org/2001/XMLSchema-instance'));
+        if ('' === $xsi) { // the namespace is not registered, no need to continue
             return $schemas;
         }
 
