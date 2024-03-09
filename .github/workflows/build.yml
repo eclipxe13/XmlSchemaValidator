@@ -77,7 +77,7 @@ jobs:
         run: vendor/bin/phpunit --testdox --verbose
 
   phpstan:
-    name: Static analysis (phpstan)
+    name: Code analysis (phpstan)
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
@@ -101,11 +101,11 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
-      - name: Static analysis (phpstan)
+      - name: Code analysis (phpstan)
         run: phpstan analyse --no-progress --verbose
 
   psalm:
-    name: Static analysis (psalm)
+    name: Code analysis (psalm)
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
@@ -131,7 +131,7 @@ jobs:
         run: composer upgrade --no-interaction --no-progress --prefer-dist
       - name: Show psalm version
         run: psalm --version
-      - name: Static analysis (psalm)
+      - name: Code analysis (psalm)
         run: psalm --no-progress
 
   infection:
