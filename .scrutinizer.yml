@@ -3,11 +3,12 @@ filter:
     - 'vendor/'
   excluded_paths:
     - 'tests/'
+    - 'tools/'
 
 build:
   dependencies:
     override:
-      - composer upgrade --no-interaction --prefer-dist
+      - composer update --no-interaction --no-progress --prefer-dist
   nodes:
     analysis: # see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/
       environment:
