@@ -186,6 +186,17 @@ final class SchemaValidatorTest extends TestCase
         $this->assertSame($expected, $retrieved);
     }
 
+    public function testBuildSchemasWithoutXmlSchemaDefinition(): void
+    {
+        $content = <<< XML
+            <?xml version="1.0" encoding="UTF-8"?>
+            <root />
+            XML;
+        $validator = SchemaValidator::createFromString($content);
+        $schemas = $validator->buildSchemas();
+        $this->assertSame([], $schemas->all());
+    }
+
     public function testBuildSchemasFromSchemaLocationValue(): void
     {
         $validator = $this->utilCreateValidator('books-valid.xml');

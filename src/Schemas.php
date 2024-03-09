@@ -42,7 +42,7 @@ class Schemas implements IteratorAggregate, Countable
             $node->setAttribute('schemaLocation', str_replace('\\', '/', $schema->getLocation()));
             $document->appendChild($node);
         }
-        return $xsd->saveXML() ?: '';
+        return strval($xsd->saveXML());
     }
 
     /**
