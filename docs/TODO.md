@@ -4,6 +4,10 @@
   see <https://www.w3.org/TR/xmlschema11-1/#xsi_schemaLocation>
   and <https://www.w3.org/TR/xmlschema11-1/#schema-loc>
 
+- `LibXmlException` should not be internal and move to `Exceptions`.
+
+- `ValidationFailException` could have a method to access `LibXmlError` list of previous `LibXmlException`.
+
 ## Completed on version 3.0
 
 - [X] Move sources to namespace `Eclipxe\XmlSchemaValidator`

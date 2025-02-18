@@ -33,7 +33,8 @@ final class SchemaValidatorTest extends TestCase
         $document = new DOMDocument();
         $document->load($this->utilAssetLocation('books-valid.xml'));
         /** @noinspection PhpExpressionResultUnusedInspection */
-        new SchemaValidator($document);
+        new SchemaValidator($document); /** @phpstan-ignore-line */
+        /** @phpstan-ignore-next-line */
         $this->assertTrue(true, 'Expected no exception creating the schema validator using a DOMDocument');
     }
 
@@ -141,7 +142,7 @@ final class SchemaValidatorTest extends TestCase
         $schemas = new Schemas();
         $schemas->create('http://test.org/schemas/books', 'http://localhost:8999/xsd/books.xsd');
         $validator->validateWithSchemas($schemas);
-        $this->assertTrue(true, 'validateWithSchemas did not throw any exception');
+        $this->assertTrue(true, 'validateWithSchemas did not throw any exception'); /** @phpstan-ignore-line */
     }
 
     public function testValidateWithSchemasUsingLocal(): void
@@ -153,7 +154,7 @@ final class SchemaValidatorTest extends TestCase
             str_replace('/', '\\', dirname(__DIR__)) . '/public/xsd/books.xsd' // simulate windows path
         );
         $validator->validateWithSchemas($schemas);
-        $this->assertTrue(true, 'validateWithSchemas did not throw any exception');
+        $this->assertTrue(true, 'validateWithSchemas did not throw any exception'); /** @phpstan-ignore-line */
     }
 
     public function testValidateWithEmptySchema(): void

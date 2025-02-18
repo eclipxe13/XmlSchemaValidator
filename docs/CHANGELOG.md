@@ -9,6 +9,16 @@ classes. The library will not export any of these objects outside its own scope.
 
 Unreleased changes will be listed here.
 
+## Version 3.0.5 2025-02-18
+
+- Fix `ValidationFailException` signature for compatibility with PHP 8.4.
+- Add example on how to load `libxml` errors.
+- Update license year to 2025.
+- Remove Psalm, only use PHPStan.
+- Add PHP 8.4 to test matrix.
+- Run `phpcs` and `phpstan` on PHP 8.4.
+- Update development tools.
+
 ## Version 3.0.4 2024-03-08
 
 - Fix falsy comparisons (Psalm).
@@ -151,7 +161,7 @@ Development environment:
 - Change development dependence from `phpstan/phpstan-shim` to `phpstan/phpstan`.
 - Remove development dependence `overtrue/phplint`.
 - Remove SensioLabs Insight.
-- Update documentation, licence, changelog, etc..
+- Update documentation, licence, changelog, etc.
 
 ## Version 2.1.0
 
@@ -250,5 +260,5 @@ Development environment:
 ## Version 1.0.0
 
 - Follow recommendations from SensioLabs
-- Project does not depends on zip extension
+- Project does not depend on zip extension
 - Include SensioLabs Insight

@@ -47,6 +47,7 @@ declare(strict_types=1);
 
 use Eclipxe\XmlSchemaValidator\SchemaValidator;
 use Eclipxe\XmlSchemaValidator\Exceptions\ValidationFailException;
+use Eclipxe\XmlSchemaValidator\Internal\LibXmlException;
 
 // create SchemaValidator using a DOMDocument
 $document = new DOMDocument();
@@ -62,8 +63,18 @@ try {
     $validator->validateWithSchemas($schemas);
 } catch (ValidationFailException $ex) {
     echo 'Found error: ' . $ex->getMessage();
+    $previous = $ex->getPrevious();
+    if ($previous instanceof LibXmlException) {
+        foreach ($previous->getErrors() as $libXmlError) {
+            echo $libXmlError->message, PHP_EOL,
+                'File: ', $libXmlError->file, ':', $libXmlError->line, ',', $libXmlError->column, PHP_EOL;
+        }
+    }
 }
 ```
+
+On previous example, the class `LibXmlException` is *internal*.
+It will be *public (not internal)* on next major release.
 
 ## Exceptions
 

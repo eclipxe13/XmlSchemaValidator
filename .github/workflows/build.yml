@@ -1,5 +1,6 @@
 name: build
 on:
+  workflow_dispatch:
   pull_request:
     branches: [ main ]
   push:
@@ -20,7 +21,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           coverage: none
           tools: cs2pr, phpcs
         env:
@@ -50,7 +51,7 @@ jobs:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        php-version: ['7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
+        php-version: ['7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -85,7 +86,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           coverage: none
           tools: composer:v2, phpstan
         env:
@@ -103,36 +104,6 @@ jobs:
         run: composer upgrade --no-interaction --no-progress --prefer-dist
       - name: Code analysis (phpstan)
         run: phpstan analyse --no-progress --verbose
-
-  psalm:
-    name: Code analysis (psalm)
-    runs-on: "ubuntu-latest"
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          coverage: none
-          tools: composer:v2, psalm
-        env:
-          fail-fast: true
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
-      - name: Install project dependencies
-        run: composer upgrade --no-interaction --no-progress --prefer-dist
-      - name: Show psalm version
-        run: psalm --version
-      - name: Code analysis (psalm)
-        run: psalm --no-progress
 
   infection:
     name: Mutation Testing (infection)
