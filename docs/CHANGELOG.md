@@ -9,6 +9,10 @@ classes. The library will not export any of these objects outside its own scope.
 
 Unreleased changes will be listed here.
 
+## Version 3.0.5 2025-02-18
+
+- Update license year to 2025.
+
 ## Version 3.0.4 2024-03-08
 
 - Fix falsy comparisons (Psalm).
