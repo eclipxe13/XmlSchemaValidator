@@ -11,6 +11,7 @@ Unreleased changes will be listed here.
 
 ## Version 3.0.5 2025-02-18
 
+- Fix `ValidationFailException` signature for compatibility with PHP 8.4.
 - Update license year to 2025.
 - Remove Psalm, only use PHPStan.
 - Add PHP 8.4 to test matrix.

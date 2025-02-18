@@ -11,7 +11,7 @@ final class ValidationFailException extends RuntimeException implements XmlSchem
 {
     private const EXCODE_NIL = 0;
 
-    private function __construct(string $message, Throwable $previous = null)
+    private function __construct(string $message, ?Throwable $previous = null)
     {
         parent::__construct($message, self::EXCODE_NIL, $previous);
     }
