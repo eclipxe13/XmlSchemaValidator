@@ -14,6 +14,7 @@ Unreleased changes will be listed here.
 - Update license year to 2025.
 - Remove Psalm, only use PHPStan.
 - Add PHP 8.4 to test matrix.
+- Run phpcs and phpstan on PHP 8.4.
 - Update development tools.
 
 ## Version 3.0.4 2024-03-08
