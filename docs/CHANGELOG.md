@@ -12,6 +12,8 @@ Unreleased changes will be listed here.
 ## Version 3.0.5 2025-02-18
 
 - Update license year to 2025.
+- Remove Psalm, only use PHPStan.
+- Update development tools.
 
 ## Version 3.0.4 2024-03-08
 
