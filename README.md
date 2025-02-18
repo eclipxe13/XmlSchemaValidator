@@ -73,6 +73,9 @@ try {
 }
 ```
 
+On previous example, the class `LibXmlException` is *internal*.
+It will be *public (not internal)* on next major release.
+
 ## Exceptions
 
 This library creates its own specific exceptions and all of them implements `XmlSchemaValidatorException`.
