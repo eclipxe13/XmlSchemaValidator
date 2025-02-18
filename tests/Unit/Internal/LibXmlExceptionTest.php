@@ -25,7 +25,7 @@ final class LibXmlExceptionTest extends TestCase
     public function testConstructorWithNonLibXmlError(): void
     {
         /** @var LibXMLError[] $errors */
-        $errors = ['x-index' => (object) []];
+        $errors = ['x-index' => (object) []]; /** @phpstan-ignore-line */
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Error index x-index is not a LibXmlError');
         LibXmlException::create('foo', $errors);
