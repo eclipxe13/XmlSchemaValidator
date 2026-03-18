@@ -41,7 +41,7 @@ class LibXmlException extends Exception
      */
     public static function create(string $message, array $errors): self
     {
-        /** @var mixed $error psalm found this validation contradictory since $errors is defined as LibXMLError[] */
+        /** @phpstan-var mixed $error $errors is defined as LibXMLError[] */
         foreach ($errors as $index => $error) {
             if (! $error instanceof LibXMLError) {
                 throw new InvalidArgumentException("Error index $index is not a LibXmlError");
@@ -103,7 +103,6 @@ class LibXmlException extends Exception
 
         // run callable and throw libxml error as exception and always restore previous status
         try {
-            /** @psalm-var mixed $return */
             $return = $callable();
             $exception = static::createFromLibXml();
             if (null !== $exception) {

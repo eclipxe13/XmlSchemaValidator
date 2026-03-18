@@ -100,7 +100,6 @@ tools/phpcs -sp
 tools/php-cs-fixer fix -v --dry-run
 vendor/bin/phpunit --testdox
 tools/phpstan analyze
-tools/psalm
 phpdbg -qrr tools/infection --show-mutations
 ```
 

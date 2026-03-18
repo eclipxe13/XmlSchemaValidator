@@ -12,14 +12,15 @@ This is a library to validate XML files against multiple XSD Schemas according t
 
 The way this works is:
 
-1. Receive a valid xml string as the content to be evaluated
-2. Scan the file for every schemaLocation
-3. Compose a schema that include all the schemas
-4. Validate the XML against the composed file
+1. Receive a valid xml string as the content to be evaluated.
+2. Scan the file for every schemaLocation.
+3. Compose a schema that include all the schemas.
+4. Validate the XML against the composed file.
 
 ## Installation
 
-Use [composer](https://getcomposer.org/), so please run
+Use [composer](https://getcomposer.org/), so please run:
+
 ```shell
 composer require eclipxe/xmlschemavalidator
 ```

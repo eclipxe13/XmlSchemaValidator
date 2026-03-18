@@ -9,6 +9,17 @@ classes. The library will not export any of these objects outside its own scope.
 
 Unreleased changes will be listed here.
 
+## Version 3.0.6 2026-03-18
+
+- Ensure compatibility with PHP 8.5.
+- Update license year to 2026.
+- Add PHP 8.5 to test matrix.
+- Remove Psalm files and information missing on previous update.
+- Remove deprecated rule for `phpcs`.
+- Scrutinizer-CI code coverage is now uploaded.
+- Update GitHub workflow actions to latest versions.
+- Update development tools.
+
 ## Version 3.0.5 2025-02-18
 
 - Fix `ValidationFailException` signature for compatibility with PHP 8.4.
