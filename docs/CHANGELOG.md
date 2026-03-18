@@ -16,6 +16,7 @@ Unreleased changes will be listed here.
 - Add PHP 8.5 to test matrix.
 - Remove Psalm files and information missing on previous update.
 - Remove deprecated rule for `phpcs`.
+- Scrutinizer-CI code coverage is now uploaded.
 - Update development tools.
 
 ## Version 3.0.5 2025-02-18

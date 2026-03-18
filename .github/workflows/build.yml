@@ -10,8 +10,10 @@ on:
 
 # Actions
 # shivammathur/setup-php https://github.com/marketplace/actions/setup-php-action
+# sudo-bot/action-scrutinizer@latest https://github.com/marketplace/actions/action-scrutinizer
 
 jobs:
+
   phpcs:
     name: Coding standards (phpcs)
     runs-on: "ubuntu-latest"
@@ -105,8 +107,8 @@ jobs:
       - name: Code analysis (phpstan)
         run: phpstan analyse --no-progress --verbose
 
-  infection:
-    name: Mutation Testing (infection)
+  code-coverage:
+    name: Create code coverage
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
@@ -116,6 +118,60 @@ jobs:
         with:
           php-version: '8.5'
           coverage: xdebug
+          tools: composer:v2
+        env:
+          fail-fast: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+      - name: Create code coverage
+        run: vendor/bin/phpunit --testdox --coverage-xml=build/coverage --coverage-clover=build/coverage/clover.xml --log-junit=build/coverage/junit.xml
+      - name: Store code coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage
+          path: build/coverage
+
+  scrutinizer:
+    name: Upload code coverage
+    needs: code-coverage
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # required for sudo-bot/action-scrutinizer
+      - name: Obtain code coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: code-coverage
+          path: build/coverage
+      - name: Upload code coverage to scrutinizer
+        if: ${{ !env.ACT }} # do not run if using nektos/act
+        uses: sudo-bot/action-scrutinizer@latest
+        with:
+          cli-args: "--format=php-clover build/coverage/clover.xml"
+
+  infection:
+    name: Mutation testing (infection)
+    needs: code-coverage
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4' # Incompatibility with infection and PHP 8.5
+          coverage: none
           tools: composer:v2, infection
         env:
           fail-fast: true
@@ -130,6 +186,10 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
-      - name: Mutation testing (infection)
-        run: |
-          infection --no-progress --no-interaction --show-mutations --logger-github
+      - name: Obtain code coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: code-coverage
+          path: build/coverage
+      - name: Mutation testing
+        run: infection --skip-initial-tests --coverage=build/coverage --no-progress --no-interaction --logger-github
