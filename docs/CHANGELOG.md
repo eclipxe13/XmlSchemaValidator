@@ -17,6 +17,7 @@ Unreleased changes will be listed here.
 - Remove Psalm files and information missing on previous update.
 - Remove deprecated rule for `phpcs`.
 - Scrutinizer-CI code coverage is now uploaded.
+- Update GitHub workflow actions to latest versions.
 - Update development tools.
 
 ## Version 3.0.5 2025-02-18
